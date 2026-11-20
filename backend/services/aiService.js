@@ -17,7 +17,15 @@ function removeCustomerDetails(value) {
     .slice(0, 500);
 }
 
-async function getProductsContext(question, maxResults = 15) {
+let cachedProducts = null;
+let lastCacheTime = 0;
+const PRODUCTS_CACHE_TTL_MS = 5 * 60 * 1000; // 5 phút cache để giảm tải SQL Server
+
+async function fetchProductsFromDb() {
+  const now = Date.now();
+  if (cachedProducts && now - lastCacheTime < PRODUCTS_CACHE_TTL_MS) {
+    return cachedProducts;
+  }
   const pool = await getPool();
   const result = await pool.query(`
     SELECT TOP 100 sp.MaSP, sp.TenSP, sp.DonGia, sp.DonViTinh, sp.KichThuoc,
@@ -28,8 +36,13 @@ async function getProductsContext(question, maxResults = 15) {
     OUTER APPLY (SELECT SUM(SoLuongCo) AS SoLuongCo
                  FROM dbo.CUAHANG_SANPHAM WHERE MaSP=sp.MaSP) stock
     ORDER BY sp.MaSP ASC`);
+  cachedProducts = result.recordset || [];
+  lastCacheTime = now;
+  return cachedProducts;
+}
 
-  const products = result.recordset;
+async function getProductsContext(question, maxResults = 15) {
+  const products = await fetchProductsFromDb();
   const words = removeCustomerDetails(question).toLocaleLowerCase('vi-VN')
     .split(/[^\p{L}\p{N}]+/u).filter((word) => word.length > 2);
   if (!words.length) return products.slice(0, maxResults);

@@ -23,7 +23,7 @@ function getMessage(req) {
 async function saveConversation(maKhachHang, userText, botReply) {
   const pool = await getPool();
   const transaction = new sql.Transaction(pool);
-  await transaction.begin(sql.ISOLATION_LEVEL.SERIALIZABLE);
+  await transaction.begin(sql.ISOLATION_LEVEL.READ_COMMITTED);
 
   try {
     const activeSession = await new sql.Request(transaction)
