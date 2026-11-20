@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tất cả sản phẩm | Fresh Garden</title>
+  <meta name="description" content="Khám phá bánh tươi Fresh Garden, lọc theo danh mục và xem sản phẩm được cập nhật từ FreshGardenDB." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="site-pages.css" />
+</head>
+<body data-page="products">
+  <div id="site-header"></div>
+  <main>
+    <nav class="catalog-breadcrumb-bar" aria-label="Đường dẫn">
+      <div class="catalog-breadcrumb-inner"><a href="../index.html">Trang chủ</a><span>/</span><span>Danh mục</span><span>/</span><span id="catalog-breadcrumb-current">Tất cả sản phẩm</span></div>
+    </nav>
+    <section class="catalog-category-hero" id="catalog-category-hero" aria-label="Ảnh tiêu đề danh mục" hidden>
+      <img id="catalog-category-hero-image" alt="" width="1248" height="420" fetchpriority="high" />
+    </section>
+    <section class="catalog-page page-container" aria-label="Danh mục sản phẩm">
+      <aside class="catalog-sidebar">
+        <div class="sidebar-heading"><strong>Loại sản phẩm</strong></div>
+        <div id="product-category-tree" class="category-tree"><div class="page-loading">Đang tải danh mục…</div></div>
+        <div class="catalog-perks">
+          <div class="catalog-perk-item">
+            <span class="perk-icon">⚡</span>
+            <div><strong>Giao hỏa tốc 2 giờ</strong><p>Nội thành Hà Nội bảo ôn giữ lạnh</p></div>
+          </div>
+          <div class="catalog-perk-item">
+            <span class="perk-icon">🎂</span>
+            <div><strong>Tặng phụ kiện tiệc</strong><p>Kèm dao nến &amp; đĩa thìa miễn phí</p></div>
+          </div>
+        </div>
+        <div class="catalog-note"><span aria-hidden="true">✦</span><p>Sản phẩm và giá được tải từ cơ sở dữ liệu FreshGardenDB.</p></div>
+      </aside>
+      <section class="catalog-main" aria-label="Sản phẩm Fresh Garden">
+        <div class="catalog-page-toolbar">
+          <div class="catalog-heading"><h1 id="catalog-title">Tất cả sản phẩm</h1><p id="catalog-count" class="catalog-count">Đang tải sản phẩm…</p></div>
+          <label class="sort-control"><span>Sắp xếp theo:</span><select id="product-sort"><option value="default">Mới nhất</option><option value="price_asc">Giá thấp đến cao</option><option value="price_desc">Giá cao đến thấp</option><option value="name_asc">Tên A–Z</option></select></label>
+        </div>
+        <div id="product-grid" class="page-product-grid"><div class="page-loading">Đang tải sản phẩm từ FreshGardenDB…</div></div>
+        <div class="catalog-pagination"><button id="load-more-products" class="page-outline-button" hidden>Xem thêm sản phẩm</button></div>
+      </section>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <div id="page-toast" class="page-toast" role="status" aria-live="polite"></div>
+  <script src="site-pages.js"></script>
+</body>
+</html>

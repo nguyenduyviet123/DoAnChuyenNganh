@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tạo tài khoản Fresh Garden để đặt bánh và theo dõi đơn hàng." />
+  <title>Đăng ký | Fresh Garden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body class="login-page register-page">
+  <main class="login-layout">
+    <section class="login-card register-card" aria-labelledby="register-title">
+      <a class="login-brand" href="../index.html" aria-label="Fresh Garden - về trang chủ">
+        <img src="../assets/fresh-garden-logo.png" alt="" width="68" height="68" />
+        <span class="login-brand-name">FRESH GARDEN</span>
+        <span class="login-brand-caption">BÁNH TƯƠI MỖI NGÀY</span>
+      </a>
+
+      <div class="login-heading">
+        <p class="login-eyebrow">Gia nhập Fresh Garden</p>
+        <h1 id="register-title">Tạo tài khoản</h1>
+      </div>
+
+      <form id="register-form" class="login-form register-form">
+        <div class="login-field">
+          <label for="register-fullname">Họ và tên</label>
+          <input id="register-fullname" name="fullName" type="text" autocomplete="name" maxlength="150" required />
+        </div>
+        <div class="login-field">
+          <label for="register-username">Tên đăng nhập</label>
+          <input id="register-username" name="username" type="text" autocomplete="username" maxlength="100" required />
+        </div>
+        <div class="login-field">
+          <label for="register-email">Email</label>
+          <input id="register-email" name="email" type="email" autocomplete="email" maxlength="254" required />
+        </div>
+        <div class="login-field">
+          <label for="register-phone">Số điện thoại <span class="optional-label">(không bắt buộc)</span></label>
+          <input id="register-phone" name="phone" type="tel" autocomplete="tel" maxlength="20" />
+        </div>
+        <div class="login-field register-password-field">
+          <label for="register-password">Mật khẩu</label>
+          <div class="password-control">
+            <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="6" required />
+            <button type="button" class="password-toggle" data-toggle-password="register-password" aria-label="Hiện mật khẩu" aria-pressed="false">Hiện</button>
+          </div>
+          <span class="field-note">Mật khẩu cần có ít nhất 6 ký tự.</span>
+        </div>
+        <p id="register-error" class="login-error" role="alert" aria-live="polite"></p>
+        <button id="register-submit" class="login-submit" type="submit">Tạo tài khoản</button>
+      </form>
+
+      <p class="login-register">Đã có tài khoản?
+        <a href="login.html">Đăng nhập</a>
+      </p>
+      <a class="login-back" href="../index.html">← Quay lại cửa hàng</a>
+      <p class="login-footer">Fresh Garden · Bánh tươi mỗi ngày</p>
+    </section>
+  </main>
+  <script src="register.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Danh sách cửa hàng | Fresh Garden</title>
+  <meta name="description" content="Tìm cửa hàng Fresh Garden theo khu vực và xem thông tin liên hệ, chỉ đường." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="site-pages.css" />
+</head>
+<body data-page="contact">
+  <div id="site-header"></div>
+  <main>
+    <section class="store-directory-heading">
+      <nav class="breadcrumbs" aria-label="Đường dẫn"><a href="../index.html">Trang chủ</a><span>/</span><span>Danh sách cửa hàng</span></nav>
+      <span class="page-eyebrow">FRESH GARDEN · HỆ THỐNG CỬA HÀNG</span>
+      <h1>Danh Sách Cửa Hàng</h1>
+      <p>Tìm cửa hàng gần bạn và ghé thăm để thưởng thức bánh tươi mỗi ngày.</p>
+    </section>
+    <section class="page-container store-directory-layout" aria-label="Tra cứu cửa hàng">
+      <aside class="store-directory-panel">
+        <div class="store-panel-heading">
+          <div><span class="store-panel-eyebrow">FRESH GARDEN · HÀ NỘI</span><h2>Chọn cửa hàng</h2></div>
+          <span class="store-count-pill" id="store-page-count" aria-live="polite">Đang tải…</span>
+        </div>
+        <label class="store-district-filter"><span>KHU VỰC</span><select id="store-district-filter"><option value="all">Tất cả khu vực</option></select></label>
+        <label class="contact-search"><span aria-hidden="true">⌕</span><input id="store-page-search" type="search" placeholder="Tìm tên đường, khu vực…" aria-label="Tìm cửa hàng" /></label>
+        <div id="store-page-grid" class="store-page-grid" aria-label="Danh sách chi nhánh"><div class="page-loading">Đang tải cửa hàng…</div></div>
+      </aside>
+      <section class="store-map-panel" aria-label="Bản đồ cửa hàng">
+        <div class="store-map-heading"><div><span class="store-panel-eyebrow">BẢN ĐỒ CHI NHÁNH</span><h2 id="store-map-title">Fresh Garden</h2><p id="store-map-address">Chọn cửa hàng để xem vị trí trên bản đồ.</p></div><a id="store-directions-link" class="store-directions-link" href="https://www.google.com/maps/search/Fresh+Garden+H%C3%A0+N%E1%BB%99i" target="_blank" rel="noopener">Mở bản đồ <span aria-hidden="true">↗</span></a></div>
+        <div class="store-map-frame-wrap"><iframe id="store-map-frame" title="Bản đồ cửa hàng Fresh Garden" src="https://maps.google.com/maps?q=Fresh%20Garden%20H%C3%A0%20N%E1%BB%99i&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+        <p class="store-map-note"><span aria-hidden="true">✦</span> Chọn một chi nhánh để cập nhật vị trí và xem đường đi.</p>
+      </section>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <div id="page-toast" class="page-toast" role="status" aria-live="polite"></div>
+  <script src="site-pages.js"></script>
+</body>
+</html>

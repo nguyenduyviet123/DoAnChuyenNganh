@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Đăng nhập tài khoản Fresh Garden để theo dõi đơn hàng và đặt bánh yêu thích." />
+  <title>Đăng nhập | Fresh Garden</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body class="login-page">
+  <main class="login-layout">
+    <section class="login-card" aria-labelledby="login-title">
+      <a class="login-brand" href="../index.html" aria-label="Fresh Garden - về trang chủ">
+        <img src="../assets/fresh-garden-logo.png" alt="" width="68" height="68" />
+        <span class="login-brand-name">FRESH GARDEN</span>
+        <span class="login-brand-caption">BÁNH TƯƠI MỖI NGÀY</span>
+      </a>
+
+      <div class="login-heading">
+        <p class="login-eyebrow">Chào mừng trở lại</p>
+        <h1 id="login-title">Đăng nhập tài khoản</h1>
+        
+      </div>
+
+      <form id="login-form" class="login-form">
+        <div class="login-field">
+          <label for="login-username">Tên đăng nhập hoặc email</label>
+          <input id="login-username" name="username" type="text" autocomplete="username" required />
+        </div>
+        <div class="login-field">
+          <label for="login-password">Mật khẩu</label>
+          <div class="password-control">
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+            <button type="button" id="toggle-password" class="password-toggle" aria-label="Hiện mật khẩu" aria-pressed="false">Hiện</button>
+          </div>
+        </div>
+        <p id="login-error" class="login-error" role="alert" aria-live="polite"></p>
+        <button id="login-submit" class="login-submit" type="submit">Đăng nhập</button>
+      </form>
+
+      <p class="login-register">Chưa có tài khoản?
+        <a href="register.html">Đăng ký thành viên</a>
+      </p>
+      <a class="login-back" href="../index.html">← Quay lại cửa hàng</a>
+      <p class="login-footer">Fresh Garden · Bánh tươi mỗi ngày</p>
+    </section>
+  </main>
+  <script src="login.js"></script>
+</body>
+</html>

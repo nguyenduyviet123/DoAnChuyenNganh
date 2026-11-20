@@ -1,0 +1,22 @@
+backend/.env
+
+# Environment variables (chứa API keys, DB passwords)
+backend/.env
+.env
+*.env.local
+
+# Dependencies
+node_modules/
+
+# AI coding tools config (không phải source code của project)
+.qoder/
+.roo/
+.trae/
+.warp/
+.windsurf/
+.agents/
+.gemini/
+.cursor/
+.opencode/
+.vscode/
+.idea/

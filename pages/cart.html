@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Giỏ hàng | Fresh Garden</title>
+  <meta name="description" content="Kiểm tra giỏ hàng Fresh Garden và tiếp tục đặt bánh tươi." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="site-pages.css" />
+  <link rel="stylesheet" href="cart-page.css" />
+</head>
+<body data-page="cart">
+  <div id="site-header"></div>
+  <main class="cart-page-main">
+    <nav class="catalog-breadcrumb-bar" aria-label="Đường dẫn">
+      <div class="catalog-breadcrumb-inner"><a href="../index.html">Trang chủ</a><span>/</span><span>Giỏ hàng</span></div>
+    </nav>
+    <div id="cart-page-root" class="cart-page-root" aria-live="polite" aria-busy="true">
+      <div class="cart-page-loading">Đang tải giỏ hàng…</div>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+  <div id="page-toast" class="page-toast" role="status" aria-live="polite"></div>
+  <script src="site-pages.js"></script>
+  <script src="cart-page.js"></script>
+</body>
+</html>

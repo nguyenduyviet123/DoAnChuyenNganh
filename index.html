@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fresh Garden | Tiệm Bánh Tươi &amp; Nghệ Thuật Pâtisserie Pháp Từ 2009</title>
+  <meta name="description" content="Fresh Garden – Thương hiệu bánh tươi thủ công cao cấp tại Hà Nội. Khám phá bánh mì Pháp nướng tươi mỗi sáng, bánh kem nghệ thuật, bánh ngọt pastry và bộ sưu tập Bánh Trung Thu Hoàng Kim." />
+  <script>
+    if (new URLSearchParams(location.search).get('cart') === '1') {
+      document.documentElement.classList.add('route-pending');
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="chatbot.css" />
+</head>
+<body>
+  <div id="route-loading" role="status" aria-live="polite">
+    <span class="route-loading-spinner" aria-hidden="true"></span>
+    <span>Đang chuyển đến trang bạn chọn...</span>
+  </div>
+
+  <!-- ===== TOPBAR ===== -->
+  <aside class="topbar" id="topbar">
+    <div class="topbar-inner container">
+      <div class="topbar-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span>Giao hàng đặc quyền nội thành Hà Nội trong 2 giờ</span>
+      </div>
+      <div class="topbar-divider"></div>
+      <div class="topbar-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <span>Hotline tư vấn: <strong>1900 2075</strong></span>
+      </div>
+      <div class="topbar-divider"></div>
+      <div class="topbar-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Mở cửa: 07:00 – 21:30 hàng ngày</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== HEADER / NAVBAR ===== -->
+  <header class="header" id="header">
+    <div class="header-inner container">
+      <!-- Logo -->
+      <a href="index.html#hero" class="logo" id="logo-link">
+        <img class="logo-image" src="assets/fresh-garden-logo.png" alt="Fresh Garden — Bánh ngọt, trao yêu thương" width="150" height="100" fetchpriority="high" />
+        <div class="logo-crest">
+          <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+            <circle cx="21" cy="21" r="20" stroke="#C5A059" stroke-width="1.2" fill="#153928"/>
+            <circle cx="21" cy="21" r="18" stroke="#DFBA73" stroke-width="0.8" stroke-dasharray="2 3" fill="none"/>
+            <path d="M21 9 C21 16 14 18 14 26 C14 29.8 17.1 33 21 33 C24.9 33 28 29.8 28 26 C28 18 21 16 21 9 Z" stroke="#DFBA73" stroke-width="1.3" fill="none"/>
+            <path d="M21 12 L21 30" stroke="#DFBA73" stroke-width="1.1"/>
+            <path d="M17 19 Q21 21.5 25 19" stroke="#DFBA73" stroke-width="1.1" fill="none"/>
+            <path d="M16 24 Q21 26.5 26 24" stroke="#DFBA73" stroke-width="1.1" fill="none"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-brand">FRESH GARDEN</span>
+          <span class="logo-tagline">BOULANGERIE &amp; PÂTISSERIE • 2009</span>
+        </div>
+      </a>
+
+      <!-- Nav Links -->
+      <nav class="nav" id="main-nav" aria-label="Điều hướng chính">
+        <ul class="nav-list">
+          <li><a href="pages/about.html" class="nav-link">Giới thiệu</a></li>
+          <li class="nav-has-dropdown">
+            <a href="pages/products.html" class="nav-link" id="menu-products-link">Sản phẩm</a>
+            <button type="button" class="nav-dropdown-trigger" id="menu-products-toggle" aria-label="Mở danh mục sản phẩm" aria-haspopup="true" aria-expanded="false" aria-controls="menu-products-dropdown"><svg class="chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+            <div class="nav-dropdown" id="menu-products-dropdown" aria-label="Danh mục bánh">
+              <div class="mega-menu-head">
+                <div><span>FRESH GARDEN CATALOGUE</span><strong>Khám phá theo danh mục</strong></div>
+                <a href="pages/products.html" class="mega-all-link" data-filter="all" data-filter-kind="all">Xem tất cả sản phẩm <span aria-hidden="true">→</span></a>
+              </div>
+              <div class="mega-menu-grid" id="mega-menu-grid"></div>
+            </div>
+          </li>
+          <li><a href="pages/contact.html" class="nav-link">Danh sách cửa hàng</a></li>
+          <li class="nav-news-menu">
+            <a href="pages/news.html" class="nav-link" id="menu-news-link">Tin tức</a>
+            <button type="button" class="nav-dropdown-trigger nav-news-toggle" id="menu-news-toggle" aria-label="Mở mục tin tức" aria-haspopup="true" aria-expanded="false" aria-controls="menu-news-dropdown"><svg class="chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+            <div class="nav-news-dropdown" id="menu-news-dropdown"><a href="pages/news.html">Tin tức</a><a href="pages/promotions.html">Tin khuyến mãi</a></div>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <a href="pages/admin.html" class="admin-entry-link" hidden>Quản trị</a>
+        <!-- Nút Tìm kiếm -->
+        <button class="btn-icon" id="search-btn" aria-label="Tìm kiếm bánh" aria-expanded="false" aria-controls="search-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+
+        <!-- Nút Tài khoản / Đăng nhập -->
+        <div class="user-menu-wrap" id="user-menu-wrap">
+          <button class="btn-user-pill" id="user-btn" aria-label="Tài khoản khách hàng">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span class="user-greeting" id="user-greeting">Đăng nhập</span>
+          </button>
+          <div class="user-dropdown" id="user-dropdown">
+            <!-- Nội dung do JS render tùy trạng thái đăng nhập -->
+          </div>
+        </div>
+
+        <!-- Nút Giỏ hàng -->
+        <button class="btn-cart-pill" id="cart-btn" aria-label="Giỏ hàng mua sắm">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-label">Giỏ hàng</span>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+
+        <!-- Hamburger Mobile -->
+        <button class="hamburger" id="hamburger" aria-label="Mở menu di động" aria-controls="mobile-drawer" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+      <form class="search-box" id="search-form" role="search">
+        <button type="button" id="search-close" aria-label="Đóng tìm kiếm">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <input type="text" id="search-input" aria-label="Tìm kiếm bánh" placeholder="Tìm kiếm bánh kem, bánh mì tươi, pastry, bánh Trung Thu..." autocomplete="off" />
+        <button type="submit" class="search-submit" aria-label="Tìm kiếm">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7.5"/><path d="m20 20-4-4"/></svg>
+        </button>
+      </form>
+      <div class="search-results-box" id="search-results-box">
+        <div class="search-results-inner" id="search-results-inner"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Drawer -->
+  <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true" inert>
+    <div class="drawer-header">
+      <img class="logo-image drawer-logo-image" src="assets/fresh-garden-logo.png" alt="Fresh Garden — Bánh ngọt, trao yêu thương" width="120" height="80" />
+      <div class="logo-text">
+        <span class="logo-brand">FRESH GARDEN</span>
+        <span class="logo-tagline">BOULANGERIE &amp; PÂTISSERIE</span>
+      </div>
+      <button class="drawer-close" id="drawer-close" aria-label="Đóng thanh menu">✕</button>
+    </div>
+    <nav class="drawer-nav">
+      <a href="pages/about.html">Giới thiệu</a>
+      <a href="pages/products.html">Sản phẩm</a>
+      <button class="drawer-menu-toggle" id="drawer-products-toggle" type="button" aria-expanded="false" aria-controls="drawer-products-subnav">
+        <span>Danh mục bánh</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="drawer-subnav" id="drawer-products-subnav">
+        <a href="pages/products.html" data-filter="all" data-filter-kind="all">Tất cả sản phẩm</a>
+        <div class="drawer-category-groups" id="drawer-category-groups"></div>
+      </div>
+      <a href="pages/contact.html">Danh sách cửa hàng</a>
+      <a href="pages/news.html">Tin tức</a>
+      <a href="pages/promotions.html" class="drawer-highlight">Tin khuyến mãi</a>
+      <a href="pages/admin.html" class="admin-entry-link" hidden>Quản trị</a>
+    </nav>
+  </div>
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+
+  <!-- ===== HERO SLIDER ===== -->
+  <section class="hero" id="hero">
+    <div class="slider" id="hero-slider">
+
+      <!-- Slide 1 – Trung Thu Hoàng Kim -->
+      <div class="slide slide-1 active">
+        <div class="slide-bg" style="background-image: url('assets/hero_banner.jpg')"></div>
+        <div class="slide-overlay-dark"></div>
+        <div class="slide-content container">
+          <div class="slide-text">
+            <span class="slide-eyebrow">Bộ Sưu Tập Thượng Hạng 2026</span>
+            <h1 class="slide-title">Bánh Trung Thu<br/><span class="slide-title-gold">Hoàng Kim Nguyệt Dạ</span></h1>
+            <p class="slide-subtitle">Tuyệt phẩm trăng rằm kết hợp tinh hoa thảo mộc Á Đông và kỹ nghệ bánh nướng thanh nhã kiểu Pháp.</p>
+            <div class="slide-actions">
+              <a href="#seasonal" class="btn-hero-primary">Khám phá bộ sưu tập</a>
+              <a href="#products" class="btn-hero-secondary">Xem toàn bộ menu</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 – Bánh kem Pâtisserie -->
+      <div class="slide slide-2">
+        <div class="slide-bg" style="background-image: url('assets/banner_banh_kem.jpg')"></div>
+        <div class="slide-overlay-warm"></div>
+        <div class="slide-content container">
+          <div class="slide-text slide-text-dark">
+            <span class="slide-eyebrow dark">Artisanal Pâtisserie</span>
+            <h1 class="slide-title dark">Bánh Kem Nghệ Thuật<br/><span>Cho Mọi Khoảnh Khắc Đặc Biệt</span></h1>
+            <p class="slide-subtitle dark">Bơ sữa tươi nhập khẩu New Zealand cùng hoa quả thanh mát, trang trí thủ công tinh tế từng chi tiết.</p>
+            <div class="slide-actions">
+              <a href="#products" class="btn-hero-primary btn-hero-forest" data-filter="1">Đặt bánh ngay</a>
+              <a href="pages/contact.html" class="btn-hero-secondary btn-hero-dark-outline">Tìm cửa hàng gần nhất</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 – Bánh mì Boulangerie -->
+      <div class="slide slide-3">
+        <div class="slide-bg slide-bg-artisan"></div>
+        <div class="slide-overlay-dark"></div>
+        <div class="slide-content container">
+          <div class="slide-text">
+            <span class="slide-eyebrow">Boulangerie Truyền Thống</span>
+            <h1 class="slide-title">Bánh Mì Nướng Tươi<br/><span class="slide-title-gold">Ra Lò Mỗi Buổi Sáng</span></h1>
+            <p class="slide-subtitle">Ủ men tự nhiên suốt 24 giờ, lớp vỏ giòn rụm màu cánh gián và ruột bánh xốp mềm thơm mùi lúa mì mới.</p>
+            <div class="slide-actions">
+              <a href="#products" class="btn-hero-primary">Khám phá vị bánh mới</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide Controls -->
+      <button class="slide-nav slide-prev" id="slide-prev" aria-label="Slide trước">&#8249;</button>
+      <button class="slide-nav slide-next" id="slide-next" aria-label="Slide tiếp theo">&#8250;</button>
+      <div class="slide-dots" id="slide-dots">
+        <button class="dot active" data-idx="0" aria-label="Xem slide 1"></button>
+        <button class="dot" data-idx="1" aria-label="Xem slide 2"></button>
+        <button class="dot" data-idx="2" aria-label="Xem slide 3"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORY ICONS QUICK BAR ===== -->
+  <section class="categories" id="categories" aria-label="Danh mục bánh">
+    <div class="container">
+      <div class="category-heading">
+        <span class="section-tag">Khám phá thực đơn</span>
+        <h2>Chọn hương vị dành riêng cho bạn</h2>
+      </div>
+      <div class="cat-grid">
+        <a href="pages/products.html?maLoaiCha=3" class="cat-item" data-loai="3" aria-label="Xem danh mục Bánh mì">
+          <span class="cat-icon-wrap" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 27c0-7 6-12 16-12s16 5 16 12c0 5-4 8-10 8H17c-6 0-9-3-9-8Z"/><path d="M15 21c5-4 14-4 19 0M16 28c5-3 11-3 16 0"/></svg></span>
+          <span class="cat-name">Bánh mì</span>
+        </a>
+        <a href="pages/products.html?maLoaiCha=1" class="cat-item" data-loai="1" aria-label="Xem danh mục Bánh kem">
+          <span class="cat-icon-wrap" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 24h24v14H12zM9 24c0-3 3-5 7-5 3 0 5 2 8 2s5-2 8-2c4 0 7 2 7 5M16 19v-5m8 5v-7m8 7v-5"/><path d="M16 12v-3m8 1V7m8 5V9"/><path d="M12 31c4 2 8 2 12 0s8-2 12 0"/></svg></span>
+          <span class="cat-name">Bánh kem</span>
+        </a>
+        <a href="pages/products.html?maLoaiCha=4" class="cat-item" data-loai="4" aria-label="Xem danh mục Bánh ngọt">
+          <span class="cat-icon-wrap" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m10 31 23-14 5 22H10zM10 31h28M25 22l3 3m5 1 2 3"/><circle cx="34" cy="13" r="3"/><path d="M31 16 27 19"/></svg></span>
+          <span class="cat-name">Bánh ngọt</span>
+        </a>
+        <a href="pages/products.html?maLoaiCha=5" class="cat-item" data-loai="5" aria-label="Xem danh mục Bánh khô">
+          <span class="cat-icon-wrap" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 23c0-7 6-12 13-12s13 5 13 12-6 13-13 13-13-6-13-13Z"/><path d="M19 14c2 2 2 4 0 6m10-7c-2 2-2 4 0 6m-13 7c2-2 4-2 6 0m6 7c-2-2-2-4 0-6m4-9c-2 2-4 2-6 0"/><circle cx="18" cy="27" r="1"/><circle cx="28" cy="25" r="1"/></svg></span>
+          <span class="cat-name">Bánh khô</span>
+        </a>
+        <a href="pages/products.html?maLoaiCha=6" class="cat-item" data-loai="6" aria-label="Xem danh mục Bánh đông lạnh">
+          <span class="cat-icon-wrap" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m11 34 16-24c1-2 3-2 4 0l13 24c1 2 0 4-3 4H14c-3 0-4-2-3-4Z"/><circle cx="27" cy="25" r="2"/><circle cx="22" cy="32" r="2"/><circle cx="34" cy="32" r="2"/></svg></span>
+          <span class="cat-name">Bánh đông lạnh</span>
+        </a>
+        <a href="pages/products.html?maLoaiCha=7" class="cat-item" data-loai="7" aria-label="Xem danh mục Đồ uống">
+          <span class="cat-icon-wrap" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 17h18l-2 23H18zM14 17h22v-5H14zM24 12V7h9M33 7v5"/><path d="M21 23h8"/></svg></span>
+          <span class="cat-name">Đồ uống</span>
+        </a>
+        <a href="pages/products.html?maLoaiCha=8" class="cat-item" data-loai="8" aria-label="Xem danh mục Dịch vụ">
+          <span class="cat-icon-wrap" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="12" r="4"/><path d="M17 21c1-3 4-5 7-5s6 2 7 5l-2 7 5 5-4 4-7-6-7 6-4-4 5-5-2-7Z"/><path d="m20 22-5 3-5-2m18-1 5 3 5-2M21 39l-2 4m8-4 2 4"/></svg></span>
+          <span class="cat-name">Dịch vụ</span>
+        </a>
+        <a href="pages/products.html?maLoai=18" class="cat-item" data-loai="18" data-filter-kind="child" aria-label="Xem danh mục Phụ kiện">
+          <span class="cat-icon-wrap" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m24 8 15 31H9L24 8Z"/><path d="M24 8V4m-4 8 8 5m-12 5 16 9"/><path d="M21 34h6"/></svg></span>
+          <span class="cat-name">Phụ kiện</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURED PRODUCTS ===== -->
+  <section class="section-products catalog-section featured-product-section" id="products">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Fresh Garden Catalogue</span>
+        <h2 class="section-title" id="featured-title">Sản phẩm nổi bật</h2>
+        <div class="section-line-gold"></div>
+      </div>
+
+      <div class="products-grid" id="featured-grid">
+        <!-- Rendered by JS from SQL Server API -->
+      </div>
+
+      <div class="section-cta">
+        <button class="btn-outline-gold" id="view-more-featured" hidden>Xem thêm sản phẩm</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROMO BANNER ===== -->
+  <section class="promo-banner" id="banh-kem-banner">
+    <div class="promo-inner" style="background-image: url('https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&amp;fit=crop&amp;w=2000&amp;q=85')">
+      <div class="promo-overlay-warm"></div>
+      <div class="promo-content container">
+        <div class="promo-text">
+          <span class="promo-brand">FRESH GARDEN BAKERY</span>
+          <h2 class="promo-title">Bánh tươi mỗi ngày<br/>Cho mọi khoảnh khắc</h2>
+          <p class="promo-desc">Bánh mì, bánh ngọt và những món ăn nhẹ được làm mới mỗi ngày từ căn bếp Fresh Garden.</p>
+          <a href="pages/products.html" class="btn-promo-gold">Khám phá thực đơn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DAILY BAKERY COLLECTIONS ===== -->
+  <section class="home-collection-section" id="home-collections">
+    <div class="container">
+      <div class="home-collection-heading">
+        <span class="section-tag">Tươi ngon mỗi ngày</span>
+        <h2 class="home-collection-title">Khám phá bộ sưu tập</h2>
+        <div class="section-line-gold"></div>
+      </div>
+      <div class="home-collection-tabs" role="tablist" aria-label="Chọn bộ sưu tập sản phẩm">
+        <button class="home-collection-tab active" id="home-tab-fresh" type="button" role="tab" aria-selected="true" aria-controls="home-collection-grid" data-home-category="4">Bánh tươi</button>
+        <button class="home-collection-tab" id="home-tab-pastry" type="button" role="tab" aria-selected="false" aria-controls="home-collection-grid" data-home-category="3">Bánh ngọt</button>
+      </div>
+      <div class="products-grid home-collection-grid" id="home-collection-grid" role="tabpanel" aria-labelledby="home-tab-fresh" aria-live="polite"></div>
+      <div class="section-cta">
+        <a class="btn-outline-gold home-collection-link" id="home-collection-link" href="pages/products.html?maLoaiCha=4">Xem toàn bộ bánh tươi</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SEASONAL MID-AUTUMN 2026 SHOWCASE ===== -->
+  <section class="section-seasonal" id="seasonal">
+    <div class="container">
+      <div class="seasonal-header">
+        <span class="seasonal-badge">Tuyệt Phẩm Giới Hạn 2026</span>
+        <h2 class="seasonal-title">Bộ Sưu Tập Bánh Trung Thu Hoàng Kim</h2>
+        <div class="section-line-gold"></div>
+        <p class="seasonal-desc">
+          Lấy cảm hứng từ ánh trăng rằm tháng Tám và nét đẹp cung đình trang nhã, Fresh Garden trân trọng giới thiệu các bộ quà tặng sang trọng dành tặng đối tác, gia đình và tri kỷ.
+        </p>
+      </div>
+
+      <div class="seasonal-grid">
+        <!-- Box 1 -->
+        <div class="seasonal-card">
+          <div class="seasonal-card-tag">Hộp 4 Bánh Thượng Hạng</div>
+          <div class="seasonal-img-wrap">
+            <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&h=450&fit=crop" alt="Hộp quà Trăng Vàng Phú Quý" loading="lazy" />
+          </div>
+          <div class="seasonal-card-body">
+            <h3 class="seasonal-card-name">Set Trăng Vàng Phú Quý</h3>
+            <p class="seasonal-card-flavors">Bào ngư vi cá hảo hạng • Sen tuyết trứng muối • Trà xanh Matcha Uji • Hạt dẻ nướng mật ong</p>
+            <div class="seasonal-card-footer">
+              <span class="seasonal-card-price">549.000đ</span>
+              <button class="btn-seasonal-order" data-box="Trăng Vàng Phú Quý">Đặt mua ngay</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 2 -->
+        <div class="seasonal-card featured-box">
+          <div class="seasonal-card-tag gold-solid">Tuyển Chọn Đặc Biệt</div>
+          <div class="seasonal-img-wrap">
+            <img src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=600&h=450&fit=crop" alt="Hộp quà Nguyệt Dạ Thăng Hoa" loading="lazy" />
+          </div>
+          <div class="seasonal-card-body">
+            <h3 class="seasonal-card-name">Set Nguyệt Dạ Thăng Hoa</h3>
+            <p class="seasonal-card-flavors">6 vị bánh nướng &amp; dẻo cung đình kèm Hộp trà Ô Long Thiết Quan Âm hảo hạng</p>
+            <div class="seasonal-card-footer">
+              <span class="seasonal-card-price">899.000đ</span>
+              <button class="btn-seasonal-order" data-box="Nguyệt Dạ Thăng Hoa">Đặt mua ngay</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 3 -->
+        <div class="seasonal-card">
+          <div class="seasonal-card-tag">Hộp Gỗ Sơn Mài Độc Bản</div>
+          <div class="seasonal-img-wrap">
+            <img src="https://images.unsplash.com/photo-1559620192-032c4bc4674e?w=600&h=450&fit=crop" alt="Hộp quà Hoàng Gia Đoàn Viên" loading="lazy" />
+          </div>
+          <div class="seasonal-card-body">
+            <h3 class="seasonal-card-name">Set Hoàng Kim Tri Âm</h3>
+            <p class="seasonal-card-flavors">Hộp sơn mài thủ công khắc nhũ vàng, 8 bánh nướng tinh tuyển cùng rượu vang Pháp cao cấp</p>
+            <div class="seasonal-card-footer">
+              <span class="seasonal-card-price">1.490.000đ</span>
+              <button class="btn-seasonal-order" data-box="Hoàng Kim Tri Âm">Đặt mua ngay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHY US / CAM KẾT CHẤT LƯỢNG ===== -->
+  <section class="why-us" id="why-us">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Cam Kết Thương Hiệu</span>
+        <h2 class="section-title">Quy chuẩn thủ công làm nên khác biệt</h2>
+        <div class="section-line-gold"></div>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card" id="why-1">
+          <div class="why-icon-wrap">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="1.6"><path d="M12 2L15 9H22L16.5 13.5L18.5 20.5L12 16.5L5.5 20.5L7.5 13.5L2 9H9L12 2Z"/></svg>
+          </div>
+          <h3 class="why-card-title">Nguyên liệu tinh khiết</h3>
+          <p class="why-card-desc">Sử dụng 100% bơ sữa tươi New Zealand, bột mì cao cấp không chất tẩy trắng, không hương liệu tổng hợp.</p>
+        </div>
+
+        <div class="why-card" id="why-2">
+          <div class="why-icon-wrap">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="1.6"><circle cx="12" cy="7" r="4"/><path d="M5.5 21v-2a6.5 6.5 0 0113 0v2"/><path d="M12 11v4"/></svg>
+          </div>
+          <h3 class="why-card-title">Nghệ nhân bánh Pháp</h3>
+          <p class="why-card-desc">Đội ngũ đầu bếp được tu nghiệp bài bản theo trường phái ẩm thực nướng bánh cổ điển châu Âu.</p>
+        </div>
+
+        <div class="why-card" id="why-3">
+          <div class="why-icon-wrap">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="1.6"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <h3 class="why-card-title">Giao bánh bảo ôn 2 giờ</h3>
+          <p class="why-card-desc">Vận chuyển chuyên dụng giữ lạnh, bảo đảm kết cấu kem bánh và hương vị tươi nguyên vẹn đến bàn tiệc.</p>
+        </div>
+
+        <div class="why-card" id="why-4">
+          <div class="why-icon-wrap">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="1.6"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <h3 class="why-card-title">Thiết kế bánh riêng biệt</h3>
+          <p class="why-card-desc">Tùy biến kích cỡ, cốt bánh và viết thông điệp chúc mừng trang trọng cho từng sự kiện ý nghĩa của bạn.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ĐẶC QUYỀN FRESH GARDEN: DỊCH VỤ ĐẶT BÁNH THEO YÊU CẦU & TIỆC TEABREAK ===== -->
+  <section class="section-custom-services" id="custom-services">
+    <div class="container">
+      <div class="custom-services-grid">
+        <!-- Card 1: Bánh sinh nhật theo yêu cầu -->
+        <div class="service-box service-box-birthday">
+          <div class="service-tag">Cá Nhân Hóa</div>
+          <h3 class="service-title">Đặt Bánh Kem &amp; Sinh Nhật Theo Ý Muốn</h3>
+          <p class="service-desc">Tự do lựa chọn cốt bánh (bắp tươi, mousse, socola, trà xanh), độ ngọt thanh mát, in ảnh kỷ niệm (Photo Cake) và viết thông điệp chúc mừng ý nghĩa hoàn toàn miễn phí.</p>
+          <ul class="service-perks">
+            <li><span>✓</span> Tặng kèm bộ dao, đĩa thìa giấy &amp; nến sinh nhật nghệ thuật</li>
+            <li><span>✓</span> Nhận thiết kế bánh tầng tiệc cưới, sự kiện lớn từ 24h</li>
+            <li><span>✓</span> Đổi mới 100% nếu sản phẩm bị ảnh hưởng do vận chuyển</li>
+          </ul>
+          <div class="service-actions">
+            <a href="tel:19002075" class="btn-service-action">Hotline tư vấn: 1900 2075</a>
+            <a href="#products" class="btn-service-secondary">Xem mẫu bánh kem</a>
+          </div>
+        </div>
+
+        <!-- Card 2: Bánh tiệc Teabreak & Khách hàng doanh nghiệp -->
+        <div class="service-box service-box-b2b">
+          <div class="service-tag gold-tag">Đối Tác Doanh Nghiệp (B2B)</div>
+          <h3 class="service-title">Tiệc Teabreak &amp; Quà Tặng Doanh Nghiệp</h3>
+          <p class="service-desc">Cung cấp giải pháp bánh ngọt, bánh mì mặn mini cao cấp và thức uống tiện lợi cho hội thảo, hội nghị, khai trương, workshop với chiết khấu hấp dẫn theo số lượng.</p>
+          <ul class="service-perks">
+            <li><span>✓</span> Thực đơn đa dạng hơn 50 món bánh mặn ngọt nướng tươi mỗi sáng</li>
+            <li><span>✓</span> Hỗ trợ xuất hóa đơn VAT điện tử hợp lệ, nhanh chóng</li>
+            <li><span>✓</span> Đóng gói set box lịch sự, giao hàng bảo ôn đúng giờ hẹn</li>
+          </ul>
+          <div class="service-actions">
+            <a href="tel:02438563856" class="btn-service-action btn-service-gold">Liên hệ B2B: 024 3856 3856</a>
+            <a href="pages/contact.html" class="btn-service-secondary">Hệ thống chi nhánh</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUY TRÌNH 4 BƯỚC ĐẶT BÁNH TƯƠI MỖI NGÀY ===== -->
+  <section class="section-order-steps" id="order-steps">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Trải Nghiệm Tiện Lợi</span>
+        <h2 class="section-title">Quy trình 4 bước nhận bánh chuẩn tươi ngon</h2>
+        <div class="section-line-gold"></div>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-item">
+          <div class="step-num">01</div>
+          <h4 class="step-title">Chọn bánh nướng mới</h4>
+          <p class="step-desc">Khám phá danh mục bánh kem, bánh mì tươi nướng mới mỗi sáng từ căn bếp Fresh Garden.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">02</div>
+          <h4 class="step-title">Gửi lời chúc &amp; Phụ kiện</h4>
+          <p class="step-desc">Tùy biến kích cỡ, ghi chú lời chúc lên bánh và nhận trọn bộ dao nến miễn phí kèm theo.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">03</div>
+          <h4 class="step-title">Giao bảo ôn 2 giờ</h4>
+          <p class="step-desc">Đơn hàng được vận chuyển bằng thùng bảo ôn giữ lạnh chuyên dụng, giữ trọn kết cấu kem tươi.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">04</div>
+          <h4 class="step-title">Kiểm tra &amp; Thưởng thức</h4>
+          <p class="step-desc">Nhận bánh tận tay, kiểm tra hài lòng trước khi thanh toán tiền mặt (COD) hoặc chuyển khoản.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWS / BLOG ===== -->
+  <section class="section-news bg-cream" id="news">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Không Gian Ẩm Thực</span>
+        <h2 class="section-title">Tin tức, sự kiện &amp; Ưu đãi mới nhất</h2>
+        <div class="section-line-gold"></div>
+      </div>
+
+      <div class="news-grid" id="news-grid">
+        <!-- Rendered dynamically by JS from /api/products/news -->
+      </div>
+
+      <div class="section-cta">
+        <button class="btn-outline-gold" id="view-all-news">Xem thêm bài viết</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="footer">
+    <div class="footer-top container">
+      <!-- Col 1: Brand Info -->
+      <div class="footer-col brand-col">
+        <div class="footer-brand-title">FRESH GARDEN</div>
+        <p class="footer-brand-desc">
+          Boulangerie &amp; Pâtisserie Pháp truyền thống từ năm 2009. Nơi mỗi chiếc bánh là một tác phẩm được ủ men và nướng thủ công với sự tôn trọng tuyệt đối dành cho sức khỏe người thưởng thức.
+        </p>
+        <div class="footer-hotline-box">
+          <span class="hotline-title">Tổng đài đặt bánh &amp; CSKH:</span>
+          <a href="tel:19002075" class="hotline-number">1900 2075</a>
+          <span class="footer-contact-item">☎ Hợp tác Doanh nghiệp / Teabreak: <a href="tel:02438563856"><strong>024 3856 3856</strong></a></span>
+          <span class="footer-contact-item">✉ Email CSKH: <a href="mailto:cskh@freshgarden.vn"><strong>cskh@freshgarden.vn</strong></a></span>
+          <span class="footer-contact-item">📍 Trụ sở chính: Số 46 phố An Dương, P. Yên Phụ, Q. Tây Hồ, Hà Nội</span>
+        </div>
+      </div>
+
+      <!-- Col 2: Policies -->
+      <div class="footer-col" id="footer-chinh-sach">
+        <h4 class="footer-heading">CHÍNH SÁCH</h4>
+        <div class="footer-divider-gold"></div>
+        <ul class="footer-links">
+          <li><a href="#">Chính sách mua hàng &amp; Vận chuyển</a></li>
+          <li><a href="#">Chính sách đổi trả &amp; Hoàn tiền</a></li>
+          <li><a href="#">Quy chuẩn an toàn vệ sinh thực phẩm</a></li>
+          <li><a href="#">Chính sách bảo mật thông tin</a></li>
+          <li><a href="#">Chương trình Khách hàng thân thiết</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Information -->
+      <div class="footer-col" id="footer-thong-tin">
+        <h4 class="footer-heading">THÔNG TIN</h4>
+        <div class="footer-divider-gold"></div>
+        <ul class="footer-links">
+          <li><a href="pages/about.html">Về thương hiệu Fresh Garden</a></li>
+          <li><a href="#seasonal">Bánh Trung Thu Hoàng Kim 2026</a></li>
+          <li><a href="pages/contact.html">Danh sách cửa hàng</a></li>
+          <li><a href="pages/news.html">Tin tức</a></li>
+          <li><a href="pages/promotions.html">Tin khuyến mãi</a></li>
+          <li><a href="#">Cơ hội hợp tác &amp; Tuyển dụng</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Newsletter -->
+      <div class="footer-col" id="footer-newsletter">
+        <h4 class="footer-heading">ĐĂNG KÝ NHẬN BẢN TIN</h4>
+        <div class="footer-divider-gold"></div>
+        <p class="newsletter-sub">Nhận ngay ưu đãi 10% cho đơn hàng đầu tiên và thông tin bộ sưu tập bánh theo mùa.</p>
+        <div class="newsletter-form">
+          <input type="email" id="newsletter-email" placeholder="Địa chỉ email của bạn..." class="newsletter-input" />
+          <button class="btn-newsletter" id="newsletter-btn">Đăng ký</button>
+        </div>
+        <div class="footer-social">
+          <a href="#" class="social-link" id="social-facebook" aria-label="Fresh Garden Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" class="social-link" id="social-instagram" aria-label="Fresh Garden Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2009 – 2026 Fresh Garden Bakery. Công ty TNHH PHD • Giấy phép ĐKKD số: 0103833363 do Sở KH&amp;ĐT Hà Nội cấp.</p>
+        <div class="footer-cert-note">Đã đăng ký thông báo với Bộ Công Thương</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== FLOATING ACTIONS ===== -->
+  <div class="floating-actions" id="floating-actions">
+    <a href="tel:19002075" class="fab fab-phone" id="fab-phone" aria-label="Gọi hotline tư vấn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    </a>
+    <button class="fab fab-top" id="fab-top" aria-label="Lên đầu trang">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+  </div>
+
+  <!-- ===== CART SIDEBAR ===== -->
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <div class="cart-header-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <h3>Giỏ Hàng Của Bạn</h3>
+      </div>
+      <button class="cart-close" id="cart-close" aria-label="Đóng giỏ hàng">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <div class="cart-empty" id="cart-empty">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <p>Giỏ hàng hiện chưa có sản phẩm</p>
+      </div>
+    </div>
+    <div class="cart-footer" id="cart-footer">
+      <div class="cart-total">
+        <span>Tổng giá trị đơn:</span>
+        <span class="cart-total-price" id="cart-total-price">0đ</span>
+      </div>
+      <button class="btn-checkout" id="btn-checkout">Tiến hành đặt hàng</button>
+    </div>
+  </div>
+  <div class="cart-overlay" id="cart-overlay"></div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="toast-msg">Đã thêm vào giỏ hàng!</span>
+  </div>
+
+  <!-- ===== CHATBOT AI WIDGET ===== -->
+  <button class="chatbot-toggle" id="chatbot-toggle" aria-label="Mở Trợ Lý AI Fresh Garden" aria-controls="chatbot-window" aria-expanded="false">
+    <span class="toggle-icon-chat" aria-hidden="true">
+      <svg class="chatbot-mascot" viewBox="0 0 120 128" focusable="false">
+        <ellipse cx="60" cy="122" rx="34" ry="4" fill="#0c2419" opacity=".3" />
+        <path d="M43 101v12m32-12v12" fill="none" stroke="#6b3826" stroke-width="6" stroke-linecap="round" />
+        <path d="M31 114c4-5 12-5 17 0l4 5c1 2 0 4-3 4H31c-5 0-6-4-3-9Zm34 0c4-5 12-5 17 0l4 5c1 2 0 4-3 4H65c-5 0-6-4-3-9Z" fill="#fff4e5" stroke="#6b3826" stroke-width="2" />
+        <path d="M31 120h19m16 0h19" stroke="#769543" stroke-width="4" stroke-linecap="round" />
+        <g class="mascot-wave-arm">
+          <path d="M39 76c-9-3-16-9-20-20" fill="none" stroke="#6b3826" stroke-width="12" stroke-linecap="round" />
+          <path d="M39 76c-9-3-16-9-20-20" fill="none" stroke="#f4c88d" stroke-width="7" stroke-linecap="round" />
+          <path d="M14 53c-5-3-7-8-5-12 1-2 3-3 5-2-1-5 1-8 4-8 3 0 4 3 4 6 1-4 4-5 6-3 2 2 1 6 0 9 3-2 6 0 5 4-2 7-8 13-14 13-3 0-5-2-5-7Z" fill="#fff1df" stroke="#8a4a35" stroke-width="2" stroke-linejoin="round" />
+        </g>
+        <path d="M81 73c8 0 13 5 16 11" fill="none" stroke="#6b3826" stroke-width="10" stroke-linecap="round" />
+        <path d="M81 73c8 0 13 5 16 11" fill="none" stroke="#f4c88d" stroke-width="5.5" stroke-linecap="round" />
+        <circle cx="98" cy="86" r="5" fill="#fff1df" stroke="#8a4a35" stroke-width="2" />
+        <g class="mascot-cupcake">
+          <path d="M32 47c0-5 9-9 28-9s28 4 28 9l-3 47c0 9-11 14-25 14S35 103 35 94l-3-47Z" fill="#fff0d9" stroke="#6b3826" stroke-width="2.5" />
+          <path d="M34 52c7 4 15 5 26 5s20-1 26-5" fill="none" stroke="#edc79d" stroke-width="2" />
+          <path d="M33 48c-8 1-12-4-10-10 1-4 5-6 9-6-2-7 4-12 11-11 3-10 16-13 23-6 7-6 18-1 18 7 9-1 14 7 10 14 5 6 1 13-6 13-9 4-16-1-23-1-9 2-18 5-26 0Z" fill="#fff9ed" stroke="#6b3826" stroke-width="2.5" stroke-linejoin="round" />
+          <path d="M55 24c-1-9 4-16 11-16 7 0 11 7 10 15-1 7-6 11-11 13-5-3-9-6-10-12Z" fill="#ed4f45" stroke="#8b3429" stroke-width="2" />
+          <path d="M64 11c-4-6-10-7-14-5 2 6 7 9 14 9m4-4c5-7 11-7 15-5-2 6-7 10-14 11" fill="#67934d" stroke="#426b38" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          <g fill="#ffe5a4">
+            <ellipse cx="61" cy="16" rx="1" ry="2" transform="rotate(-18 61 16)" />
+            <ellipse cx="70" cy="12" rx="1" ry="2" transform="rotate(12 70 12)" />
+            <ellipse cx="73" cy="22" rx="1" ry="2" transform="rotate(20 73 22)" />
+          </g>
+          <g class="mascot-eyes">
+            <ellipse cx="49" cy="66" rx="6" ry="8" fill="#542719" />
+            <ellipse cx="47" cy="63" rx="2" ry="2.8" fill="#fff" />
+            <circle cx="52" cy="69" r="1.4" fill="#fff" />
+          </g>
+          <path d="M68 67c5-7 13-8 19-3" fill="none" stroke="#542719" stroke-width="4" stroke-linecap="round" />
+          <path d="m70 62 2-3m12 3 3-1" fill="none" stroke="#542719" stroke-width="2.4" stroke-linecap="round" />
+          <ellipse cx="43" cy="77" rx="6" ry="3.3" fill="#f28e83" opacity=".78" />
+          <ellipse cx="89" cy="77" rx="6" ry="3.3" fill="#f28e83" opacity=".78" />
+          <path d="M56 73c6-2 13-1 18 1-1 8-5 12-10 12-5 0-8-5-8-13Z" fill="#6b201f" stroke="#542719" stroke-width="1.7" />
+          <path d="M59 81c4-3 9-3 13 0-1 4-4 6-7 6s-5-2-6-6Z" fill="#f36e6d" />
+          <path d="M37 88c7 3 14 4 23 4s18-1 24-4l-2 15c-13 7-29 7-43 0l-2-15Z" fill="#719548" stroke="#496c36" stroke-width="2" stroke-linejoin="round" />
+          <path d="M39 90c13 5 29 5 43 0" fill="none" stroke="#a9bd78" stroke-width="1.5" stroke-dasharray="2 3" />
+          <path d="M55 96c3-5 7-7 11-7-1 4-4 7-8 9m2-1c2-4 5-6 10-6-2 5-5 7-10 8" fill="none" stroke="#f6efd9" stroke-width="1.7" stroke-linecap="round" />
+          <path d="M34 84c-2 5-3 9-3 13m55-13c2 5 3 9 3 13" fill="none" stroke="#e44e48" stroke-width="4" stroke-linecap="round" />
+          <path d="M37 83c2-5 5-7 8-6m39 6c-2-5-5-7-8-6" fill="none" stroke="#fff1df" stroke-width="2" stroke-linecap="round" />
+        </g>
+        <path d="m100 38 2-5m5 11 5-2m-98 6-5-2m7 10-5 3" stroke="#e8b546" stroke-width="3" stroke-linecap="round" />
+      </svg>
+    </span>
+    <span class="toggle-icon-close" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </span>
+    <span class="chatbot-notif-dot" id="chatbot-notif-dot"></span>
+  </button>
+
+  <div class="chatbot-window" id="chatbot-window" role="dialog" aria-labelledby="chatbot-title" aria-modal="true">
+    <div class="chatbot-header">
+      <div class="chatbot-avatar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+          <line x1="9" y1="9" x2="9.01" y2="9"/>
+          <line x1="15" y1="9" x2="15.01" y2="9"/>
+        </svg>
+      </div>
+      <div class="chatbot-header-info">
+        <div class="chatbot-header-name" id="chatbot-title">Trợ Lý AI Fresh Garden</div>
+        <div class="chatbot-header-status">
+          <span class="chatbot-status-dot"></span>
+          <span class="chatbot-status-text">Tư vấn bánh tươi 24/7</span>
+        </div>
+      </div>
+      <div class="chatbot-header-actions">
+        <button class="chatbot-btn-minimize" id="chatbot-minimize-btn" title="Thu nhỏ" aria-label="Thu nhỏ">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
+        <button class="chatbot-btn-close" id="chatbot-close-btn" title="Đóng chat" aria-label="Đóng chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="chatbot-body" id="chatbot-body"></div>
+
+    <div class="chatbot-chips">
+      <button class="chatbot-chip" data-action="menu">Xem danh mục bánh</button>
+      <button class="chatbot-chip" data-action="promo">Ưu đãi hôm nay</button>
+      <button class="chatbot-chip" data-action="contact">Hệ thống cửa hàng</button>
+    </div>
+
+    <div class="chatbot-input-area">
+      <input
+        type="text"
+        id="chatbot-input"
+        class="chatbot-input"
+        placeholder="Hỏi về vị bánh, giá tiền, địa chỉ cửa hàng..."
+        autocomplete="off"
+        maxlength="500"
+      />
+      <button class="chatbot-send-btn" id="chatbot-send-btn" title="Gửi câu hỏi" aria-label="Gửi câu hỏi">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+
+    <div class="chatbot-powered">
+      Fresh Garden và những trải nghiệm bánh tươi 
+    </div>
+  </div>
+
+  <!-- ===== MODAL: ĐĂNG NHẬP / ĐĂNG KÝ ===== -->
+  <div class="modal-overlay" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div class="modal-dialog auth-dialog">
+      <button class="modal-close-btn" id="auth-close-btn" aria-label="Đóng cửa sổ">✕</button>
+      
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login-btn">Đăng nhập</button>
+        <button class="auth-tab" id="tab-register-btn">Đăng ký thành viên</button>
+      </div>
+
+      <!-- Tab Đăng nhập -->
+      <form class="auth-form" id="login-form">
+        <h3 class="auth-title" id="auth-modal-title">Đăng nhập tài khoản</h3>
+        <p class="auth-sub">Đăng nhập để theo dõi lịch sử đơn hàng và nhận ưu đãi độc quyền</p>
+        
+        <div class="form-group">
+          <label for="login-username">Tên đăng nhập hoặc Email</label>
+          <input type="text" id="login-username" required placeholder="Ví dụ: khach01 hoặc email@example.com" />
+        </div>
+        <div class="form-group">
+          <label for="login-password">Mật khẩu</label>
+          <input type="password" id="login-password" required placeholder="Nhập mật khẩu của bạn..." />
+        </div>
+        <button type="submit" class="btn-submit-auth" id="btn-login-submit">Đăng nhập ngay</button>
+        <p class="auth-hint">Chưa có tài khoản Fresh Garden? <a href="#" id="switch-to-register">Đăng ký ngay</a></p>
+      </form>
+
+      <!-- Tab Đăng ký -->
+      <form class="auth-form" id="register-form" style="display: none;">
+        <h3 class="auth-title">Đăng ký thành viên mới</h3>
+        <p class="auth-sub">Tạo tài khoản để tích lũy điểm thưởng và nhận quà sinh nhật</p>
+
+        <div class="form-group">
+          <label for="reg-fullname">Họ và tên *</label>
+          <input type="text" id="reg-fullname" required placeholder="Ví dụ: Nguyễn Văn A" />
+        </div>
+        <div class="form-group">
+          <label for="reg-username">Tên đăng nhập *</label>
+          <input type="text" id="reg-username" required placeholder="Tên đăng nhập viết liền không dấu" />
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Địa chỉ Email *</label>
+          <input type="email" id="reg-email" required placeholder="tenban@example.com" />
+        </div>
+        <div class="form-group">
+          <label for="reg-phone">Số điện thoại liên hệ</label>
+          <input type="tel" id="reg-phone" placeholder="0901 234 567" />
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Mật khẩu * (Tối thiểu 6 ký tự)</label>
+          <input type="password" id="reg-password" required minlength="6" placeholder="Nhập mật khẩu an toàn..." />
+        </div>
+        <button type="submit" class="btn-submit-auth" id="btn-register-submit">Xác nhận tạo tài khoản</button>
+        <p class="auth-hint">Đã có tài khoản? <a href="#" id="switch-to-login">Đăng nhập</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: LỊCH SỬ ĐƠN HÀNG (MY ORDERS) ===== -->
+  <div class="modal-overlay" id="my-orders-modal" role="dialog" aria-modal="true" aria-labelledby="my-orders-title">
+    <div class="modal-dialog my-orders-dialog">
+      <button class="modal-close-btn" id="my-orders-close-btn" aria-label="Đóng cửa sổ">✕</button>
+      <div class="modal-header">
+        <h3 class="modal-title" id="my-orders-title">Lịch Sử Đơn Hàng Của Bạn</h3>
+        <p class="modal-subtitle">Toàn bộ đơn hàng đã lưu trữ an toàn trong cơ sở dữ liệu Fresh Garden</p>
+      </div>
+      <div class="my-orders-list" id="my-orders-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: THANH TOÁN & ĐẶT HÀNG ===== -->
+  <div class="modal-overlay checkout-overlay" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+    <div class="modal-dialog checkout-dialog">
+      <button class="modal-close-btn" id="checkout-close-btn" aria-label="Đóng cửa sổ">✕</button>
+      <div class="checkout-layout">
+        <section class="checkout-main">
+          <header class="checkout-header">
+            <a class="checkout-brand" href="index.html">Freshgarden.vn</a>
+            <nav class="checkout-breadcrumbs" id="checkout-breadcrumbs" aria-label="Tiến trình đặt hàng">
+              <button type="button" class="checkout-cart-return" data-checkout-return-cart>Giỏ hàng</button><span aria-hidden="true">›</span>
+              <span data-checkout-step-label="1" aria-current="step">Thông tin giao hàng</span><span aria-hidden="true">›</span>
+              <span data-checkout-step-label="2">Phương thức thanh toán</span>
+            </nav>
+            <h3 class="checkout-title" id="checkout-title" tabindex="-1">Thông tin giao hàng</h3>
+            <p class="checkout-subtitle" id="checkout-subtitle">Bạn đã có tài khoản? <a href="pages/login.html?next=checkout">Đăng nhập</a></p>
+          </header>
+
+          <div class="checkout-col-form">
+            <section class="checkout-stage checkout-stage-address" data-checkout-stage="1">
+              <div class="form-group" id="saved-address-group" hidden>
+                <label for="co-saved-address">Địa chỉ đã lưu</label>
+                <select id="co-saved-address" class="saved-address-select">
+                  <option value="new">＋ Nhập địa chỉ giao hàng mới</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="co-receiver">Họ và tên *</label>
+                <input type="text" id="co-receiver" required placeholder="Họ và tên" autocomplete="name" />
+              </div>
+              <div class="checkout-contact-fields">
+                <div class="form-group">
+                  <label for="co-email">Email</label>
+                  <input type="email" id="co-email" placeholder="Email" autocomplete="email" />
+                </div>
+                <div class="form-group">
+                  <label for="co-phone">Số điện thoại *</label>
+                  <input type="tel" id="co-phone" required placeholder="Số điện thoại" autocomplete="tel" />
+                </div>
+              </div>
+              <div id="checkout-manual-address">
+                <div class="form-group">
+                  <label for="co-address-line">Địa chỉ *</label>
+                  <input type="text" id="co-address-line" required placeholder="Địa chỉ" autocomplete="address-line1" />
+                </div>
+                <div class="checkout-address-grid">
+                  <div class="form-group">
+                    <label for="co-province">Tỉnh / thành *</label>
+                    <select id="co-province" required autocomplete="address-level1">
+                      <option value="" selected disabled>Chọn tỉnh / thành</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="co-district">Quận / huyện *</label>
+                    <select id="co-district" required autocomplete="address-level2">
+                      <option value="" selected disabled>Chọn quận / huyện</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="co-ward">Phường / xã *</label>
+                    <select id="co-ward" required autocomplete="address-level3">
+                      <option value="" selected disabled>Chọn phường / xã</option>
+                    </select>
+                  </div>
+                </div>
+                </div>
+                <div class="form-group checkout-saved-address" id="checkout-saved-address" hidden>
+                <label for="co-saved-address-value">Địa chỉ giao hàng</label>
+                <input type="text" id="co-saved-address-value" readonly />
+              </div>
+              <input type="hidden" id="co-address" />
+              <div class="form-group checkout-note-field">
+                <label for="co-note">Ghi chú cho thợ làm bánh</label>
+                <textarea id="co-note" rows="2" placeholder="Thời gian giao, lời nhắn trên bánh..."></textarea>
+              </div>
+
+              <div class="checkout-actions">
+                <button type="button" class="checkout-back-button checkout-back-label" data-checkout-return-cart>Giỏ hàng</button>
+                <button type="button" class="btn-confirm-order" id="btn-checkout-continue">Tiếp tục đến phương thức thanh toán</button>
+              </div>
+            </section>
+
+            <section class="checkout-stage checkout-stage-methods" data-checkout-stage="2" hidden>
+              <div class="delivery-option">
+                <span class="delivery-radio" aria-hidden="true"></span>
+                <span class="delivery-option-name">Giao hàng tận nơi</span>
+                <strong>Miễn phí giao hàng</strong>
+              </div>
+
+              <h4 class="checkout-section-title">Phương thức thanh toán</h4>
+              <div class="payment-methods">
+                <label class="payment-option">
+                  <input type="radio" name="payment-method" value="COD" checked />
+                  <span class="payment-option-content">
+                    <strong>Thanh toán tiền mặt khi nhận bánh (COD)</strong>
+                    <span>Thanh toán khi nhận bánh</span>
+                  </span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="payment-method" value="Chuyển khoản" />
+                  <span class="payment-option-content">
+                    <strong>Chuyển khoản qua ngân hàng</strong>
+                    <span>Chọn phương thức này, sau đó bấm nút để tạo đơn và chuyển đến thanh toán VietQR</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="checkout-actions">
+                <button type="button" class="checkout-back-button" id="btn-checkout-back">Quay lại thông tin giao hàng</button>
+                <button type="button" class="btn-confirm-order" id="btn-confirm-order">Hoàn tất đơn hàng</button>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <aside class="checkout-col-summary" aria-label="Tóm tắt đơn hàng">
+          <div class="co-items-list" id="co-items-list">
+            <!-- Rendered by JS -->
+          </div>
+
+          <div class="discount-box">
+            <label class="visually-hidden" for="co-discount-code">Mã giảm giá</label>
+            <div class="discount-input-row">
+              <input type="text" id="co-discount-code" placeholder="Mã giảm giá" />
+              <button type="button" class="btn-apply-code" id="btn-apply-discount">Sử dụng</button>
+            </div>
+            <div class="discount-msg" id="discount-msg" aria-live="polite"></div>
+          </div>
+
+          <div class="co-pricing-table">
+            <div class="co-price-row">
+              <span>Tạm tính</span>
+              <span id="co-subtotal">0đ</span>
+            </div>
+            <div class="co-price-row">
+              <span>Phí vận chuyển</span>
+              <span class="text-green" id="co-shipping-fee">—</span>
+            </div>
+            <div class="co-price-row checkout-discount-row">
+              <span>Ưu đãi áp dụng</span>
+              <span class="text-gold" id="co-discount-val">-0đ</span>
+            </div>
+            <div class="co-price-row total">
+              <span>Tổng cộng</span>
+              <span class="co-final-price" id="co-final-total">0đ</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: ĐẶT HÀNG THÀNH CÔNG ===== -->
+  <div class="modal-overlay success-overlay" id="success-modal" role="dialog" aria-modal="true" aria-labelledby="success-title">
+    <div class="modal-dialog success-dialog">
+      <section class="success-main">
+        <a class="success-brand" href="index.html">Freshgarden.vn</a>
+        <div class="success-heading">
+          <div class="success-icon-wrap">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="16 9 10 15 7 12"/></svg>
+          </div>
+          <div class="success-heading-copy">
+            <h3 class="success-title" id="success-title" tabindex="-1">Đặt hàng thành công</h3>
+            <p class="success-msg" id="success-msg">Cảm ơn bạn đã mua hàng! Đơn hàng đã được xác nhận.</p>
+          </div>
+        </div>
+        <div class="success-order-box" id="success-order-box">
+          <!-- Rendered by JS -->
+        </div>
+        <button class="btn-hero-primary" id="btn-success-close">Tiếp tục mua hàng</button>
+      </section>
+      <aside class="success-summary" aria-label="Tóm tắt đơn hàng">
+        <div class="success-items-list" id="success-items-list"></div>
+        <div class="success-summary-total">
+          <span>Tổng cộng</span>
+          <strong id="success-total">0đ</strong>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+  <script src="chatbot.js"></script>
+</body>
+</html>
