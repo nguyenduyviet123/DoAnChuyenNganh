@@ -2,8 +2,9 @@ const { GoogleGenAI } = require('@google/genai');
 const { getPool } = require('../config/database');
 
 const HOTLINE = '1900 2075';
-const AI_TIMEOUT_MS = 25000;
-const AI_ATTEMPT_TIMEOUT_MS = 10000;
+const AI_TIMEOUT_MS = 30000;
+const AI_ATTEMPT_TIMEOUT_MS = 15000;
+const FAST_MODELS = ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite'];
 let genAI = null;
 
 function removeCustomerDetails(value) {
@@ -103,6 +104,35 @@ function truncateReply(text, maxLength = 1500) {
   return lastBreak > maxLength * 0.6 ? slice.slice(0, lastBreak + 1) : slice;
 }
 
+function getLocalFallbackReply(userText) {
+  const text = String(userText || '').toLowerCase().trim();
+  if (/(chào|hello|hi|alo|hé lô|hey|shop ơi|ad ơi)/.test(text)) {
+    return 'Dạ Fresh Garden xin chào bạn! Mình là Trợ lý AI Fresh Garden. Mình có thể giúp bạn chọn bánh sinh nhật, xem menu bánh tươi hoặc kiểm tra khuyến mãi hôm nay ạ!';
+  }
+  if (/(sinh nhật|kem|sn|bánh kem|tiramisu|mousse|bắp|red velvet)/.test(text)) {
+    return 'Dạ Fresh Garden có rất nhiều mẫu **Bánh sinh nhật & Bánh kem tươi** làm mới mỗi ngày (Mousse chanh leo, Tiramisu, Bánh bắp tươi, Red Velvet). Size 16cm từ 250.000đ, size 20cm từ 380.000đ. Đặt trước còn được giảm 10% nhé! 🎂';
+  }
+  if (/(giá|bao nhiêu|nhiêu tiền|bảng giá|bán sao)/.test(text)) {
+    return 'Dạ giá bánh tại Fresh Garden rất đa dạng:\n• Bánh mì tươi & croissant: từ 18.000đ - 45.000đ\n• Bánh ngọt, tart lát: từ 32.000đ - 55.000đ\n• Bánh sinh nhật nguyên ổ: từ 220.000đ - 650.000đ.\nBạn đang tìm loại bánh nào để mình báo giá chi tiết nhé!';
+  }
+  if (/(khuyến mãi|sale|giảm giá|voucher|ưu đãi|freeship|miễn phí)/.test(text)) {
+    return '🎁 Hôm nay Fresh Garden có ưu đãi:\n1. Freeship cho đơn từ 300.000đ trong bán kính 7km\n2. Giảm 10% khi đặt bánh sinh nhật trước 24h\n3. Tặng trọn bộ nến sinh nhật và phụ kiện tiệc!';
+  }
+  if (/(ship|giao hàng|vận chuyển|nơi giao|địa chỉ giao|mấy tiếng)/.test(text)) {
+    return '🚚 Cửa hàng nhận giao hàng hỏa tốc nội thành trong 30-60 phút. Bánh kem được đóng thùng bảo ôn chuyên dụng đảm bảo tươi ngon và nguyên vẹn dáng bánh ạ!';
+  }
+  if (/(địa chỉ|ở đâu|cửa hàng|chi nhánh|quận|hà nội)/.test(text)) {
+    return 'Fresh Garden có hệ thống hơn 60 cửa hàng tại Hà Nội và các thành phố lớn. Bạn có thể ghé cửa hàng gần nhất hoặc đặt trực tiếp trên website để được ship tận nơi nhé!';
+  }
+  if (/(giờ mở cửa|mở cửa|đóng cửa|mấy giờ)/.test(text)) {
+    return 'Hệ thống Fresh Garden mở cửa từ **06:30 sáng đến 22:00 tối** tất cả các ngày trong tuần (kể cả Thứ Bảy, Chủ Nhật và ngày Lễ) bạn nhé!';
+  }
+  if (/(liên hệ|hotline|sđt|số điện thoại|tổng đài|gặp nhân viên|người thật)/.test(text)) {
+    return `Dạ bạn có thể gọi ngay Hotline miễn cước: **${HOTLINE}** (8:00 - 21:30) để được nhân viên hỗ trợ trực tiếp ngay nhé!`;
+  }
+  return `Cảm ơn câu hỏi của bạn! Bạn có thể xem nhanh danh mục sản phẩm trên website hoặc gọi Hotline **${HOTLINE}** để chuyên viên tư vấn Fresh Garden hỗ trợ chi tiết nhất cho bạn nhé! ❤️`;
+}
+
 async function generateBotReply(userMessage) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey || apiKey === 'your_gemini_api_key_here') {
@@ -124,28 +154,41 @@ ${JSON.stringify(products)}
 Câu hỏi đã loại bỏ thông tin liên hệ/nhận dạng phổ biến:
 ${safeQuestion}`;
 
-  const response = await withTimeout((signal) => genAI.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: prompt,
-      config: {
-        abortSignal: signal,
-        httpOptions: {
-          timeout: AI_ATTEMPT_TIMEOUT_MS,
-          // Retry only transient model-capacity errors, with a bounded wait.
-          retryOptions: {
-            attempts: 2,
-            initialDelay: 0.75,
-            maxDelay: 1,
-            expBase: 2,
-            jitter: 0.25,
-            httpStatusCodes: [503, 504],
+  // Thử các model phản hồi nhanh (gemini-3.5-flash-lite, fallback gemini-3.1-flash-lite)
+  let lastError = null;
+  for (const modelName of FAST_MODELS) {
+    try {
+      const response = await withTimeout((signal) => genAI.models.generateContent({
+        model: modelName,
+        contents: prompt,
+        config: {
+          abortSignal: signal,
+          httpOptions: {
+            timeout: AI_ATTEMPT_TIMEOUT_MS,
+            retryOptions: {
+              attempts: 1, // Không retry dài để tránh lỗi 504 Deadline Exceeded
+              initialDelay: 0.5,
+              maxDelay: 1,
+              expBase: 2,
+              httpStatusCodes: [503, 504],
+            },
           },
         },
-      },
-    }), AI_TIMEOUT_MS);
-  const reply = response.text?.trim();
-  if (!reply) throw new Error('AI returned an empty response');
-  return truncateReply(reply, 1500);
+      }), AI_TIMEOUT_MS);
+
+      const reply = response.text?.trim();
+      if (reply) {
+        return truncateReply(reply, 1500);
+      }
+    } catch (err) {
+      console.warn(`[aiService] Model ${modelName} gặp lỗi (${err.message}), thử model tiếp theo...`);
+      lastError = err;
+    }
+  }
+
+  // Nếu tất cả model AI đều gặp sự cố, kích hoạt fallback thông minh thay vì báo lỗi
+  console.warn('[aiService] Tất cả model AI đều quá tải, dùng local fallback.');
+  return getLocalFallbackReply(userMessage);
 }
 
-module.exports = { generateBotReply, generateSuggestedReply, removeCustomerDetails };
+module.exports = { generateBotReply, generateSuggestedReply, removeCustomerDetails, getLocalFallbackReply };

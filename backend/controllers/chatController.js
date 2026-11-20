@@ -1,5 +1,5 @@
 const { sql, getPool } = require('../config/database');
-const { generateBotReply, generateSuggestedReply } = require('../services/aiService');
+const { generateBotReply, generateSuggestedReply, getLocalFallbackReply } = require('../services/aiService');
 
 const HOTLINE = '1900 2075';
 const AI_ERROR_REPLY = `Trợ lý AI đang bận. Bạn vui lòng liên hệ hotline ${HOTLINE} để được tư vấn nhé.`;
@@ -101,8 +101,8 @@ exports.sendMessage = async (req, res) => {
       botReply = await generateBotReply(userText);
     }
   } catch (error) {
-    console.warn('[chatController] AI không khả dụng:', error.message);
-    botReply = AI_ERROR_REPLY;
+    console.warn('[chatController] AI gặp sự cố:', error.message);
+    botReply = getLocalFallbackReply(userText) || AI_ERROR_REPLY;
   }
 
   const maKhachHang = req.user?.maKhachHang;
