@@ -55,7 +55,7 @@ async function saveConversation(maKhachHang, userText, botReply) {
         .input('maTinNhan', sql.Int, maTinNhan++)
         .input('maPhien', sql.Int, maPhien)
         .input('nguoiGui', sql.NVarChar(30), nguoiGui)
-        .input('noiDung', sql.NVarChar(2000), noiDung.slice(0, 2000))
+        .input('noiDung', sql.NVarChar(4000), noiDung.slice(0, 4000))
         .input('loai', sql.NVarChar(50), 'Văn bản')
         .query(`INSERT INTO dbo.TIN_NHAN_CHAT(MaTinNhan,MaPhien,NguoiGui,NoiDung,ThoiGianGui,LoaiTinNhan)
                 VALUES(@maTinNhan,@maPhien,@nguoiGui,@noiDung,SYSDATETIME(),@loai)`);
