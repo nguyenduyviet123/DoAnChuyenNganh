@@ -132,6 +132,20 @@ exports.addItem = async (req, res) => {
       .input('spId', sql.Int, product.MaSP)
       .query(`SELECT SoLuong FROM dbo.SP_GH WHERE MaGioHang = @maGh AND MaSP = @spId`);
 
+    const currentQty = Number(existRes.recordset[0]?.SoLuong || 0);
+    const stockRes = await pool.request().input('spId', sql.Int, product.MaSP).query(`
+      SELECT COALESCE(SUM(CASE WHEN SoLuongCo > 0 THEN SoLuongCo ELSE 0 END), 0) AS TonKho
+      FROM dbo.CUAHANG_SANPHAM WHERE MaSP = @spId
+    `);
+    const totalStock = Number(stockRes.recordset[0]?.TonKho || 0);
+    if (currentQty + qty > totalStock) {
+      return res.status(400).json({
+        success: false,
+        data: { availableStock: Math.max(0, totalStock - currentQty), totalStock },
+        message: `Bánh không đủ số lượng. Hiện còn ${Math.max(0, totalStock - currentQty)} cái`,
+      });
+    }
+
     if (existRes.recordset.length > 0) {
       // Cập nhật tăng số lượng
       const newQty = existRes.recordset[0].SoLuong + qty;
@@ -197,6 +211,22 @@ exports.updateItem = async (req, res) => {
         success: true,
         data: null,
         message: 'Đã xóa sản phẩm khỏi giỏ hàng',
+      });
+    }
+
+    const stockRes = await pool.request().input('spId', sql.Int, spId).query(`
+      SELECT COALESCE(SUM(CASE WHEN SoLuongCo > 0 THEN SoLuongCo ELSE 0 END), 0) AS TonKho
+      FROM dbo.CUAHANG_SANPHAM WHERE MaSP = @spId
+    `);
+    const totalStock = Number(stockRes.recordset[0]?.TonKho || 0);
+    const currentRes = await pool.request().input('maGh', sql.Int, maGioHang).input('spId', sql.Int, spId)
+      .query('SELECT SoLuong FROM dbo.SP_GH WHERE MaGioHang=@maGh AND MaSP=@spId');
+    const currentQty = Number(currentRes.recordset[0]?.SoLuong || 0);
+    if (qty > totalStock && qty >= currentQty) {
+      return res.status(400).json({
+        success: false,
+        data: { availableStock: totalStock, totalStock },
+        message: `Bánh không đủ số lượng. Hiện còn ${totalStock} cái`,
       });
     }
 

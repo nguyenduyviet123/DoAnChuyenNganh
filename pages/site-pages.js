@@ -256,10 +256,22 @@ function updatePageCartCount() {
 }
 
 async function addPageCartItem(product, quantity = 1, { feedback = true } = {}) {
-  const amount = Math.min(99, Math.max(1, Math.floor(Number(quantity) || 1)));
+  const amount = Math.max(1, Math.floor(Number(quantity) || 1));
   const cart = getPageCart();
   const found = cart.find((item) => String(item.id) === String(product.MaSP));
+  const productStock = Array.isArray(product.tonKhoCuaHang)
+    ? product.tonKhoCuaHang.reduce((sum, store) => sum + Math.max(0, Number(store.SoLuongCo) || 0), 0)
+    : null;
+  if (productStock !== null && Number(found?.qty || 0) + amount > productStock) {
+    throw new Error(`Bánh không đủ số lượng. Hiện còn ${Math.max(0, productStock - Number(found?.qty || 0))} cái`);
+  }
   const productImage = imageUrl(product.HinhAnh || product.hinhAnh?.[0], Number(product.MaSP) || 0);
+  const token = localStorage.getItem('fg_token');
+  if (token) {
+    const response = await fetch(`${API_BASE}/cart/items`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ maSP: product.MaSP, soLuong: amount }) });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.success) throw new Error(result.message || 'Không thêm được sản phẩm vào giỏ hàng. Vui lòng thử lại.');
+  }
   if (found) {
     found.qty += amount;
     found.image ||= productImage;
@@ -271,12 +283,6 @@ async function addPageCartItem(product, quantity = 1, { feedback = true } = {}) 
   localStorage.setItem(getPageCartStorageKey(), JSON.stringify(cart));
   localStorage.removeItem('banhfg_cart');
   updatePageCartCount();
-  const token = localStorage.getItem('fg_token');
-  if (token) {
-    try {
-      await fetch(`${API_BASE}/cart/items`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ maSP: product.MaSP, soLuong: amount }) });
-    } catch { if (feedback) showPageToast('Đã lưu vào giỏ tạm; chưa đồng bộ được máy chủ.'); }
-  }
   if (feedback) showPageToast(`Đã thêm ${amount} “${product.TenSP}” vào giỏ hàng.`);
   return { amount, image: productImage };
 }
@@ -560,7 +566,7 @@ async function loadProductDetailPage() {
             ${product.KhoiLuong ? `<div><dt>Khối lượng</dt><dd>${esc(product.KhoiLuong)} g</dd></div>` : ''}
             ${product.DonViTinh ? `<div><dt>Đơn vị</dt><dd>${esc(product.DonViTinh)}</dd></div>` : ''}
           </dl>
-          <div class="product-detail-buy"><label for="product-detail-quantity">Số lượng:</label><div class="product-quantity"><button type="button" data-quantity-step="-1" aria-label="Giảm số lượng">−</button><input id="product-detail-quantity" type="number" min="1" max="99" value="1" inputmode="numeric"><button type="button" data-quantity-step="1" aria-label="Tăng số lượng">+</button></div><button type="button" class="product-detail-add" id="product-detail-add" data-product-id="${Number(product.MaSP)}" ${soldOut?'disabled':''}>${soldOut?'Tạm hết hàng':'Thêm vào giỏ'}</button><button type="button" class="product-detail-buy-now" id="product-detail-buy-now" ${soldOut?'disabled':''}>Mua ngay</button></div>
+          <div class="product-detail-buy"><label for="product-detail-quantity">Số lượng:</label><div class="product-quantity"><button type="button" data-quantity-step="-1" aria-label="Giảm số lượng">−</button><input id="product-detail-quantity" type="number" min="1" value="1" inputmode="numeric"><button type="button" data-quantity-step="1" aria-label="Tăng số lượng">+</button></div><button type="button" class="product-detail-add" id="product-detail-add" data-product-id="${Number(product.MaSP)}" ${soldOut?'disabled':''}>${soldOut?'Tạm hết hàng':'Thêm vào giỏ'}</button><p class="product-stock-error" id="product-stock-error" role="status" aria-live="polite" hidden></p><button type="button" class="product-detail-buy-now" id="product-detail-buy-now" ${soldOut?'disabled':''}>Mua ngay</button></div>
           <div class="product-delivery-note"><span class="delivery-icon" aria-hidden="true"><svg viewBox="0 0 42 36" fill="none"><path d="M3 13 21 3l18 10v19H3V13Z" stroke="currentColor" stroke-width="1.7"/><path d="M3 13h36M21 3v29M14 13v19M28 13v19" stroke="currentColor" stroke-width="1.2"/><path d="M13 25h16" stroke="currentColor" stroke-width="1.2"/></svg></span><span><strong>Miễn phí giao hàng</strong><small>Miễn phí giao hàng cho đơn hàng từ 400k khi đặt qua fanpage.</small></span></div>
           <section class="product-detail-overview"><h2>Thông tin sản phẩm</h2><p>${esc(product.MoTa || 'Sản phẩm Fresh Garden được làm mới mỗi ngày từ nguyên liệu được tuyển chọn.')}</p></section>
         </section>
@@ -612,10 +618,31 @@ async function loadProductDetailPage() {
       root.querySelector('.product-gallery-thumbs')?.scrollBy({ top: direction * 150, behavior: 'smooth' });
       thumbs[next]?.click();
     }));
+    const quantityInput = $('#product-detail-quantity');
+    const stockError = $('#product-stock-error');
+    const buyButtons = [$('#product-detail-add'), $('#product-detail-buy-now')];
+    const validateProductQuantity = () => {
+      const quantity = Number(quantityInput?.value);
+      const inCart = Number(getPageCart().find((item) => String(item.id) === String(product.MaSP))?.qty || 0);
+      const remainingStock = Math.max(0, totalStock - inCart);
+      const invalid = !Number.isSafeInteger(quantity) || quantity < 1 || quantity > remainingStock;
+      if (stockError) {
+        stockError.hidden = !invalid;
+        stockError.textContent = invalid && remainingStock > 0 ? `Bánh không đủ số lượng. Hiện còn ${remainingStock} cái` : (invalid ? 'Bánh hiện đã hết số lượng có thể thêm vào giỏ.' : '');
+      }
+      buyButtons.forEach((button) => { if (button) button.disabled = soldOut || invalid; });
+      return !invalid;
+    };
     root.querySelectorAll('[data-quantity-step]').forEach((button) => button.addEventListener('click', () => {
-      const input = $('#product-detail-quantity'); input.value = Math.min(99, Math.max(1, Number(input.value || 1) + Number(button.dataset.quantityStep)));
+      quantityInput.value = Math.max(1, Number(quantityInput.value || 1) + Number(button.dataset.quantityStep));
+      validateProductQuantity();
     }));
-    $('#product-detail-quantity')?.addEventListener('change', (event) => { event.target.value = Math.min(99, Math.max(1, Number(event.target.value || 1))); });
+    quantityInput?.addEventListener('input', validateProductQuantity);
+    quantityInput?.addEventListener('change', () => {
+      if (!quantityInput.value || Number(quantityInput.value) < 1) quantityInput.value = '1';
+      validateProductQuantity();
+    });
+    validateProductQuantity();
     const addProductToCart = async (button) => {
       if (soldOut) return;
       button.disabled = true; button.textContent = 'Đang thêm…';
@@ -624,10 +651,11 @@ async function loadProductDetailPage() {
         showProductCartDialog(product, result?.amount || Number($('#product-detail-quantity').value) || 1, cover);
       }
       catch (error) { showPageToast(error.message); }
-      finally { button.disabled = false; button.textContent = 'Thêm vào giỏ hàng'; updatePageCartCount(); }
+      finally { button.disabled = false; button.textContent = 'Thêm vào giỏ hàng'; updatePageCartCount(); validateProductQuantity(); }
     };
     $('#product-detail-add')?.addEventListener('click', (event) => addProductToCart(event.currentTarget));
     $('#product-detail-buy-now')?.addEventListener('click', async (event) => {
+      if (soldOut || !validateProductQuantity()) return;
       const button=event.currentTarget; button.disabled=true; button.textContent='Đang chuyển…';
       try { await addPageCartItem(product, $('#product-detail-quantity').value, { feedback: false }); location.href='cart.html'; }
       catch (error) { showPageToast(error.message); button.disabled=false; button.textContent='Mua ngay'; }

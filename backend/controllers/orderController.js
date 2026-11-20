@@ -241,19 +241,13 @@ exports.createOrder = async (req, res) => {
     await transaction.begin();
 
     try {
-      // Địa chỉ phải thuộc khách đang đặt; tồn kho được khóa và trừ trong cùng giao dịch.
+      // Kiểm tra tồn kho khi lập đơn; hàng chỉ bị trừ khi đơn được xác nhận đã thanh toán.
       const txAddress = await new sql.Request(transaction).input('addressId', sql.Int, Number(maDiaChi)).input('customerId', sql.Int, maKhachHang).query('SELECT MaDiaChi FROM dbo.DIA_CHI WHERE MaDiaChi=@addressId AND MaKhachHang=@customerId');
       if (!txAddress.recordset.length) { const error = new Error('Địa chỉ nhận hàng không hợp lệ.'); error.status = 400; throw error; }
       for (const item of items) {
-        let remaining = Number(item.SoLuong);
         const stocks = await new sql.Request(transaction).input('productId', sql.Int, item.MaSP).query(`SELECT MaCuaHang,SoLuongCo FROM dbo.CUAHANG_SANPHAM WITH (UPDLOCK,HOLDLOCK) WHERE MaSP=@productId AND SoLuongCo>0 ORDER BY MaCuaHang`);
-        for (const stock of stocks.recordset) {
-          if (remaining <= 0) break;
-          const take = Math.min(remaining, Number(stock.SoLuongCo));
-          await new sql.Request(transaction).input('productId', sql.Int, item.MaSP).input('storeId', sql.Int, stock.MaCuaHang).input('take', sql.Int, take).query('UPDATE dbo.CUAHANG_SANPHAM SET SoLuongCo=SoLuongCo-@take WHERE MaSP=@productId AND MaCuaHang=@storeId AND SoLuongCo>=@take');
-          remaining -= take;
-        }
-        if (remaining > 0) { const error = new Error(`Sản phẩm #${item.MaSP} không đủ tồn kho để đặt số lượng này.`); error.status = 409; throw error; }
+        const available = stocks.recordset.reduce((sum, stock) => sum + Math.max(0, Number(stock.SoLuongCo) || 0), 0);
+        if (available < Number(item.SoLuong)) { const error = new Error(`Sản phẩm #${item.MaSP} không đủ tồn kho để đặt số lượng này. Hiện còn ${available} cái.`); error.status = 409; throw error; }
       }
 
       // Khóa lượt mã trong giao dịch để tránh hai đơn dùng mất cùng lượt cuối.

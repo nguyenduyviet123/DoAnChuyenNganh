@@ -899,14 +899,17 @@ const Cart = {
   },
 
   // Tải giỏ hàng riêng của tài khoản hiện đang đăng nhập.
-  async syncGuestCartToDB(mergeGuestItems = false) {
+  async syncGuestCartToDB(mergeGuestItems = true) {
     const token = Auth.getToken();
     if (!token) return;
     const customerId = Auth.getUser()?.maKhachHang;
+    const guestCartKey = `${CART_STORAGE_KEY}_guest`;
 
     try {
-      if (mergeGuestItems && cart.length) {
-        const items = cart.map(i => ({ maSP: i.id, soLuong: i.qty }));
+      let guestCart = [];
+      try { guestCart = JSON.parse(localStorage.getItem(guestCartKey) || '[]'); } catch { guestCart = []; }
+      if (mergeGuestItems && Array.isArray(guestCart) && guestCart.length) {
+        const items = guestCart.map(i => ({ maSP: i.id, soLuong: i.qty }));
         const mergeResponse = await fetch(`${API_BASE}/cart/merge`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -914,6 +917,7 @@ const Cart = {
         }, true);
         const mergeJson = await mergeResponse.json();
         if (!mergeResponse.ok || !mergeJson.success) throw new Error(mergeJson.message || 'Không gộp được giỏ hàng');
+        localStorage.removeItem(guestCartKey);
       }
       const response = await fetch(`${API_BASE}/cart`, { headers: { Authorization: `Bearer ${token}` } });
       const json = await response.json();
@@ -998,8 +1002,7 @@ const Orders = {
       // Kiểm tra đăng nhập
       const user = Auth.getUser();
       if (!user) {
-        Cart.closeSidebar();
-        window.location.href = 'pages/login.html?next=checkout';
+        window.alert('Vui lòng đăng nhập trước khi thanh toán');
         return;
       }
 
@@ -1713,7 +1716,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Products.init();
   Orders.init();
   Cart.updateUI();
-  const cartSync = Auth.getToken() ? Cart.syncGuestCartToDB() : Promise.resolve();
+  const cartSync = Auth.getToken() ? Cart.syncGuestCartToDB(true) : Promise.resolve();
 
   // ---- Header Scroll Shadow ----
   const header = document.getElementById('header');
@@ -1953,7 +1956,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const user = Auth.getUser();
         if (user) Orders.openCheckoutModal(user);
         else {
-          window.location.href = 'pages/login.html?next=checkout';
+          window.alert('Vui lòng đăng nhập trước khi thanh toán');
+          Cart.openSidebar();
         }
         return;
       }
