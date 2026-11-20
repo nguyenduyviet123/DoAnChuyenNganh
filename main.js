@@ -67,6 +67,22 @@ function showToast(msg) {
   }
 }
 
+function showLoginRequiredNotice() {
+  document.getElementById('login-required-dialog')?.remove();
+  const dialog = document.createElement('div');
+  dialog.id = 'login-required-dialog';
+  dialog.className = 'login-required-backdrop';
+  dialog.innerHTML = `
+    <section class="login-required-box" role="alertdialog" aria-modal="true" aria-labelledby="login-required-title" aria-describedby="login-required-message" tabindex="-1">
+      <h2 id="login-required-title">Cần đăng nhập</h2>
+      <p id="login-required-message">Vui lòng đăng nhập trước khi thanh toán.</p>
+      <a class="login-required-ok" href="pages/login.html">OK</a>
+    </section>
+  `;
+  document.body.appendChild(dialog);
+  dialog.querySelector('.login-required-box').focus();
+}
+
 /* ============================================================
    1. QUẢN LÝ XÁC THỰC TÀI KHOẢN (MODULE 0 - NGUYỄN DUY VIỆT)
    ============================================================ */
@@ -1002,7 +1018,7 @@ const Orders = {
       // Kiểm tra đăng nhập
       const user = Auth.getUser();
       if (!user) {
-        window.alert('Vui lòng đăng nhập trước khi thanh toán');
+        showLoginRequiredNotice();
         return;
       }
 
@@ -1956,7 +1972,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const user = Auth.getUser();
         if (user) Orders.openCheckoutModal(user);
         else {
-          window.alert('Vui lòng đăng nhập trước khi thanh toán');
+          showLoginRequiredNotice();
           Cart.openSidebar();
         }
         return;

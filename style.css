@@ -2925,6 +2925,60 @@ input, select, textarea {
   opacity: 1;
 }
 
+.login-required-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(12, 16, 14, 0.58);
+  backdrop-filter: blur(3px);
+}
+
+.login-required-box {
+  width: min(390px, 100%);
+  padding: 24px;
+  border: 1px solid rgba(220, 190, 126, 0.35);
+  border-radius: 14px;
+  background: #171b19;
+  color: #f8f7f3;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.38);
+  text-align: center;
+}
+
+.login-required-box h2 {
+  margin: 0 0 9px;
+  color: #e5cd9b;
+  font-size: 18px;
+}
+
+.login-required-box p {
+  margin: 0 0 22px;
+  color: #e1e4e1;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.login-required-ok {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: 8px;
+  background: #d2b779;
+  color: #17251c;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.login-required-ok:hover { background: #e2c98f; }
+.login-required-ok:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
 /* ============================================================
    MODALS (AUTH, QUICKVIEW, CHECKOUT, SUCCESS, MY ORDERS)
    ============================================================ */

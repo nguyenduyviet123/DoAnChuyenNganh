@@ -642,3 +642,4 @@
 /* Prevent vertical scroll chaining between the chat and the page behind it. */
 .chatbot-window{overscroll-behavior:contain}
 .chatbot-body{overscroll-behavior-y:contain}
+

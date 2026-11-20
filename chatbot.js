@@ -194,13 +194,11 @@ class FreshGardenChatbot {
     this.initElements();
     this.bindEvents();
     this.renderInitialUI();
-    this.restoreServerHistory();
     window.addEventListener('fg-auth-change', () => {
       this.restoredToken = null;
       this.history = [];
       sessionStorage.removeItem('fg_chat_history');
       this.renderWelcomeScreen();
-      if (localStorage.getItem('fg_token')) this.restoreServerHistory();
     });
   }
 
@@ -284,15 +282,8 @@ class FreshGardenChatbot {
   }
 
   renderInitialUI() {
-    // Phiên của khách vãng lai không được trộn vào lịch sử tài khoản.
-    if (localStorage.getItem('fg_token')) {
-      this.history = [];
-      sessionStorage.removeItem('fg_chat_history');
-      this.renderWelcomeScreen();
-      return;
-    }
-
-    // Đọc lịch sử nếu có trong phiên
+    // Khôi phục hội thoại trong tab hiện tại; sự kiện đăng xuất/đăng nhập
+    // sẽ xóa lịch sử giao diện để bắt đầu cuộc trò chuyện mới.
     const saved = sessionStorage.getItem('fg_chat_history');
     if (saved) {
       try {
@@ -381,7 +372,6 @@ class FreshGardenChatbot {
   }
 
   toggleChat() {
-    this.restoreServerHistory();
     if (this.isOpen) {
       this.closeChat();
     } else {
@@ -680,7 +670,8 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (action === 'promo') {
         fgChatbotInstance.handleFaqClick('faq-promo');
       } else if (action === 'contact') {
-        fgChatbotInstance.handleUserSubmitWithText('Tôi muốn liên hệ tư vấn');
+        fgChatbotInstance.closeChat();
+        window.location.href = 'pages/contact.html';
       }
     });
   });
