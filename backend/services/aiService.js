@@ -30,10 +30,11 @@ async function fetchProductsFromDb() {
   const pool = await getPool();
   const result = await pool.query(`
     SELECT TOP 100 sp.MaSP, sp.TenSP, sp.DonGia, sp.DonViTinh, sp.KichThuoc,
-           sp.MoTa, lc.TenLoai AS DanhMuc,
+           sp.MoTa, lc.TenLoai AS DanhMuc, lcha.TenLoaiCha AS NhomLon,
            ISNULL(stock.SoLuongCo,0) AS TonKho
     FROM dbo.SAN_PHAM sp
     LEFT JOIN dbo.LOAI_CON lc ON sp.MaLoai=lc.MaLoai
+    LEFT JOIN dbo.LOAI_CHA lcha ON lc.MaLoaiCha=lcha.MaLoaiCha
     OUTER APPLY (SELECT SUM(SoLuongCo) AS SoLuongCo
                  FROM dbo.CUAHANG_SANPHAM WHERE MaSP=sp.MaSP) stock
     ORDER BY sp.MaSP ASC`);
@@ -49,7 +50,7 @@ async function getProductsContext(question, maxResults = 15) {
   if (!words.length) return products.slice(0, maxResults);
 
   const ranked = products.map((product) => {
-    const searchable = `${product.TenSP} ${product.DanhMuc || ''} ${product.MoTa || ''}`.toLocaleLowerCase('vi-VN');
+    const searchable = `${product.TenSP} ${product.NhomLon || ''} ${product.DanhMuc || ''} ${product.MoTa || ''}`.toLocaleLowerCase('vi-VN');
     const score = words.reduce((total, word) => total + (searchable.includes(word) ? 1 : 0), 0);
     return { product, score };
   }).filter((item) => item.score > 0)
@@ -161,7 +162,10 @@ async function generateBotReply(userMessage) {
 
   const safeQuestion = removeCustomerDetails(userMessage);
   const products = await fetchProductsFromDb();
-  const menuOverview = products.map((p) => `- ${p.TenSP}: ${Number(p.DonGia || 0).toLocaleString('vi-VN')}đ (${p.DanhMuc || 'Bánh tươi'})${p.MoTa ? ' [' + p.MoTa + ']' : ''}`).join('\n');
+  const menuOverview = products.map((p) => {
+    const category = [p.NhomLon, p.DanhMuc].filter(Boolean).join(' > ') || 'Bánh tươi';
+    return `- ${p.TenSP}: ${Number(p.DonGia || 0).toLocaleString('vi-VN')}đ (${category})${p.MoTa ? ` [${p.MoTa}]` : ''}`;
+  }).join('\n');
 
   if (!genAI) genAI = new GoogleGenAI({ apiKey });
   const prompt = `Bạn là trợ lý AI tư vấn bán lẻ thân thiện của tiệm bánh Fresh Garden Bakery. Trả lời bằng tiếng Việt, giọng điệu niềm nở, chu đáo và ngắn gọn.
