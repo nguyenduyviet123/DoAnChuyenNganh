@@ -13,6 +13,23 @@ const SUGGESTED_QUESTIONS = {
 };
 const VALID_FAQ_IDS = new Set(Object.keys(SUGGESTED_QUESTIONS));
 
+function normalizeQuestion(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D')
+    .toLocaleLowerCase('vi-VN')
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim();
+}
+
+function findSuggestedQuestionId(message) {
+  const normalizedMessage = normalizeQuestion(message);
+  return Object.entries(SUGGESTED_QUESTIONS)
+    .find(([, question]) => normalizeQuestion(question) === normalizedMessage)?.[0] || null;
+}
+
 function getMessage(req) {
   const message = req.body?.message;
   if (typeof message !== 'string') return null;
@@ -55,7 +72,9 @@ async function saveConversation(maKhachHang, userText, botReply) {
         .input('maTinNhan', sql.Int, maTinNhan++)
         .input('maPhien', sql.Int, maPhien)
         .input('nguoiGui', sql.NVarChar(30), nguoiGui)
-        .input('noiDung', sql.NVarChar(4000), noiDung.slice(0, 4000))
+        // Chatbot replies can be much longer than user prompts. Match the
+        // database's NVARCHAR(MAX) column so mssql does not bind a smaller size.
+        .input('noiDung', sql.NVarChar(sql.MAX), noiDung)
         .input('loai', sql.NVarChar(50), 'Văn bản')
         .query(`INSERT INTO dbo.TIN_NHAN_CHAT(MaTinNhan,MaPhien,NguoiGui,NoiDung,ThoiGianGui,LoaiTinNhan)
                 VALUES(@maTinNhan,@maPhien,@nguoiGui,@noiDung,SYSDATETIME(),@loai)`);
@@ -89,9 +108,13 @@ exports.sendMessage = async (req, res) => {
 
   let botReply;
   try {
-    const faqId = (typeof req.body?.faqId === 'string' && VALID_FAQ_IDS.has(req.body.faqId))
+    const requestedFaqId = (typeof req.body?.faqId === 'string' && VALID_FAQ_IDS.has(req.body.faqId))
       ? req.body.faqId
       : null;
+    // Treat an exact FAQ question typed into the free-text box the same as
+    // clicking its suggested-question button (ignoring case, accents, spacing,
+    // and punctuation).
+    const faqId = requestedFaqId || findSuggestedQuestionId(userText);
     if (faqId) {
       // Câu hỏi gợi ý trả lời từ dữ liệu/kịch bản backend, không cần gọi dịch vụ AI.
       userText = SUGGESTED_QUESTIONS[faqId];

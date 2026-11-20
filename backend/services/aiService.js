@@ -62,13 +62,14 @@ async function getProductsContext(question, maxResults = 15) {
 }
 
 async function generateSuggestedReply(faqId) {
-  const products = await getProductsContext('', 100);
   if (faqId === 'faq-menu') {
+    const products = await getProductsContext('', 100);
     if (!products.length) return `Mình chưa có danh sách sản phẩm để tư vấn. Bạn vui lòng gọi hotline ${HOTLINE} nhé.`;
     const lines = products.slice(0, 12).map((product) => `• ${product.TenSP}`).join('\n');
     return `Một số sản phẩm Fresh Garden hiện có trong dữ liệu:\n${lines}\nBạn muốn xem thêm thông tin sản phẩm nào ạ?`;
   }
   if (faqId === 'faq-price') {
+    const products = await getProductsContext('', 100);
     const priced = products.filter((product) => Number.isFinite(Number(product.DonGia)))
       .sort((a, b) => Number(a.DonGia) - Number(b.DonGia)).slice(0, 5);
     if (priced.length) {
