@@ -19,6 +19,36 @@ const positiveMoney = (value, name = 'Giá') => {
   return number;
 };
 
+async function deductOrderStock(transaction, orderId) {
+  const items = await new sql.Request(transaction)
+    .input('id', sql.Int, orderId)
+    .query('SELECT MaSP,SoLuong FROM dbo.DH_SP WHERE MaDH=@id');
+
+  for (const item of items.recordset) {
+    let remaining = Number(item.SoLuong);
+    const stocks = await new sql.Request(transaction)
+      .input('productId', sql.Int, item.MaSP)
+      .query('SELECT MaCuaHang,SoLuongCo FROM dbo.CUAHANG_SANPHAM WITH (UPDLOCK,HOLDLOCK) WHERE MaSP=@productId AND SoLuongCo>0 ORDER BY MaCuaHang');
+
+    for (const stock of stocks.recordset) {
+      if (remaining <= 0) break;
+      const take = Math.min(remaining, Number(stock.SoLuongCo));
+      await new sql.Request(transaction)
+        .input('productId', sql.Int, item.MaSP)
+        .input('storeId', sql.Int, stock.MaCuaHang)
+        .input('take', sql.Int, take)
+        .query('UPDATE dbo.CUAHANG_SANPHAM SET SoLuongCo=SoLuongCo-@take WHERE MaSP=@productId AND MaCuaHang=@storeId AND SoLuongCo>=@take');
+      remaining -= take;
+    }
+
+    if (remaining > 0) {
+      const error = new Error(`Sản phẩm #${item.MaSP} không đủ tồn kho để xác nhận thanh toán.`);
+      error.status = 409;
+      throw error;
+    }
+  }
+}
+
 exports.getSummary = async (req, res) => {
   try {
     const pool = await getPool();
@@ -144,18 +174,7 @@ exports.updatePaymentStatus = async (req,res) => {
       }
       if(req.body.status==='Đã thanh toán'&&payment.TrangThai!=='Đã thanh toán'){
         if(payment.TT_GiaoHang==='Đã hủy'){const error=new Error('Đơn đã hủy nên không thể xác nhận thanh toán.');error.status=409;throw error;}
-        const items=await new sql.Request(transaction).input('id',sql.Int,payment.MaDH).query('SELECT MaSP,SoLuong FROM dbo.DH_SP WHERE MaDH=@id');
-        for(const item of items.recordset){
-          let remaining=Number(item.SoLuong);
-          const stocks=await new sql.Request(transaction).input('productId',sql.Int,item.MaSP).query('SELECT MaCuaHang,SoLuongCo FROM dbo.CUAHANG_SANPHAM WITH (UPDLOCK,HOLDLOCK) WHERE MaSP=@productId AND SoLuongCo>0 ORDER BY MaCuaHang');
-          for(const stock of stocks.recordset){
-            if(remaining<=0)break;
-            const take=Math.min(remaining,Number(stock.SoLuongCo));
-            await new sql.Request(transaction).input('productId',sql.Int,item.MaSP).input('storeId',sql.Int,stock.MaCuaHang).input('take',sql.Int,take).query('UPDATE dbo.CUAHANG_SANPHAM SET SoLuongCo=SoLuongCo-@take WHERE MaSP=@productId AND MaCuaHang=@storeId AND SoLuongCo>=@take');
-            remaining-=take;
-          }
-          if(remaining>0){const error=new Error(`Sản phẩm #${item.MaSP} không đủ tồn kho để xác nhận thanh toán.`);error.status=409;throw error;}
-        }
+        await deductOrderStock(transaction, payment.MaDH);
       }
       await new sql.Request(transaction).input('id',sql.Int,payment.MaDH).input('status',sql.NVarChar(50),req.body.status).query('UPDATE dbo.THANH_TOAN SET TrangThai=@status WHERE MaDH=@id');
       await transaction.commit();
@@ -169,7 +188,7 @@ exports.updateOrderStatus = async (req, res) => {
     if (!allowed.includes(req.body.status)) { const error = new Error('Trạng thái đơn hàng không hợp lệ.'); error.status = 400; throw error; }
     const pool = await getPool(); const transaction = new sql.Transaction(pool); await transaction.begin();
     try {
-      const orderResult = await new sql.Request(transaction).input('id', sql.Int, Number(req.params.id)).query('SELECT dh.MaDH,dh.TT_GiaoHang,dh.MaGiamGia,tt.TrangThai AS TrangThaiThanhToan FROM dbo.DON_HANG dh WITH (UPDLOCK,HOLDLOCK) LEFT JOIN dbo.THANH_TOAN tt WITH (UPDLOCK,HOLDLOCK) ON tt.MaDH=dh.MaDH WHERE dh.MaDH=@id');
+      const orderResult = await new sql.Request(transaction).input('id', sql.Int, Number(req.params.id)).query('SELECT dh.MaDH,dh.TT_GiaoHang,dh.MaGiamGia,dh.HT_ThanhToan,tt.TrangThai AS TrangThaiThanhToan FROM dbo.DON_HANG dh WITH (UPDLOCK,HOLDLOCK) LEFT JOIN dbo.THANH_TOAN tt WITH (UPDLOCK,HOLDLOCK) ON tt.MaDH=dh.MaDH WHERE dh.MaDH=@id');
       const order = orderResult.recordset[0];
       if (!order) { const error = new Error('Không tìm thấy đơn hàng.'); error.status = 404; throw error; }
       if (['Đã giao','Đã hủy'].includes(order.TT_GiaoHang) && req.body.status !== order.TT_GiaoHang) { const error = new Error('Đơn đã hoàn tất hoặc đã hủy, không thể đổi trạng thái.'); error.status = 409; throw error; }
@@ -187,6 +206,15 @@ exports.updateOrderStatus = async (req, res) => {
           }
         }
         if (order.MaGiamGia) await new sql.Request(transaction).input('couponId',sql.Int,order.MaGiamGia).query('UPDATE dbo.GIAM_GIA SET SoLuong=SoLuong+1 WHERE MaGiamGia=@couponId');
+      }
+      // COD is paid at delivery. Confirm payment and deduct stock atomically
+      // when the administrator marks a COD order as delivered.
+      if (req.body.status === 'Đã giao' && order.HT_ThanhToan === 'COD' && order.TrangThaiThanhToan !== 'Đã thanh toán') {
+        await deductOrderStock(transaction, order.MaDH);
+        await new sql.Request(transaction)
+          .input('id', sql.Int, order.MaDH)
+          .input('status', sql.NVarChar(50), 'Đã thanh toán')
+          .query('UPDATE dbo.THANH_TOAN SET TrangThai=@status WHERE MaDH=@id');
       }
       await new sql.Request(transaction).input('id',sql.Int,order.MaDH).input('status',sql.NVarChar(50),req.body.status).query('UPDATE dbo.DON_HANG SET TT_GiaoHang=@status WHERE MaDH=@id');
       await transaction.commit();
