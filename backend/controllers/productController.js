@@ -31,12 +31,12 @@ exports.getAllProducts = async (req, res) => {
       FROM dbo.SAN_PHAM sp
       LEFT JOIN dbo.LOAI_CON lc ON sp.MaLoai = lc.MaLoai
       LEFT JOIN dbo.LOAI_CHA lcha ON lc.MaLoaiCha = lcha.MaLoaiCha
-      LEFT JOIN (
-        SELECT MaSP, MIN(DuongDan) AS DuongDan 
-        FROM dbo.ANH 
-        WHERE MaSP IS NOT NULL 
-        GROUP BY MaSP
-      ) anh ON sp.MaSP = anh.MaSP
+      OUTER APPLY (
+        SELECT TOP 1 DuongDan
+        FROM dbo.ANH
+        WHERE MaSP = sp.MaSP
+        ORDER BY MaAnh ASC
+      ) anh
       WHERE 1=1
     `;
 

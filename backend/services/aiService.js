@@ -76,7 +76,26 @@ async function generateSuggestedReply(faqId) {
       return `Một số sản phẩm có giá thấp trong dữ liệu hiện tại:\n${priced.map((product) => `• ${product.TenSP}: ${Number(product.DonGia).toLocaleString('vi-VN')}đ`).join('\n')}\nBạn cần tư vấn loại bánh nào ạ?`;
     }
   }
-  // CSDL hiện chưa cung cấp dữ liệu khuyến mãi/giao hàng/thiết kế theo yêu cầu.
+  if (faqId === 'faq-promo') {
+    return 'Hiện tại Fresh Garden đang có các ưu đãi cực hấp dẫn:\n\n' +
+      '1. 🚚 **FREESHIP** toàn bộ đơn hàng từ **300.000đ** trong bán kính 7km.\n' +
+      '2. 🎂 **Giảm 10%** cho bánh sinh nhật khi đặt trước ít nhất 24 giờ.\n' +
+      '3. ☕ **Combo Giờ Vàng (14h - 17h):** Mua 1 bánh ngọt bất kỳ tặng 1 trà/cà phê thanh mát.\n' +
+      '4. 🌟 **Ưu đãi thành viên:** Tích điểm hoàn tiền 5% cho mỗi đơn hàng.';
+  }
+  if (faqId === 'faq-delivery') {
+    return 'Chính sách giao hàng của Fresh Garden:\n\n' +
+      '• **Giao hỏa tốc nội thành:** 30 – 60 phút đối với các loại bánh ngọt, bánh mì sẵn có tại cửa hàng gần bạn nhất.\n' +
+      '• **Bánh sinh nhật theo yêu cầu:** Quý khách nên đặt trước 2 – 4 tiếng hoặc hẹn giờ giao chính xác trong ngày.\n' +
+      '• Bánh được bảo quản trong hộp giữ nhiệt chuyên dụng đảm bảo đến tay luôn nguyên vẹn và tươi ngon!';
+  }
+  if (faqId === 'faq-custom') {
+    return 'Dạ **CÓ** ạ! Fresh Garden rất hân hạnh nhận làm bánh theo yêu cầu của bạn:\n\n' +
+      '• Viết lời chúc, in ảnh ăn được (photo cake), tạo hình fondant, gắn phụ kiện sinh nhật.\n' +
+      '• Tuỳ chọn độ ngọt, cốt bánh (vanilla, socola, trà xanh, bắp ngô).\n' +
+      '• Đặt bánh tiệc cưới, hội nghị, sự kiện công ty với số lượng lớn có chiết khấu cao.\n\n' +
+      `👉 Bạn vui lòng liên hệ Hotline **${HOTLINE}** hoặc nhắn tin Zalo để chuyên viên gửi mẫu thiết kế riêng nhé!`;
+  }
   return `Thông tin này chưa có trong dữ liệu hiện tại. Bạn vui lòng liên hệ hotline ${HOTLINE} để được tư vấn nhé.`;
 }
 
