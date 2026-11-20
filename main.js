@@ -159,7 +159,7 @@ const Auth = {
 
       document.getElementById('btn-open-register')?.addEventListener('click', () => {
         userDropdown.classList.remove('show');
-        AuthModal.open('register');
+        window.location.href = 'pages/register.html';
       });
     }
   },
@@ -307,7 +307,7 @@ const Products = {
     this.loadCategories();
     this.loadNews();
     this.loadFeaturedProducts('1', 4, 'parent');
-    this.loadHomeCollection(4);
+    this.loadHomeCollection('5', 'child');
   },
 
   // Skeleton loader tạo trải nghiệm mượt mà, chống giật layout (CLS < 0.1)
@@ -371,7 +371,7 @@ const Products = {
     }
   },
 
-  async loadHomeCollection(parentId) {
+  async loadHomeCollection(categoryId, categoryKind = 'parent') {
     const grid = document.getElementById('home-collection-grid');
     if (!grid) return;
     const requestId = ++this.homeCollectionRequestId;
@@ -380,7 +380,8 @@ const Products = {
     else this.renderSkeletons(grid, 4);
 
     try {
-      const response = await fetch(`${API_BASE}/products?maLoaiCha=${encodeURIComponent(parentId)}&limit=4`);
+      const categoryParameter = categoryKind === 'child' ? 'maLoai' : 'maLoaiCha';
+      const response = await fetch(`${API_BASE}/products?${categoryParameter}=${encodeURIComponent(categoryId)}&limit=4`);
       const json = await response.json();
       if (requestId !== this.homeCollectionRequestId) return;
       if (!response.ok || !json.success) throw new Error(json.message || 'Không thể tải bộ sưu tập.');
@@ -415,13 +416,15 @@ const Products = {
       });
       document.getElementById('home-collection-grid')?.setAttribute('aria-labelledby', button.id);
 
-      const parentId = button.dataset.homeCategory;
+      const categoryId = button.dataset.homeCategory;
+      const categoryKind = button.dataset.homeKind || 'parent';
       const categoryName = button.textContent.trim();
       if (allLink) {
-        allLink.href = `pages/products.html?maLoaiCha=${encodeURIComponent(parentId)}`;
+        const categoryParameter = categoryKind === 'child' ? 'maLoai' : 'maLoaiCha';
+        allLink.href = `pages/products.html?${categoryParameter}=${encodeURIComponent(categoryId)}`;
         allLink.textContent = `Xem toàn bộ ${categoryName.toLocaleLowerCase('vi-VN')}`;
       }
-      this.loadHomeCollection(parentId);
+      this.loadHomeCollection(categoryId, categoryKind);
     });
   },
 
