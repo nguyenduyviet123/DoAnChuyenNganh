@@ -58,12 +58,12 @@ exports.getCart = async (req, res) => {
           anh.DuongDan AS HinhAnh
         FROM dbo.SP_GH spgh
         INNER JOIN dbo.SAN_PHAM sp ON spgh.MaSP = sp.MaSP
-        LEFT JOIN (
-          SELECT MaSP, MIN(DuongDan) AS DuongDan 
-          FROM dbo.ANH 
-          WHERE MaSP IS NOT NULL 
-          GROUP BY MaSP
-        ) anh ON sp.MaSP = anh.MaSP
+        OUTER APPLY (
+          SELECT TOP 1 DuongDan
+          FROM dbo.ANH
+          WHERE MaSP = sp.MaSP
+          ORDER BY MaAnh ASC
+        ) anh
         WHERE spgh.MaGioHang = @maGh
       `);
 
