@@ -333,7 +333,7 @@ async function loadPageProducts() {
   if (!grid.querySelector('.page-product-card')) {
     grid.innerHTML = '<div class="page-loading">Đang tải bánh tươi từ FreshGardenDB…</div>';
   }
-  const query = new URLSearchParams({ limit: String(productPageState.limit), sort: $('#product-sort')?.value || 'default' });
+  const query = new URLSearchParams({ limit: String(productPageState.limit), sort: $('#product-sort')?.value || 'featured' });
   ['maLoai', 'q'].forEach((key) => {
     const value = productPageState.filter.get(key);
     if (value) query.set(key, value);
@@ -534,7 +534,6 @@ async function loadProductDetailPage() {
     const product = await apiGet(`/products/${encodeURIComponent(id)}`);
     const images = [...new Set([...(product.hinhAnh || []), product.HinhAnh].filter(Boolean))];
     const galleryImages = images.length ? [...images] : [null];
-    while (galleryImages.length < 4) galleryImages.push(null);
     const cover = imageUrl(galleryImages[0], Number(id));
     const stock = product.tonKhoCuaHang || [];
     const totalStock = stock.reduce((sum, item) => sum + Math.max(0, Number(item.SoLuongCo) || 0), 0);

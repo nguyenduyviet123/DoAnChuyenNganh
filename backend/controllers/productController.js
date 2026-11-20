@@ -84,17 +84,25 @@ exports.getAllProducts = async (req, res) => {
       queryStr += ` AND sp.MaLoai = @loaiId`;
     }
 
-    // Sắp xếp
+    // Sắp xếp theo tiêu chí tìm kiếm và lựa chọn của người dùng
     if (sort === 'price_asc') {
       queryStr += ` ORDER BY sp.DonGia ASC`;
     } else if (sort === 'price_desc') {
       queryStr += ` ORDER BY sp.DonGia DESC`;
     } else if (sort === 'name_asc') {
       queryStr += ` ORDER BY sp.TenSP ASC`;
+    } else if (sort === 'name_desc') {
+      queryStr += ` ORDER BY sp.TenSP DESC`;
+    } else if (sort === 'featured' || sort === 'default') {
+      if (searchText) {
+        queryStr += ` ORDER BY CASE WHEN sp.TenSP = @exactKeyword THEN 0 WHEN sp.TenSP LIKE @keyword THEN 1 ELSE 2 END, sp.MaSP DESC`;
+      } else {
+        queryStr += ` ORDER BY CASE WHEN ISNULL((SELECT SUM(cs.SoLuongCo) FROM dbo.CUAHANG_SANPHAM cs WHERE cs.MaSP = sp.MaSP), 0) > 0 THEN 0 ELSE 1 END, sp.MaSP DESC`;
+      }
     } else if (searchText) {
       queryStr += ` ORDER BY CASE WHEN sp.TenSP = @exactKeyword THEN 0 WHEN sp.TenSP LIKE @keyword THEN 1 ELSE 2 END, sp.MaSP DESC`;
     } else {
-      queryStr += ` ORDER BY sp.MaSP DESC`; // Mới nhất mặc định
+      queryStr += ` ORDER BY sp.MaSP DESC`;
     }
 
     const result = await request.query(queryStr);
