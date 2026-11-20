@@ -333,7 +333,7 @@ async function loadPageProducts() {
   if (!grid.querySelector('.page-product-card')) {
     grid.innerHTML = '<div class="page-loading">Đang tải bánh tươi từ FreshGardenDB…</div>';
   }
-  const query = new URLSearchParams({ limit: String(productPageState.limit), sort: $('#product-sort')?.value || 'featured' });
+  const query = new URLSearchParams({ limit: String(productPageState.limit), sort: $('#product-sort')?.value || 'default' });
   ['maLoai', 'q'].forEach((key) => {
     const value = productPageState.filter.get(key);
     if (value) query.set(key, value);
@@ -383,7 +383,7 @@ async function loadPageProducts() {
       }
     }
     if (!products.length) {
-      grid.innerHTML = '<div class="page-empty">Chưa tìm thấy sản phẩm phù hợp.</div>';
+      grid.innerHTML = '<div class="page-empty">Không tìm thấy sản phẩm</div>';
     } else {
       grid.innerHTML = products.map((product, index) => {
         const soldOut = Number(product.TongTon || 0) < 1;
