@@ -120,8 +120,8 @@ exports.sendMessage = async (req, res) => {
       userText = SUGGESTED_QUESTIONS[faqId];
       botReply = await generateSuggestedReply(faqId);
     } else {
-      // Chỉ gửi câu hỏi đã lọc PII và dữ liệu sản phẩm SQL tới AI; không gửi hồ sơ/lịch sử khách.
-      botReply = await generateBotReply(userText);
+      // Chỉ gửi câu hỏi và lịch sử gần đây đã lọc thông tin cá nhân cùng dữ liệu sản phẩm SQL tới AI.
+      botReply = await generateBotReply(userText, req.body?.history);
     }
   } catch (error) {
     console.warn('[chatController] AI gặp sự cố:', error.message);

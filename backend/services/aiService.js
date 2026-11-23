@@ -11,10 +11,11 @@ function removeCustomerDetails(value) {
   return String(value || '')
     .replace(/[\w.%+-]+@[\w.-]+\.[A-Za-z]{2,}/g, '[email đã ẩn]')
     .replace(/(?:\+?84|0)(?:[ .-]?\d){8,10}/g, '[số điện thoại đã ẩn]')
-    .replace(/\b(?:địa chỉ|địa điểm|nhà tôi ở|tôi ở|mình ở|số nhà|đường|phường|quận|huyện)\s*[: là-]?\s*[^.!?\n]+/gi, '[địa chỉ đã ẩn]')
-    .replace(/\b(?:tôi tên là|tên tôi là|mình tên là|tên mình là|họ tên|tên khách hàng|tên)\s*[: là-]?\s*[^.!?\n,;]+/gi, '[tên đã ẩn]')
-    .replace(/\b(?:tôi là|mình là)\s+[\p{Lu}][\p{L}'’]*(?:\s+[\p{Lu}][\p{L}'’]*){0,3}/gu, '[tên đã ẩn]')
-    .replace(/\b(?:mã đơn hàng|đơn hàng số|order id)\s*[:#-]?\s*[\w-]+/gi, '[mã đơn hàng đã ẩn]')
+    .replace(/(^|[^\p{L}\p{N}])(?:địa chỉ(?: giao hàng)?|địa điểm giao hàng|nhà tôi ở|tôi ở|mình ở|số nhà)\s*(?:[:：]|là)?\s*[^.!?\n,;]+/giu, '$1[địa chỉ đã ẩn]')
+    .replace(/(^|[^\p{L}\p{N}])(?:đường|phường|quận|huyện)\s+[\p{L}\p{N}][^.!?\n,;]*/giu, '$1[địa chỉ đã ẩn]')
+    .replace(/(^|[^\p{L}\p{N}])(?:(?:tôi|mình)\s+tên(?:\s+là)?\s+[\p{Lu}][\p{L}'’]*(?:\s+[\p{Lu}][\p{L}'’]*){0,3}|(?:tên tôi là|tên mình là|họ tên(?: khách hàng)?|tên khách hàng)\s*(?:[:：]|là)?\s*[^.!?\n,;]+|tên\s*[:：]\s*[^.!?\n,;]+)/gu, '$1[tên đã ẩn]')
+    .replace(/(^|[^\p{L}\p{N}])(?:tôi là|mình là)\s+[\p{Lu}][\p{L}'’]*(?:\s+[\p{Lu}][\p{L}'’]*){0,3}/gu, '$1[tên đã ẩn]')
+    .replace(/(^|[^\p{L}\p{N}])(?:mã đơn hàng|đơn hàng số|order id)\s*[:#-]?\s*[\w-]+/giu, '$1[mã đơn hàng đã ẩn]')
     .slice(0, 500);
 }
 
@@ -22,9 +23,9 @@ let cachedProducts = null;
 let lastCacheTime = 0;
 const PRODUCTS_CACHE_TTL_MS = 5 * 60 * 1000; // 5 phút cache để giảm tải SQL Server
 
-async function fetchProductsFromDb() {
+async function fetchProductsFromDb(forceRefresh = false) {
   const now = Date.now();
-  if (cachedProducts && now - lastCacheTime < PRODUCTS_CACHE_TTL_MS) {
+  if (!forceRefresh && cachedProducts && now - lastCacheTime < PRODUCTS_CACHE_TTL_MS) {
     return cachedProducts;
   }
   const pool = await getPool();
@@ -43,39 +44,106 @@ async function fetchProductsFromDb() {
   return cachedProducts;
 }
 
-async function getProductsContext(question, maxResults = 15) {
-  const products = await fetchProductsFromDb();
-  const words = removeCustomerDetails(question).toLocaleLowerCase('vi-VN')
-    .split(/[^\p{L}\p{N}]+/u).filter((word) => word.length > 2);
-  if (!words.length) return products.slice(0, maxResults);
+async function getProductsContext(question, maxResults = 15, forceRefresh = false) {
+  const products = await fetchProductsFromDb(forceRefresh);
+  const stopWords = new Set(['banh', 'cho', 'toi', 'minh', 'la', 'co', 'khong', 'gi', 'nao', 'nay', 'do', 'cai', 'gia', 'bao', 'nhieu', 'voi', 'va', 'cua', 'hang', 'the', 'nao', 'duoc', 'xem', 'them']);
+  const normalize = (value) => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLocaleLowerCase('vi-VN');
+  const normalizedQuestion = normalize(removeCustomerDetails(question));
+  const words = [...new Set(normalizedQuestion.split(/[^\p{L}\p{N}]+/u)
+    .filter((word) => word.length > 2 && !stopWords.has(word)))];
+  if (!normalizedQuestion.trim()) return products.slice(0, maxResults);
+  if (!words.length) return [];
 
   const ranked = products.map((product) => {
-    const searchable = `${product.TenSP} ${product.NhomLon || ''} ${product.DanhMuc || ''} ${product.MoTa || ''}`.toLocaleLowerCase('vi-VN');
-    const score = words.reduce((total, word) => total + (searchable.includes(word) ? 1 : 0), 0);
+    const name = normalize(product.TenSP);
+    const category = normalize(`${product.NhomLon || ''} ${product.DanhMuc || ''}`);
+    const description = normalize(product.MoTa || '');
+    const score = words.reduce((total, word) => total + (
+      name.includes(word) ? 5 : category.includes(word) ? 3 : description.includes(word) ? 1 : 0
+    ), 0) + (name && normalizedQuestion.includes(name) ? 8 : 0);
     return { product, score };
   }).filter((item) => item.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, maxResults)
     .map((item) => item.product);
 
-  // Khi không có kết quả liên quan, chỉ gửi một mẫu nhỏ để AI có thể nêu rõ thiếu dữ liệu.
-  return ranked.length ? ranked : products.slice(0, Math.min(5, maxResults));
+  // Không tìm thấy sản phẩm liên quan thì không gửi danh mục ngẫu nhiên cho Gemini.
+  return ranked;
+}
+
+function isStockQuestion(question) {
+  return /(?:tồn\s*kho|còn\s*(?:bao\s*nhiêu|mấy|lại|hàng)|số\s*lượng\s*(?:hiện\s*(?:tại|có)|còn|tồn)|(?:hiện\s*có|đang\s*có)\s*(?:bao\s*nhiêu|mấy)|có\s*(?:còn|sẵn)\s*hàng|hết\s*hàng)/iu.test(question);
+}
+
+function findStockProduct(question, history, products) {
+  const normalize = (value) => String(value || '').normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLocaleLowerCase('vi-VN');
+  const generic = new Set(['banh', 'mi', 'kem', 'tuoi', 'con', 'bao', 'nhieu', 'cai', 'hang', 'ton', 'kho', 'hien', 'tai', 'co', 'san', 'so', 'luong', 'la', 'nao', 'do', 'cai']);
+  const matchInText = (text) => {
+    const context = normalize(text);
+    const scored = products.map((product) => {
+      const name = normalize(product.TenSP);
+      if (!name) return { product, score: 0 };
+      if (context.includes(name)) return { product, score: 1000 + name.length };
+      const terms = [...new Set(name.split(/[^\p{L}\p{N}]+/u)
+        .filter((term) => term.length > 2 && !generic.has(term)))];
+      const matches = terms.filter((term) => context.includes(term));
+      return { product, score: matches.length ? matches.reduce((score, term) => score + term.length, 0) : 0 };
+    }).filter((item) => item.score > 0).sort((a, b) => b.score - a.score);
+    return !scored.length || (scored[1] && scored[1].score === scored[0].score) ? null : scored[0].product;
+  };
+
+  const currentMatch = matchInText(question);
+  if (currentMatch) return currentMatch;
+  for (const entry of [...history].reverse()) {
+    if (entry.role !== 'Khách hàng') continue;
+    const previousMatch = matchInText(entry.text);
+    if (previousMatch) return previousMatch;
+  }
+  return null;
+}
+
+function sanitizeConversationHistory(history) {
+  if (!Array.isArray(history)) return [];
+  return history.slice(-6).flatMap((entry) => {
+    if (!entry || !['user', 'bot'].includes(entry.sender) || typeof entry.text !== 'string') return [];
+    const text = removeCustomerDetails(entry.text).trim().slice(0, 400);
+    return text ? [{ role: entry.sender === 'user' ? 'Khách hàng' : 'Trợ lý', text }] : [];
+  });
 }
 
 async function generateSuggestedReply(faqId) {
   if (faqId === 'faq-menu') {
     const products = await getProductsContext('', 100);
     if (!products.length) return `Mình chưa có danh sách sản phẩm để tư vấn. Bạn vui lòng gọi hotline ${HOTLINE} nhé.`;
-    const lines = products.slice(0, 12).map((product) => `• ${product.TenSP}`).join('\n');
-    return `Một số sản phẩm Fresh Garden hiện có trong dữ liệu:\n${lines}\nBạn muốn xem thêm thông tin sản phẩm nào ạ?`;
+    const normalize = (value) => String(value || '').normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLocaleLowerCase('vi-VN');
+    const representatives = new Map();
+    for (const product of products) {
+      const type = product.NhomLon || product.DanhMuc || '';
+      if (!normalize(type).includes('banh')) continue;
+      const key = normalize(type);
+      if (!representatives.has(key)) representatives.set(key, { type, product });
+    }
+    if (!representatives.size) return `Mình chưa có danh sách các loại bánh trong dữ liệu hiện tại. Bạn vui lòng gọi hotline ${HOTLINE} nhé.`;
+    const lines = [...representatives.values()].map(({ type, product }) =>
+      `• ${type}: ${product.TenSP}${Number.isFinite(Number(product.DonGia)) ? ` – ${Number(product.DonGia).toLocaleString('vi-VN')}đ` : ''}`
+    ).join('\n');
+    return `Một số loại bánh Fresh Garden (mỗi loại một sản phẩm đại diện):\n${lines}\nBạn muốn xem thêm loại nào ạ?`;
   }
   if (faqId === 'faq-price') {
+    const normalize = (value) => String(value || '').normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLocaleLowerCase('vi-VN');
     const products = await getProductsContext('', 100);
-    const priced = products.filter((product) => Number.isFinite(Number(product.DonGia)))
+    const priced = products.filter((product) => {
+      const category = normalize(`${product.NhomLon || ''} ${product.DanhMuc || ''}`);
+      return category.includes('banh kem') && Number.isFinite(Number(product.DonGia));
+    })
       .sort((a, b) => Number(a.DonGia) - Number(b.DonGia)).slice(0, 5);
     if (priced.length) {
-      return `Một số sản phẩm có giá thấp trong dữ liệu hiện tại:\n${priced.map((product) => `• ${product.TenSP}: ${Number(product.DonGia).toLocaleString('vi-VN')}đ`).join('\n')}\nBạn cần tư vấn loại bánh nào ạ?`;
+      return `Một số mẫu bánh kem (danh mục bánh kem) và giá trong dữ liệu hiện tại:\n${priced.map((product) => `• ${product.TenSP}: ${Number(product.DonGia).toLocaleString('vi-VN')}đ`).join('\n')}\nBạn muốn xem mẫu nào ạ?`;
     }
+    return `Mình chưa có giá sản phẩm trong danh mục bánh kem ở dữ liệu hiện tại. Bạn vui lòng gọi hotline ${HOTLINE} để được tư vấn nhé.`;
   }
   if (faqId === 'faq-promo') {
     return 'Hiện tại Fresh Garden đang có các ưu đãi cực hấp dẫn:\n\n' +
@@ -154,27 +222,48 @@ function getLocalFallbackReply(userText) {
   return `Cảm ơn câu hỏi của bạn! Bạn có thể xem nhanh danh mục sản phẩm trên website hoặc gọi Hotline **${HOTLINE}** để chuyên viên tư vấn Fresh Garden hỗ trợ chi tiết nhất cho bạn nhé! ❤️`;
 }
 
-async function generateBotReply(userMessage) {
+async function generateBotReply(userMessage, conversationHistory = []) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey || apiKey === 'your_gemini_api_key_here') {
     throw new Error('GEMINI_API_KEY is not configured');
   }
 
   const safeQuestion = removeCustomerDetails(userMessage);
-  const products = await fetchProductsFromDb();
+  const safeHistory = sanitizeConversationHistory(conversationHistory);
+  const historyContext = safeHistory.map((entry) => `${entry.role}: ${entry.text}`).join('\n');
+  const productSearchContext = [historyContext, `Khách hàng: ${safeQuestion}`].filter(Boolean).join('\n');
+  const stockQuestion = isStockQuestion(safeQuestion);
+  const products = await getProductsContext(productSearchContext, 15, stockQuestion);
+  if (stockQuestion) {
+    const matchedProduct = findStockProduct(safeQuestion, safeHistory, products);
+    if (!matchedProduct) {
+      return `Bạn cho mình tên sản phẩm cụ thể để kiểm tra tồn kho chính xác nhé. Nếu cần, bạn có thể gọi hotline ${HOTLINE} để được hỗ trợ.`;
+    }
+    const stock = Math.max(0, Number(matchedProduct.TonKho) || 0);
+    const unit = matchedProduct.DonViTinh || 'cái';
+    return stock > 0
+      ? `Theo dữ liệu tồn kho hiện tại, **${matchedProduct.TenSP}** còn **${stock} ${unit}**.`
+      : `Theo dữ liệu tồn kho hiện tại, **${matchedProduct.TenSP}** đã hết hàng (còn 0 ${unit}).`;
+  }
   const menuOverview = products.map((p) => {
     const category = [p.NhomLon, p.DanhMuc].filter(Boolean).join(' > ') || 'Bánh tươi';
-    return `- ${p.TenSP}: ${Number(p.DonGia || 0).toLocaleString('vi-VN')}đ (${category})${p.MoTa ? ` [${p.MoTa}]` : ''}`;
+    const stock = Math.max(0, Number(p.TonKho) || 0);
+    const stockLabel = stock > 0 ? `${stock} ${p.DonViTinh || 'cái'}` : 'hết hàng (0)';
+    return `- ${p.TenSP}: ${Number(p.DonGia || 0).toLocaleString('vi-VN')}đ (${category}); tồn kho: ${stockLabel}${p.KichThuoc ? `; kích thước: ${p.KichThuoc}` : ''}${p.MoTa ? `; mô tả: ${p.MoTa}` : ''}`;
   }).join('\n');
 
   if (!genAI) genAI = new GoogleGenAI({ apiKey });
   const prompt = `Bạn là trợ lý AI tư vấn bán lẻ thân thiện của tiệm bánh Fresh Garden Bakery. Trả lời bằng tiếng Việt, giọng điệu niềm nở, chu đáo và ngắn gọn.
-Dựa vào toàn bộ danh sách sản phẩm và giá từ cơ sở dữ liệu Fresh Garden dưới đây để trả lời câu hỏi của khách hàng (ví dụ: tìm bánh theo tầm giá, loại bánh, hương vị, kích cỡ).
-- Nếu khách hỏi bánh theo giá (ví dụ: dưới 39.000đ, từ bao nhiêu đến bao nhiêu), hãy tra cứu và liệt kê chính xác các bánh thỏa mãn điều kiện kèm giá tiền.
-- Nếu không có sản phẩm nào thỏa mãn hoặc câu hỏi ngoài phạm vi, hãy giải thích nhẹ nhàng và hướng dẫn khách liên hệ Hotline ${HOTLINE}.
+Dựa vào ngữ cảnh hội thoại gần nhất đã được lọc thông tin cá nhân và danh sách sản phẩm liên quan từ SQL dưới đây. Chỉ trả lời câu hỏi hiện tại; dùng lịch sử để hiểu đại từ như "cái đó" hoặc "loại vừa nói".
+- Chỉ nêu sản phẩm, giá, kích thước và tồn kho nếu các dữ kiện đó có trong danh sách SQL. Không tự suy đoán hoặc bịa dữ liệu.
+- Nếu tồn kho ghi "hết hàng (0)", nói rõ sản phẩm hiện hết hàng. Không khẳng định còn hàng nếu dữ liệu không thể hiện điều đó.
+- Nếu không có sản phẩm liên quan trong danh sách hoặc thiếu thông tin để trả lời, hãy nói rõ và hướng dẫn khách liên hệ Hotline ${HOTLINE}.
 
-Danh sách sản phẩm từ cơ sở dữ liệu Fresh Garden:
-${menuOverview}
+Ngữ cảnh hội thoại gần nhất:
+${historyContext || '(Chưa có lượt hội thoại trước)'}
+
+Danh sách sản phẩm liên quan từ cơ sở dữ liệu Fresh Garden:
+${menuOverview || '(Không tìm thấy sản phẩm phù hợp trong dữ liệu hiện có)'}
 
 Câu hỏi của khách hàng:
 ${safeQuestion}`;

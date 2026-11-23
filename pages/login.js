@@ -4,6 +4,16 @@ const errorMessage = document.getElementById('login-error');
 const submitButton = document.getElementById('login-submit');
 const passwordInput = document.getElementById('login-password');
 const togglePassword = document.getElementById('toggle-password');
+const adminLoginMode = new URLSearchParams(window.location.search).get('mode') === 'admin';
+
+if (adminLoginMode) {
+  document.title = 'Đăng nhập quản trị | Fresh Garden';
+  document.getElementById('login-title').textContent = 'Đăng nhập quản trị';
+  document.querySelector('.login-eyebrow').textContent = 'Khu vực quản trị';
+  document.querySelector('.login-register').hidden = true;
+  document.querySelector('.login-back').hidden = true;
+  submitButton.textContent = 'Đăng nhập quản trị';
+}
 
 togglePassword.addEventListener('click', () => {
   const reveal = passwordInput.type === 'password';
@@ -34,6 +44,10 @@ form.addEventListener('submit', async (event) => {
       throw new Error(body.message || 'Không thể đăng nhập. Vui lòng kiểm tra lại thông tin.');
     }
 
+    if (adminLoginMode && body.data.user.vaiTro !== 'QuanTri') {
+      throw new Error('Tài khoản này chưa được cấp quyền quản trị.');
+    }
+
     localStorage.setItem('fg_token', body.data.token);
     localStorage.setItem('fg_user', JSON.stringify(body.data.user));
 
@@ -49,6 +63,6 @@ form.addEventListener('submit', async (event) => {
       ? 'Không kết nối được máy chủ. Vui lòng kiểm tra backend và thử lại.'
       : error.message;
     submitButton.disabled = false;
-    submitButton.textContent = 'Đăng nhập';
+    submitButton.textContent = adminLoginMode ? 'Đăng nhập quản trị' : 'Đăng nhập';
   }
 });

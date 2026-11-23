@@ -34,7 +34,6 @@ async function api(path, options = {}) {
 }
 function toast(message) { const node = $('#admin-toast'); node.textContent = message; node.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => node.classList.remove('show'), 2600); }
 function setAuthState(isAdmin, name = '') {
-  $('#admin-login').hidden = isAdmin;
   $('#admin-shell').hidden = !isAdmin;
   if (name) $('#admin-user-name').textContent = name;
 }
@@ -125,17 +124,26 @@ async function loadView(view) {
   catch(error) { $('#admin-content').innerHTML=`<div class="panel empty">${esc(error.message)}<br><button class="button" id="retry-view" style="margin-top:14px">Thử lại</button></div>`; $('#retry-view').onclick=()=>loadView(view); }
 }
 async function checkAdmin() {
-  if (!token()) { setAuthState(false); return; }
-  try { const profile = await api('/auth/me'); await api('/admin/summary'); setAuthState(true, profile.TenKhachHang || profile.User); setView(activeView); }
-  catch { setAuthState(false); }
+  if (!token()) {
+    setAuthState(false);
+    window.location.replace('login.html?mode=admin');
+    return;
+  }
+  try {
+    const profile = await api('/auth/me');
+    await api('/admin/summary');
+    setAuthState(true, profile.TenKhachHang || profile.User);
+    setView(activeView);
+  } catch {
+    localStorage.removeItem('fg_token');
+    localStorage.removeItem('fg_user');
+    setAuthState(false);
+    window.location.replace('login.html?mode=admin');
+  }
 }
-$('#admin-login-form').addEventListener('submit', async (event) => {
-  event.preventDefault(); const form = new FormData(event.currentTarget); const error = $('#admin-login-error'); error.textContent='';
-  try { const response=await fetch(`${API}/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:form.get('username'),password:form.get('password')})});const body=await response.json();if(!response.ok||!body.success)throw new Error(body.message||'Không đăng nhập được.');localStorage.setItem('fg_token',body.data.token);localStorage.setItem('fg_user',JSON.stringify(body.data.user));await checkAdmin();if($('#admin-shell').hidden)throw new Error('Tài khoản chưa được cấp quyền quản trị viên.'); }
-  catch(e){error.textContent=e.message;}
-});
 $('#admin-nav').addEventListener('click',(event)=>{const button=event.target.closest('[data-view]');if(button)setView(button.dataset.view)});
 $('#admin-content').addEventListener('click',(event)=>{const button=event.target.closest('[data-go]');if(button)setView(button.dataset.go)});
 $('#admin-refresh').addEventListener('click',()=>loadView(activeView));
-$('#admin-logout').addEventListener('click',()=>{localStorage.removeItem('fg_token');localStorage.removeItem('fg_user');setAuthState(false)});
+$('#admin-logout').addEventListener('click',()=>{localStorage.removeItem('fg_token');localStorage.removeItem('fg_user');setAuthState(false);window.location.replace('login.html?mode=admin')});
 checkAdmin();
+window.addEventListener('pageshow', (event) => { if (event.persisted) checkAdmin(); });

@@ -131,3 +131,4 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   #admin-toast{left:14px;right:14px;bottom:max(14px,env(safe-area-inset-bottom));text-align:center}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+.admin-shell[hidden],.admin-login[hidden]{display:none!important}

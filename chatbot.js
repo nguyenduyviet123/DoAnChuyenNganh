@@ -10,7 +10,8 @@
    1. CẤU HÌNH HỆ THỐNG & BACKEND API (DÀNH CHO LẬP TRÌNH VIÊN)
    ============================================================
    Backend truy vấn dữ liệu sản phẩm trong SQL và gọi dịch vụ AI.
-   Frontend chỉ gửi nội dung câu hỏi; không gửi hồ sơ khách hàng hay lịch sử chat.
+   Frontend gửi câu hỏi và vài lượt chat gần nhất; backend lọc thông tin cá nhân
+   trước khi chuyển ngữ cảnh hội thoại sang dịch vụ AI. Không gửi hồ sơ khách hàng.
    Khách vãng lai không được lưu phiên vào SQL; tài khoản đã đăng nhập lưu ở backend.
    ============================================================ */
 const CHATBOT_CONFIG = {
@@ -27,6 +28,7 @@ const CHATBOT_CONFIG = {
   mockTypingDelay: 700,
 
 };
+const MAX_CHAT_MESSAGE_LENGTH = 500;
 
 function getChatbotMascotAvatar() {
   const sourceMascot = document.querySelector('#chatbot-toggle .chatbot-mascot');
@@ -194,11 +196,17 @@ class FreshGardenChatbot {
     this.initElements();
     this.bindEvents();
     this.renderInitialUI();
+    this.restoreServerHistory();
     window.addEventListener('fg-auth-change', () => {
-      this.restoredToken = null;
-      this.history = [];
-      sessionStorage.removeItem('fg_chat_history');
-      this.renderWelcomeScreen();
+      const token = localStorage.getItem('fg_token');
+      if (!token) {
+        this.restoredToken = null;
+        this.history = [];
+        sessionStorage.removeItem('fg_chat_history');
+        this.renderWelcomeScreen();
+        return;
+      }
+      this.restoreServerHistory();
     });
   }
 
@@ -265,6 +273,17 @@ class FreshGardenChatbot {
       this.sendBtn.addEventListener('click', () => this.handleUserSubmit());
     }
     if (this.inputEl) {
+      this.inputEl.addEventListener('input', () => {
+        const isTooLong = this.inputEl.value.trim().length > MAX_CHAT_MESSAGE_LENGTH;
+        if (isTooLong) {
+          if (!this.inputEl.validity.customError) {
+            this.inputEl.setCustomValidity('Vui lòng nhập câu hỏi hợp lệ');
+            this.inputEl.reportValidity();
+          }
+        } else if (this.inputEl.validity.customError) {
+          this.inputEl.setCustomValidity('');
+        }
+      });
       this.inputEl.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
@@ -282,8 +301,8 @@ class FreshGardenChatbot {
   }
 
   renderInitialUI() {
-    // Khôi phục hội thoại trong tab hiện tại; sự kiện đăng xuất/đăng nhập
-    // sẽ xóa lịch sử giao diện để bắt đầu cuộc trò chuyện mới.
+    // Khôi phục hội thoại đang có trong tab; nếu đã đăng nhập, lịch sử SQL
+    // của phiên gần nhất sẽ được tải và thay thế lịch sử tạm trong tab.
     const saved = sessionStorage.getItem('fg_chat_history');
     if (saved) {
       try {
@@ -310,7 +329,9 @@ class FreshGardenChatbot {
       const rows = result.data || [];
       this.restoredToken = token;
       if (!rows.length) return;
-      this.history = rows.map((row) => ({
+      const latestSessionId = rows[rows.length - 1].MaPhien;
+      const latestSessionRows = rows.filter((row) => row.MaPhien === latestSessionId);
+      this.history = latestSessionRows.map((row) => ({
         sender: row.NguoiGui === 'Khách hàng' ? 'user' : 'bot',
         text: row.NoiDung,
         time: new Date(row.ThoiGianGui).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
@@ -456,6 +477,12 @@ class FreshGardenChatbot {
   async handleUserSubmit(faqId = null) {
     const text = this.inputEl.value.trim();
     if (!text || this.isBotTyping) return;
+    if (text.length > MAX_CHAT_MESSAGE_LENGTH) {
+      this.inputEl.setCustomValidity('Vui lòng nhập câu hỏi hợp lệ');
+      this.inputEl.reportValidity();
+      return;
+    }
+    this.inputEl.setCustomValidity('');
 
     this.inputEl.value = '';
     this.inputEl.focus();
@@ -494,6 +521,12 @@ class FreshGardenChatbot {
   async queryBackendApi(message, faqId = null) {
     const payload = {
       message: message,
+      // Gửi một số lượt trước làm ngữ cảnh để AI hiểu các câu nối tiếp.
+      // Backend sẽ lọc thông tin cá nhân trước khi tạo prompt cho Gemini.
+      history: this.history.slice(0, -1).slice(-6).map((entry) => ({
+        sender: entry.sender,
+        text: entry.text,
+      })),
     };
     if (faqId) payload.faqId = faqId;
 

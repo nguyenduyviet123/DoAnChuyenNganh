@@ -111,97 +111,244 @@ INSERT INTO dbo.LOAI_CON (MaLoai,MaLoaiCha,TenLoai) VALUES
 GO
 
 INSERT INTO dbo.SAN_PHAM (MaSP,MaLoai,TenSP,DonGia,DonViTinh,MoTa,KhoiLuong,KichThuoc) VALUES
-(1, 1, N'Bánh kem Mây ngọc', 350000, N'cái', N'Sản phẩm thuộc Bánh kem 8 inch (20cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(2, 1, N'Bánh kem Cara cà phê', 350000, N'cái', N'Sản phẩm thuộc Bánh kem 8 inch (20cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(3, 1, N'Bánh kem Mây trắng', 350000, N'cái', N'Sản phẩm thuộc Bánh kem 8 inch (20cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(4, 1, N'Bánh kem Sương mai', 350000, N'cái', N'Sản phẩm thuộc Bánh kem 8 inch (20cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(5, 1, N'Bánh kem Hổ phách', 350000, N'cái', N'Sản phẩm thuộc Bánh kem 8 inch (20cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(6, 2, N'Bánh kem Mây vàng', 350000, N'cái', N'Sản phẩm thuộc Bánh kem 6 inch (15cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(7, 2, N'Bánh kem Mây hồng', 350000, N'cái', N'Sản phẩm thuộc Bánh kem 6 inch (15cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(8, 2, N'Bánh kem Vàng anh', 350000, N'cái', N'Sản phẩm thuộc Bánh kem 6 inch (15cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(9, 2, N'Bánh kem Mai mơ', 350000, N'cái', N'Sản phẩm thuộc Bánh kem 6 inch (15cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(10, 2, N'Bánh kem Cara-men-say', 350000, N'cái', N'Sản phẩm thuộc Bánh kem 6 inch (15cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(11, 3, N'Bánh kem Mây sữa', 160000, N'cái', N'Sản phẩm thuộc Bánh kem 4 inch (10cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(12, 3, N'Bánh kem Hương mật', 160000, N'cái', N'Sản phẩm thuộc Bánh kem 4 inch (10cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(13, 3, N'Bánh kem Kỳ lân kỳ diệu', 160000, N'cái', N'Sản phẩm thuộc Bánh kem 4 inch (10cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(14, 3, N'Bánh kem Bông tuyết', 160000, N'cái', N'Sản phẩm thuộc Bánh kem 4 inch (10cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(15, 3, N'Bánh kem Choco ngọc trai', 160000, N'cái', N'Sản phẩm thuộc Bánh kem 4 inch (10cm); ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(16, 4, N'Bánh mì kem choco', 25000, N'cái', N'Sản phẩm thuộc Bánh tươi ngọt; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(17, 4, N'Bánh mì kem trứng tan chảy', 25000, N'cái', N'Sản phẩm thuộc Bánh tươi ngọt; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(18, 4, N'Bánh mì choco giòn', 25000, N'cái', N'Sản phẩm thuộc Bánh tươi ngọt; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(19, 4, N'Bánh mì sữa chua giòn bùi', 25000, N'cái', N'Sản phẩm thuộc Bánh tươi ngọt; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(20, 4, N'Bánh scone', 25000, N'cái', N'Sản phẩm thuộc Bánh tươi ngọt; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(21, 5, N'Bánh mì thịt heo áp chảo', 35000, N'cái', N'Sản phẩm thuộc Bánh tươi mặn; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(22, 5, N'Bánh burger thịt xá xíu', 35000, N'cái', N'Sản phẩm thuộc Bánh tươi mặn; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(23, 5, N'Bánh ruốc xoắn đậm đà', 35000, N'cái', N'Sản phẩm thuộc Bánh tươi mặn; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(24, 5, N'Bánh nhân thịt đậm đà', 35000, N'cái', N'Sản phẩm thuộc Bánh tươi mặn; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(25, 5, N'Bánh mì xúc xích đậm vị', 35000, N'cái', N'Sản phẩm thuộc Bánh tươi mặn; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(26, 6, N'Bánh mì gối', 30000, N'cái', N'Sản phẩm thuộc Bánh mì gối; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(27, 6, N'Bánh gối sữa dừa choco', 30000, N'cái', N'Sản phẩm thuộc Bánh mì gối; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(28, 6, N'Bánh mì vương miện', 30000, N'cái', N'Sản phẩm thuộc Bánh mì gối; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(29, 6, N'Bánh mì giòn bơ tỏi', 30000, N'cái', N'Sản phẩm thuộc Bánh mì gối; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(30, 6, N'Bánh mì giòn caramel', 30000, N'cái', N'Sản phẩm thuộc Bánh mì gối; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(31, 7, N'Bánh sandwich bò phô mai', 35000, N'cái', N'Sản phẩm thuộc Bánh mì kẹp; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(32, 7, N'Bánh sandwich tôm thịt sốt phô mai', 35000, N'cái', N'Sản phẩm thuộc Bánh mì kẹp; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(33, 7, N'Sandwich Yo-chi tan chảy', 35000, N'cái', N'Sản phẩm thuộc Bánh mì kẹp; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(34, 7, N'Sandwich Sa-chi tan chảy', 35000, N'cái', N'Sản phẩm thuộc Bánh mì kẹp; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(35, 7, N'Bánh burger bò', 35000, N'cái', N'Sản phẩm thuộc Bánh mì kẹp; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(36, 8, N'Bánh opera', 36000, N'cái', N'Sản phẩm thuộc Bánh ngọt; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(37, 8, N'Bánh chiffon trà bá tước', 36000, N'cái', N'Sản phẩm thuộc Bánh ngọt; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(38, 8, N'Bánh madeleine sô cô la', 36000, N'cái', N'Sản phẩm thuộc Bánh ngọt; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(39, 8, N'Bánh chiffon sô cô la', 36000, N'cái', N'Sản phẩm thuộc Bánh ngọt; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(40, 8, N'Bánh chiffon vani', 36000, N'cái', N'Sản phẩm thuộc Bánh ngọt; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(41, 9, N'Bánh mousse quả mọng', 39000, N'cái', N'Sản phẩm thuộc Tráng miệng; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(42, 9, N'Bánh mousse Vải hoa hồng', 39000, N'cái', N'Sản phẩm thuộc Tráng miệng; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(43, 9, N'Bánh mousse Dừa tuyết', 39000, N'cái', N'Sản phẩm thuộc Tráng miệng; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(44, 9, N'Bánh mousse chanh leo', 39000, N'cái', N'Sản phẩm thuộc Tráng miệng; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(45, 9, N'Kem caramel', 39000, N'cái', N'Sản phẩm thuộc Tráng miệng; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(46, 10, N'Bánh quy nướng hạnh nhân 150g', 39000, N'cái', N'Sản phẩm thuộc Bánh khô; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(47, 10, N'Bánh quy dừa 150g', 39000, N'cái', N'Sản phẩm thuộc Bánh khô; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(48, 10, N'Bánh quy bơ mứt dâu 150g', 39000, N'cái', N'Sản phẩm thuộc Bánh khô; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(49, 10, N'Bánh quy sô cô la chip 150g', 39000, N'cái', N'Sản phẩm thuộc Bánh khô; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(50, 10, N'Bánh quy hạnh nhân 150g', 39000, N'cái', N'Sản phẩm thuộc Bánh khô; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(51, 11, N'Mochi nướng vừng đen', 30000, N'cái', N'Sản phẩm thuộc Macchi by Fresh Garden; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(52, 11, N'Bánh mochi Hàn Quốc', 30000, N'cái', N'Sản phẩm thuộc Macchi by Fresh Garden; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(53, 11, N'Kẹo dẻo vui vẻ', 30000, N'cái', N'Sản phẩm thuộc Macchi by Fresh Garden; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(54, 11, N'Kẹo dẻo hoa quả', 30000, N'cái', N'Sản phẩm thuộc Macchi by Fresh Garden; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(55, 11, N'Bánh phô mai que 70g', 30000, N'cái', N'Sản phẩm thuộc Macchi by Fresh Garden; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(56, 12, N'Bánh bao nhân thịt', 30000, N'cái', N'Sản phẩm thuộc Bánh bao; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(57, 12, N'Bánh bao nhân trứng sữa', 30000, N'cái', N'Sản phẩm thuộc Bánh bao; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(58, 12, N'Bánh bao nhân thịt xá xíu', 30000, N'cái', N'Sản phẩm thuộc Bánh bao; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(59, 12, N'Bánh bao nhân đậu xanh', 30000, N'cái', N'Sản phẩm thuộc Bánh bao; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(60, 12, N'Bánh bao chay sữa', 30000, N'cái', N'Sản phẩm thuộc Bánh bao; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(61, 13, N'Pizza gà nướng kiểu Thái', 49000, N'cái', N'Sản phẩm thuộc Bánh pizza; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(62, 13, N'Bánh pizza xúc xích ngô', 49000, N'cái', N'Sản phẩm thuộc Bánh pizza; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(63, 13, N'Pizza hải sản', 49000, N'cái', N'Sản phẩm thuộc Bánh pizza; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(64, 13, N'Pizza dăm bông dứa', 49000, N'cái', N'Sản phẩm thuộc Bánh pizza; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(65, 13, N'Pizza phô mai hảo hạng', 49000, N'cái', N'Sản phẩm thuộc Bánh pizza; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(66, 14, N'Trà sữa Thái xanh 350ml', 25000, N'cái', N'Sản phẩm thuộc Trà; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(67, 14, N'Trà đào 350ml', 25000, N'cái', N'Sản phẩm thuộc Trà; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(68, 14, N'Trà sữa 350ml', 25000, N'cái', N'Sản phẩm thuộc Trà; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(69, 14, N'Kombucha chanh', 25000, N'cái', N'Sản phẩm thuộc Trà; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(70, 14, N'Kombucha cà phê', 25000, N'cái', N'Sản phẩm thuộc Trà; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(71, 15, N'Cà phê muối', 30000, N'cái', N'Sản phẩm thuộc Cà phê; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(72, 15, N'Cà phê đen', 30000, N'cái', N'Sản phẩm thuộc Cà phê; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(73, 15, N'Cà phê ủ lạnh', 30000, N'cái', N'Sản phẩm thuộc Cà phê; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(74, 15, N'Cà phê latte', 30000, N'cái', N'Sản phẩm thuộc Cà phê; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(75, 15, N'Cà phê cappuccino', 30000, N'cái', N'Sản phẩm thuộc Cà phê; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(76, 16, N'Nước ion kiềm Mira pH9+ 360ml', 15000, N'cái', N'Sản phẩm thuộc Nước uống đóng chai; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(77, 16, N'Nước ion kiềm Mira pH9+ 550ml', 15000, N'cái', N'Sản phẩm thuộc Nước uống đóng chai; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(78, 16, N'Relax hương chanh', 15000, N'cái', N'Sản phẩm thuộc Nước uống đóng chai; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(79, 16, N'Antiox hương đào', 15000, N'cái', N'Sản phẩm thuộc Nước uống đóng chai; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(80, 16, N'Energy hương dâu', 15000, N'cái', N'Sản phẩm thuộc Nước uống đóng chai; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(81, 17, N'Bánh trường học bông lan', 25000, N'cái', N'Sản phẩm thuộc Bánh trường học; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(82, 17, N'Bánh trường học sữa chua', 25000, N'cái', N'Sản phẩm thuộc Bánh trường học; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(83, 17, N'Bánh trường học phô mai', 25000, N'cái', N'Sản phẩm thuộc Bánh trường học; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(84, 17, N'Bánh trường học ruốc', 25000, N'cái', N'Sản phẩm thuộc Bánh trường học; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(85, 17, N'Bánh trường học choco', 25000, N'cái', N'Sản phẩm thuộc Bánh trường học; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(86, 18, N'Nến số sinh nhật', 10000, N'cái', N'Sản phẩm thuộc Phụ kiện sinh nhật; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(87, 18, N'Bộ nến xoắn', 10000, N'cái', N'Sản phẩm thuộc Phụ kiện sinh nhật; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(88, 18, N'Dao cắt bánh', 10000, N'cái', N'Sản phẩm thuộc Phụ kiện sinh nhật; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(89, 18, N'Đĩa giấy sinh nhật', 10000, N'cái', N'Sản phẩm thuộc Phụ kiện sinh nhật; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm'),
-(90, 18, N'Mũ sinh nhật', 10000, N'cái', N'Sản phẩm thuộc Phụ kiện sinh nhật; ảnh từ Fresh Garden.', 100, N'Theo sản phẩm');
+(1, 1, N'Bánh kem Mây ngọc', 450000, N'cái', N'Sự kết hợp tinh tế giữa cốt bánh chiffon vani mềm xốp, lớp kem tươi vị phô mai béo nhẹ cùng mứt trái cây mọng và hoa atiso chua ngọt, tạo nên hương vị hài hòa, tươi mới. Xen lẫn bên trong lớp kem mứt là thạch dừa dai giòn sần sật thú vị.
+Bánh nổi bật với những đường kem trắng mềm mại, điểm xuyết sắc màu rực rỡ từ nho xanh, việt quất, sơ ri và các chi tiết trang trí ngọt ngào.', 100, N'Size 8 inch - 20cm'),
+(2, 1, N'Bánh kem Cara cà phê', 380000, N'cái', N'Bánh kem Cara cà phê 8 mang lớp cốt chiffon đậm vị sô cô la mềm ẩm. Xen giữa các lớp bánh là nhân trân châu giòn vui miệng kết hợp cùng mứt dưa lưới đào ngọt thanh. Lớp kem caramel cà phê phủ bên ngoài mang hương thơm quyến rũ, làm nổi bật hương vị tổng thể của chiếc bánh. Tất cả tạo nên một trải nghiệm vị giác tinh tế, đậm thơm nhưng vẫn dễ thưởng thức.
+Vị bánh: Đậm vị sô cô la, ngọt dịu, giòn nhẹ từ trân châu và hậu vị caramel cà phê thơm béo, cân bằng.', 100, N'Size 8 inch- 21cm'),
+(3, 1, N'Bánh kem Mây trắng', 350000, N'cái', N'Bánh kem Mây trắng mang vẻ ngoài ngọt ngào, đáng yêu với lớp kem tươi mềm mịn, được trang trí bằng sô cô la hình thú, sô cô la hình bóng cùng những viên kẹo bi đường xinh xắn. Bên trong là 4 lớp chiffon vani mềm xốp, thơm dịu, xen giữa các lớp bánh là nhân kem tươi béo nhẹ, thạch dừa giòn mát và mứt lê táo quế thanh ngọt. Tổng thể hương vị hài hòa, dễ ăn, có chút tươi mát từ trái cây và điểm nhấn ấm nhẹ từ quế.
+Vị bánh: Thơm dịu vị vani, mềm xốp, béo nhẹ từ kem tươi, giòn mát từ thạch dừa và thanh ngọt từ mứt lê táo quế.', 100, N'Size 6 inch - 16 cm'),
+(4, 1, N'Bánh kem Sương mai', 350000, N'cái', N'Bánh kem Sương mai 6 mang vẻ ngoài nhẹ nhàng, thanh thoát với điểm nhấn trang trí từ dâu tây sô cô la và những viên bi bạc lấp lánh, tạo cảm giác tinh tế và ngọt ngào. Bên trong là cốt chiffon vani mềm xốp, thơm dịu, kết hợp cùng thạch dừa giòn nhẹ và mứt lê táo quế thanh ngọt, mang đến hương vị hài hòa, tươi mát nhưng vẫn có chiều sâu nhờ chút ấm áp từ quế.
+Vị bánh: Thơm dịu vị vani, thanh mát từ thạch dừa, ngọt nhẹ từ mứt lê táo quế, tổng thể mềm xốp và dễ ăn.', 100, N'Size 6 inch - 16 cm'),
+(5, 1, N'Bánh kem Hổ phách', 380000, N'cái', N'Cốt chiffon caramel mềm xốp kết hợp lớp trân châu đường nâu dẻo dai và mứt sơ ri hạt chia chua nhẹ. Hương caramel ấm áp hòa cùng vị trái cây tươi tạo nên tổng thể cân bằng, thú vị. Bánh phủ kem mịn và trang trí nổi bật.
+Vị bánh: Thơm caramel, chua ngọt hài hòa.', 100, N'Size 8- 21cm'),
+(6, 2, N'Bánh kem Mây vàng', 350000, N'cái', N'Lớp cốt chiffon vani mềm mịn hòa quyện cùng kem tươi vị phô mai béo thơm, mứt xoài và xoài tươi chua ngọt, mang đến hương vị nhiệt đới tươi mát, dễ thưởng thức. Sắc vàng óng ả của xoài phủ trên mặt bánh trắng kem tạo nên vẻ ngoài rực rỡ, điểm thêm những đường kem mềm mại đầy cuốn hút.
+Tựa ánh nắng dịu dàng, Bánh kem mây vàng là lựa chọn ngọt ngào để tô điểm cho những bữa tiệc và ngày vui sum vầy.', 100, N'Size 6 inch- 16cm'),
+(7, 2, N'Bánh kem Mây hồng', 350000, N'cái', N'Cốt chiffon vani mềm nhẹ kết hợp thạch dừa dai giòn và mứt lê táo quế ngọt dịu. Hương quế thoang thoảng hòa cùng vị trái cây tươi mát tạo nên tổng thể hương vị thanh nhẹ, tinh tế. Bánh phủ kem mịn, trang trí dễ thương với sắc hồng mộng mơ.
+Vị bánh: Thơm quế nhẹ, ngọt thanh, tươi mát.', 100, N'Size 6 inch - 16 cm'),
+(8, 2, N'Bánh kem Vàng anh', 380000, N'cái', N'Cốt chiffon vani mềm ẩm kết hợp thạch dừa dai giòn và lớp mứt lê táo quế ngọt dịu. Hương vị trái cây thanh nhẹ hòa cùng lớp kem mịn mang lại cảm giác hài hòa và dễ ăn. Mặt bánh phủ kem trắng, trang trí xoài tươi nổi bật.
+Vị bánh: Thơm trái cây, ngọt dịu, béo nhẹ.', 100, N'Size 8 inch- 21cm'),
+(9, 2, N'Bánh kem Mai mơ', 160000, N'cái', N'Cốt chiffon vani mềm nhẹ kết hợp thạch dừa dai giòn và mứt lê táo quế ngọt dịu. Hương trái cây thanh mát hòa quyện cùng lớp kem mịn tạo nên cảm giác nhẹ nhàng, tinh tế. Bánh trang trí mứt hắc mai biển, mơ và việt quất tươi nổi bật.
+Vị bánh: Thơm trái cây, ngọt thanh, béo nhẹ.', 100, N'Size 4 inch- 11cm'),
+(10, 2, N'Bánh kem Cara-men-say', 350000, N'cái', N'Cốt chiffon caramel mềm xốp kết hợp trân châu đường nâu dẻo dai và mứt sơ ri hạt chia chua nhẹ. Hương caramel thơm ấm hòa cùng vị trái cây tươi giúp cân bằng độ béo của kem, mang lại trải nghiệm vị giác thú vị. Mặt bánh phủ kem mịn và trang trí nổi bật với sắc caramel ấm áp.
+Vị bánh: Thơm caramel, ngọt dịu hài hòa.', 100, N'Size 6- 16cm'),
+(11, 3, N'Bánh kem Mây sữa', 160000, N'cái', N'Cốt chiffon sô cô la mềm xốp kết hợp cùng kem tươi béo nhẹ, mứt lê táo quế cùng nho xanh, tạo nên sự hòa quyện thú vị giữa vị ngọt dịu và hương trái cây thanh mát. Bánh mang vẻ đẹp tinh khôi với lớp kem trắng mịn, điểm xuyết những quả nho xanh, bông đường hình hoa và lá vàng trang trí đầy tinh tế.', 100, N'Size 4 inch - 10cm'),
+(12, 3, N'Bánh kem Hương mật', 160000, N'cái', N'Sức hấp dẫn của chiếc bánh đến từ sự kết hợp giữa cốt bánh chocolate mềm mại, chuối tươi thanh ngọt cùng lớp sốt và kem caramen muối hồng đậm đà. Bánh được phủ sốt chocolate óng ả, trang trí bằng hạnh nhân giòn thơm và hoa đường tinh tế, mang lại một diện mạo vô cùng sang trọng và thanh lịch.', 100, N'Size 4 inch - 10 cm'),
+(13, 3, N'Bánh kem Kỳ lân kỳ diệu', 350000, N'cái', N'Bánh kem Kỳ lân kỳ diệu với cốt bánh sô cô la mềm ẩm, thơm đậm vị và ngọt dịu vừa phải. Xen giữa các lớp bánh là nhân trân châu giòn nhẹ kết hợp cùng mứt dưa lưới đào thanh ngọt, tạo cảm giác vui miệng hài hòa. Bánh được phủ kem mịn, trang trí kem xoắn pastel nhiều màu cùng marshmallow mềm xinh xắn, mang vẻ ngoài ngọt ngào và đáng yêu.
+Vị bánh: Đậm vị sô cô la, ngọt dịu, giòn nhẹ từ trân châu và mứt dưa lưới đào.', 100, N'Size 6 inch - 16 cm'),
+(14, 3, N'Bánh kem Bông tuyết', 160000, N'cái', N'Bánh kem Bông tuyết mang lớp cốt chiffon đậm vị sô cô la, mềm ẩm và thơm nồng đầy cuốn hút. Xen giữa các lớp bánh là nhân trân châu giòn vui miệng kết hợp cùng mứt dưa lưới đào, tạo nên sự cân bằng hài hòa giữa vị ngọt và chút thanh tươi của trái cây. Tổng thể chiếc bánh gợi cảm giác ngọt ngào, nổi bật nhưng vẫn dễ thưởng thức, như một lớp “hoa tuyết” dịu dàng phủ lên vị giác.
+Vị bánh: Đậm vị sô cô la, ngọt dịu vị dưa lưới đào và độ giòn thú vị từ trân châu.', 100, N'Size 4 inch- 11cm'),
+(15, 3, N'Bánh kem Choco ngọc trai', 350000, N'cái', N'Cốt chiffon phô mai mềm mịn kết hợp lớp trân châu trắng dẻo dai và mứt vải nha đam thanh mát. Vị phô mai béo nhẹ hòa cùng vị trái cây dịu ngọt tạo nên tổng thể hài hòa và dễ thưởng thức. Mặt bánh phủ kem mịn, trang trí socola cùng bi vàng bạc lấp lánh nổi bật.
+Vị bánh: Béo nhẹ, thơm phô mai, ngọt thanh.', 100, N'Size 6 inch- 16cm'),
+(16, 4, N'Bánh mì kem choco', 25000, N'chiếc', N'Bánh mì kem choco thơm hương bột mì nướng quyện bơ, sữa và trứng gà, vị béo dịu, dễ ăn. Lớp bánh nướng chín vàng, mềm nhẹ, ôm trọn nhân kem sô cô la mịn và ngọt vừa. Sốt salad phủ trên mặt bánh tạo thêm độ béo ngậy, giúp hương vị hài hòa, tròn đầy và hấp dẫn ngay từ miếng đầu tiên.
+Thành phần: Bột mì, sốt socola (17.5%), nước, kem sữa tươi (9%), đường kính, trứng gà, bơ, dầu thực vật, men làm bánh, sữa bột, muối tinh, bột nở làm bánh (chất ổn định: calcium sulphate, chất xử lý bột: ascorbic acid, chất nhũ hoá: lecithin, dầu thực vật, enzymes).', 100, N'80g'),
+(17, 4, N'Bánh mì kem trứng tan chảy', 20000, N'chiếc', N'Bánh mì kem trứng tan chảy thơm hương bột mì nướng quyện bơ, sữa và trứng gà, vị béo nhẹ, êm dịu. Lớp bánh nướng chín vàng, mềm xốp, bơm nhân trứng sữa mịn dọc theo bề mặt, tan nhẹ khi ăn. Phô mai mozzarella và sốt salad phủ trên mặt bánh tạo thêm độ béo ngậy, giúp tổng thể hương vị tròn vị, mềm mại và dễ thưởng thức.Thành phần: Bột mì hảo hạng, trứng gà, sữa, bơ, sốt trứng sữa, sốt salad, bột giòn', 100, N'75g'),
+(18, 4, N'Bánh mì choco giòn', 25000, N'gói', N'Bánh choco giòn thơm hương bột mì lên men tự nhiên, vị béo thuần của bơ, sữa và trứng gà. Lớp vỏ nướng chín vàng, giòn mỏng, khép lại phần ruột mềm ẩm, nơi socola tan chậm hòa cùng socola chip giòn nhẹ tạo cảm giác khi ăn vô cùng thú vị.
+Thành phần: Bột mì, sốt socola (19%), đường kính, bơ, nước, trứng gà, socola (1.5%), men làm bánh, sữa bột, muối tinh, bột nở làm bánh (chất ổn định: calcium sulphate, chất xử lý bột: ascorbic acid, chất nhũ hoá: lecithin, dầu thực vật, enzymes).', 100, N'80g'),
+(19, 4, N'Bánh mì sữa chua giòn bùi', 25000, N'gói', N'Bánh mì sữa chua giòn bùi thơm hương bột mì nướng quyện bơ, sữa và trứng gà, vị béo nhẹ, thanh dịu. Bánh được cuộn từng lớp, nướng chín vàng, bên ngoài giòn nhẹ, bên trong mềm ẩm, hòa cùng kem sữa chua mịn và sốt dừa béo thơm. Hạt óc chó điểm trên mặt bánh mang lại độ bùi và giòn nhẹ, giúp hương vị cân bằng và dễ ăn.
+Thành phần: Bột mì, sốt sữa chua (19%), đường kính, trứng gà, hạt óc chó, nước, bơ, dầu thực vật, bột dừa, men làm bánh, sữa bột, muối tinh, bột nở làm bánh (chất ổn định: calcium sulphate, chất xử lý bột: ascorbic acid, chất nhũ hoá: lecithin, dầu thực vật, enzymes).', 100, N'80g'),
+(20, 4, N'Bánh scone', 30000, N'chiếc', N'Một phiên bản scone kiểu lạ miệng, nổi bật với mùi bơ thơm ngậy. Xen lẫn bên trong là nho khô đen dẻo ngọt hòa cùng hạt óc chó thơm bùi, tạo nên hương vị hài hòa, hấp dẫn và rất dễ ăn. Thành phần: bột mì, đường trắng, trứng gà, tinh bột, nho khô đen, bơ, hạt óc chó, chất làm dày (1442, 415), sữa bột tách kem, muối ăn, chất tạo xốp (450i, 341i, 500ii), chất xử lý bột (170i), chất ổn định (471), chất chống oxi hóa (322i), hương liệu vani tổng hợp.Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: năng lượng 371 Kcal, chất đạm: 10.1 g, carbohydrat: 45.9 g, đường tổng: 17.5 g, chất béo: 17.0 g, natri: 89 mg.', 100, N'80 g'),
+(21, 5, N'Bánh mì thịt heo áp chảo', 35000, N'chiếc', N'Bánh mì thịt heo áp chảo gây ấn tượng với lớp vỏ bánh mềm xốp, thơm dịu, ôm trọn phần nhân thịt mọng nước, mềm thơm và đậm vị bên trong. Phía trên bánh được phủ phô mai béo ngậy rồi áp chảo vừa tới, tạo lớp mặt vàng xém hấp dẫn và dậy mùi thơm. Khi thưởng thức, bạn sẽ cảm nhận rõ sự hòa quyện giữa nhiều tầng hương vị cùng kết cấu thú vị: chút giòn nhẹ bên ngoài, mềm xốp của bánh và phần nhân thịt mọng mềm bên trong, tạo nên một món bánh vừa ngon miệng vừa đầy đặn cho mọi thời điểm trong ngày.', 100, N'Theo sản phẩm'),
+(22, 5, N'Bánh burger thịt xá xíu', 25000, N'chiếc', N'Burger Thịt Xá Xíu là sự kết hợp hài hòa giữa thịt xá xíu hảo hạng, dưa chuột bao tử muối giòn và sốt đậm vị, mang đến trải nghiệm ẩm thực mới lạ. Bề mặt bánh được phủ phô mai và áp chảo tạo lớp vỏ vàng giòn thơm béo cùng tạo hình độc đáo, tăng thêm sức hấp dẫn ngay từ ánh nhìn đầu tiên. Sản phẩm được làm tươi mới mỗi ngày từ nguyên liệu tuyển chọn và quy trình sản xuất hiện đại, mang đến hương vị thơm ngon, chất lượng trong từng chiếc bánh.', 100, N'Theo sản phẩm'),
+(23, 5, N'Bánh ruốc xoắn đậm đà', 25000, N'chiếc', N'Ruốc heo, vừng trắng và sốt lòng đỏ được cuộn khéo trong từng lớp bánh mềm xốp, tạo nên vị ngon đậm đà mà rất vào miệng. Bề mặt quét trứng, thêm sốt lòng đỏ và phô mai bào vàng óng, nhìn thôi đã thấy hấp dẫn, muốn thử ngay. Thành phần: Bột mỳ, bơ, trứng gà, đường, sốt lòng đỏ, ruốc heo, vừng trắng, phomai mozzarella, sữa bột, bột nở làm bánh, men, muối, nước.', 100, N'80g'),
+(24, 5, N'Bánh nhân thịt đậm đà', 25000, N'chiếc', N'Bánh mềm thơm ôm trọn phần nhân thịt lợn xay đậm đà, hòa cùng hành củ, cà rốt và đậu Hà Lan để tạo nên một tổng thể vừa đầy đặn vừa dễ ăn. Thêm chút sốt lòng đỏ, phô mai mozzarella và tiêu thơm, chiếc bánh trở nên tròn vị theo đúng nghĩa: quen mắt, bon miệng và rất dễ nghiền. Thành phần: Bột mỳ, bơ, trứng gà, đường, thịt lơn xay, sốt lòng đỏ, phomai mozzarella, hành củ, cà rốt , đậu Hà Lan, ngô ngọt, dầu hào, sữa bột, bột nở làm bánh, men, muối, hạt tiêu, nước.', 100, N'90g'),
+(25, 5, N'Bánh mì xúc xích đậm vị', 35000, N'chiếc', N'Bánh mì xúc xích đậm vị thơm hương bột mì nướng quyện bơ, sữa và trứng gà. Bánh nướng chín vàng, mềm xốp, trên mặt đặt thanh xúc xích kết hợp phô mai sợi và sốt salad tan nhẹ khi ăn. Vị mặn béo hài hòa, rõ ràng, để lại cảm giác đậm vừa và dễ thưởng thức.
+Thành phần: Xúc xích (44%), bột mì, đường kính, salad nguyên vị, nước, bơ, phô mai, trứng gà, dầu thực vật, men làm bánh, hành lá, sữa bột, mật ong, muối tinh, bột nở làm bánh (chất ổn định: calcium sulphate, chất xử lý bột: ascorbic acid, chất nhũ hoá: lecithin, dầu thực vật, enzymes).', 100, N'100g'),
+(26, 6, N'Bánh mì gối', 25000, N'túi', N'Bánh mì gối có kết cấu mềm xốp, thơm nhẹ và dễ dàng kết hợp với nhiều món ăn khác nhau. Sản phẩm được làm từ nguyên liệu chọn lọc, đảm bảo độ tươi ngon và chất lượng trong từng lát bánh.
+Thành phần: Bột mì, nước, đường, bơ, sữa bột, trứng gà, men, muối, chất ổn định (E516), chất nhũ hoá (E322i), chất xử lý bột (E300, E1100i).
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 264 Kcal Chất đạm: 7.8 g Carbohydrat: 45.2 g Chất béo: 4.3 g Natri: 226 mg Đường tổng: 10.2 g.
+Hướng dẫn sử dụng: Sản phẩm dùng để ăn liền.
+Thông tin cảnh báo: Không dùng cho người dị ứng với  các thành phần của sản phẩm.
+Bảo quản: Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.
+Ngày sản xuất (NSX): Trước hạn sử dụng 5 ngày. 
+Hạn sử dụng (HSD): Xem trên bao bì.', 100, N'330 g'),
+(27, 6, N'Bánh gối sữa dừa choco', 45000, N'túi', N'Mềm thơm, ngọt dịu và có chút choco vui miệng, bánh gối sữa dừa choco là lựa chọn gọn gàng cho bữa sáng hoặc bữa xế khi cần nạp nhanh năng lượng. Vị trứng sữa béo nhẹ hòa cùng dừa và sô cô la tạo nên tổng thể mới lạ nhưng vẫn dễ ăn, hợp cho cả nhà thưởng thức mỗi ngày.', 100, N'Theo sản phẩm'),
+(28, 6, N'Bánh mì vương miện', 30000, N'cái', N'Bánh mì vương miện thơm hương bột mì nướng quyện bơ, sữa và trứng gà, vị béo mặn hài hòa. Bánh nướng chín vàng, mềm xốp, phủ xúc xích cắt nhỏ, ruốc heo tơi mịn, cùng sốt salad và phô mai mozzarella tan nhẹ trên mặt bánh.
+Thành phần: Bột mì, xúc xích, salad nguyên vị, đường kính, nước, trứng gà, bơ, phô mai, ruốc heo, dầu thực vật, men làm bánh, hành lá, sữa bột, mật ong, muối tinh, bột nở làm bánh (chất ổn định: calcium sulphate, chất xử lý bột: ascorbic acid, chất nhũ hoá: lecithin, dầu thực vật, enzymes).', 100, N'85g'),
+(29, 6, N'Bánh mì giòn bơ tỏi', 29000, N'gói', N'Bánh mì giòn bơ tỏi chinh phục vị giác với kết cấu giòn tan rôm rốp, dậy hương vị bơ tỏi cực cuốn. Gói 120g gọn nhẹ, đậm vị, chuẩn gu "team" mê ăn vặt.
+Thành phần: Bột mì, bơ (23.5%), đường kính, tỏi tươi (3%), sữa bột, trứng gà, nước, men làm bánh, muối tinh, bột nở làm bánh (chất ổn định: calcium sulphate, chất xử lý bột: ascorbic acid, chất nhũ hoá: lecithin, dầu thực vật, enzymes), chất bảo quản (282), mùi tây.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 481 Kcal; Chất đạm: 10.5 g; Carbohydrat: 59.5 g; Chất béo: 21.6 g; Natri: 450 mg; Đường tổng: 13.0 g.', 120, N'120g'),
+(30, 6, N'Bánh mì giòn caramel', 29000, N'gói', N'Giòn rụm, thơm bơ và phủ caramel ngọt vừa đủ, đây là món bánh ăn chơi vừa vui miệng, vừa tiện lợi để mang theo trong những lúc cần nạp nhanh năng lượng. Túi 120g nhỏ gọn, dễ ăn và rất hợp "up mood" cho những ngày bận rộn.
+Thành phần: Bột mì, đường kính, bơ, sữa bột, nước, men làm bánh, trứng gà, muối tinh, bột nở làm bánh (chất ổn định: calcium sulphate, chất xử lý bột: ascorbic acid, chất nhũ hoá: lecithin, dầu thực vật, enzymes), chất bảo quản (282), nước chanh tươi.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 480 Kcal; Chất đạm: 9.6 g; Carbohydrat: 65.5 g; Chất béo: 19.4 g; Natri: 337 mg; Đường tổng: 21.5 g.', 120, N'120g'),
+(31, 7, N'Bánh sandwich bò phô mai', 49000, N'chiếc', N'Từng lát bánh mì nguyên cám mềm mại ôm trọn hai lớp nhân bò phô mai đầy đặn, thơm ngon. Thêm chút sốt mayonnaise béo mịn, giúp cân bằng hương vị, tạo nên trải nghiệm ẩm thực hấp dẫn ngay từ miếng đầu tiên.
+Thành phần: Bột mì hảo hạng, thịt bò (13,6%), nước, phô mai lát (6%), sốt mayonaise, trứng gà, bơ, đường kính, xì dầu, hành lá, muối tinh, men, bột ngọt, bột nở làm bánh ibis, bảo quản thực phẩm INS 282, hạt tiêu, ngũ vị hương.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 251.4 Kcal, chất đạm: 13.3 g, carbohydrat: 18.5 g, chất béo: 13.8 g, natri: 614 mg, đường tổng: 11.2 g.', 100, N'130g'),
+(32, 7, N'Bánh sandwich tôm thịt sốt phô mai', 40000, N'chiếc', N'Sandwich tôm thịt sốt phô mai – lớp bánh mềm thơm ôm trọn phần nhân đậm đà từ thịt heo, tôm tươi và trứng gà, hoà quyện cùng sốt phô mai béo mịn. Một chiếc bánh nhỏ gọn, ngon miệng, phù hợp khẩu vị của mọi lứa tuổi.
+Thành phần: Bột mì, thịt heo (23%), trứng gà, phô mai lát, tôm (7,5%), nước, xốt kewpie bánh mì vị phô mai spread (4%), đường kính, bơ, sữa bột, sữa đặc, sốt ướp đồ nướng, mayonnaise, tương cà, tương ớt, men làm bánh, muối tinh, bột canh tôm, bột nở làm bánh (chất ổn định: calium sulphate, chất xử lý bột: ascorbic acid, chất nhũ hoá: lecithin, dầu thực vật, enzymes), chất bảo quản (282), bột ngọt, hạt tiêu.
+Thông tin dinh dưỡng trung bình trong 100g sản phẩm: : Năng lượng: 269 Kcal, chất đạm: 12.3 g, carbohydrat: 24.7 g, chất béo: 12.6 g, natri: 601 mg, đường tổng: 8.1 g.', 100, N'160g'),
+(33, 7, N'Sandwich Yo-chi tan chảy', 30000, N'chiếc', N'Sandwich Yo-chi tan chảy thơm hương bột mì nướng quyện bơ, sữa và trứng gà. Lớp bánh nướng chín vàng, bề mặt chia chín ô vuông nhỏ, ôm trọn nhân sữa chua mịn, vị chua nhẹ cân bằng. Phô mai lát và lớp trứng nướng bao quanh tạo độ béo dịu, giúp tổng thể hương vị mềm mại, hài hòa và dễ thưởng thức.
+Thành phần: Bột mì, sốt sữa chua, nước, bơ, đường kính, kem sữa tươi, phô mai lát, trứng gà, salad nguyên vị, sữa bột, men làm bánh, muối tinh, bột nở làm bánh (chất ổn định: calcium sulphate, chất xử lý bột: ascorbic acid, chất nhũ hoá: lecithin, dầu thực vật, enzymes), chất bảo quản (282).', 100, N'95g'),
+(34, 7, N'Sandwich Sa-chi tan chảy', 30000, N'chiếc', N'Sandwich Sa-chi tan chảy thơm hương bột mì nướng quyện bơ, sữa và trứng gà. Lớp bánh nướng chín vàng, bề mặt chia chín ô vuông nhỏ. Phô mai lát phủ mặt cùng lớp trứng nướng xung quanh tạo độ béo dịu, giúp hương vị hài hòa và dễ thưởng thức.
+Thành phần: Bột mì, sốt trứng muối, nước, bơ, đường kính, kem sữa tươi, phô mai lát, trứng gà, salad nguyên vị, sữa bột, men làm bánh, muối tinh, bột nở làm bánh (chất ổn định: calcium sulphate, chất xử lý bột: ascorbic acid, chất nhũ hoá: lecithin, dầu thực vật, enzymes), chất bảo quản (282), vừng đen.', 100, N'95g'),
+(35, 7, N'Bánh burger bò', 25000, N'chiếc', N'Sản phẩm Bánh burger bò chính hãng Fresh Garden.', 100, N'Theo sản phẩm'),
+(36, 8, N'Bánh opera', 36000, N'miếng', N'Bánh Opera tinh tế với từng lớp mỏng hoàn hảo, kết hợp giữa cốt bánh hạnh nhân mềm mịn, cà phê đậm đà và ganache sô cô la thơm ngậy.
+Thành phần: Bột mỳ, đường, trứng, bơ, cà phê, bột hạnh nhân, rượu Kahlua, kem bơ cà phê, socola ganache, socola trang trí', 100, N'90g'),
+(37, 8, N'Bánh chiffon trà bá tước', 35000, N'chiếc', N'Bánh chiffon trà bá tước với công thức độc quyền tạo nên kết cấu mềm xốp nhẹ như bông, hòa quyện cùng hương trà bá tước thơm quyến rũ. Vị ngọt nhẹ nhàng cân bằng hoàn hảo, mang đến trải nghiệm ẩm thực tinh tế và lôi cuốn từ miếng đầu tiên.
+Thành phần: Bột mì, nước, đường kính, nho khô (4%), sữa bột béo (1,4%), bơ, shortening, men, muối, chất bảo quản (282), hương thực phẩm tổng hợp (hương sữa), chất nhũ hóa (471), chất chống oxi hóa (300), enzym: amylaza (1100i).
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 295.9 Kcal, chất đạm: 8.3 g, carbohydrat: 31.3 g, chất béo: 14.5 g, natri: 140 mg, đường tổng: 19.6 g.', 100, N'95g'),
+(38, 8, N'Bánh madeleine sô cô la', 35000, N'gói', N'Bánh madeleine sô cô la mang đến sự kết hợp hoàn hảo giữa kết cấu bánh mềm nhẹ, ruột bánh bông mịn thơm ngậy vị bơ cùng hương vị sô cô la đậm đà, tạo nên một trải nghiệm ẩm thực ngon miệng kiểu Pháp.
+Thành phần: Bột mỳ, bơ, đường, trứng gà, bột ca cao (2%), chất tạo xốp (E500ii).
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 355.6 Kcal, chất đạm: 6.6 g, carbohydrat: 40.2 g, chất béo: 17.1 g, natri: 178 mg, đường tổng: 31.7 g', 100, N'Túi 120g'),
+(39, 8, N'Bánh chiffon sô cô la', 25000, N'chiếc', N'Bánh chiffon sô cô la mềm mịn, thơm đậm vị cacao hấp dẫn. Từng chiếc bánh được sản xuất từ nguồn nguyên liệu tuyển chọn, mang đến trải nghiệm thơm ngon cùng sự tin cậy từ thương hiệu được nhiều người yêu thích.
+Thành phần: Trứng gà, bột mì, đường, dầu thực vật, bơ, tinh bột, sô cô la (2%), đường siro fructose, ca cao, mật ong, muối ăn, bột protein trứng gà, chất làm dày (1420, 466, 415), chất ổn định (471, 422, 1520, 420ii), chất nhũ hóa (475), rượu rum, chất điều chỉnh độ acid (330).
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 342 Kcal, chất đạm: 7.8 g, carbohydrat:  31.7 g, đường tổng:  19.3 g, chất béo:  19.8 g, natri:  291 mg.
+Thông tin cảnh báo: không sử dụng bánh khi hết hạn và người dị ứng với thành phần của sản phẩm.
+Hướng dẫn sử dụng: sản phẩm dùng để ăn liền.
+Hướng dẫn bảo quản: bảo quản nhiệt độ 2°C-8°C, tránh ánh nắng trực tiếp.', 100, N'45 g'),
+(40, 8, N'Bánh chiffon vani', 25000, N'chiếc', N'Bánh chiffon vani mềm xốp, ẩm mịn với hương vani dịu nhẹ, dễ thưởng thức. Được làm từ nguyên liệu chọn lọc theo quy trình sản xuất an toàn, sản phẩm mang đến hương vị thơm ngon và sự an tâm từ thương hiệu uy tín lâu năm.
+Thành phần: Bột mì, trứng gà, đường kính, dầu thực vật, bơ, chất ổn định (471, 475, 420ii, 422,1520), siro fructose, hương liệu vani tổng hợp, bột nổi làm bánh (500ii,541i, 450i, 341i), mật ong, rượu rum, muối tinh.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: năng lượng: 345Kcal, chất đạm: 9g, carbohydrat: 40.1g, đường tổng: 20.7g, chất béo: 16.2g, natri: 136mg.
+Thông tin cảnh báo: không sử dụng bánh khi hết hạn và người dị ứng với thành phần của sản phẩm.
+Hướng dẫn sử dụng: sản phẩm dùng để ăn liền.
+Hướng dẫn bảo quản: bảo quản nhiệt độ 2°C-8°C, tránh ánh nắng trực tiếp.', 100, N'45 g'),
+(41, 9, N'Bánh mousse quả mọng', 450000, N'cốc', N'Cốt chiffon phô mai mềm ẩm kết hợp lớp mousse trái mọng chua ngọt đặc trưng từ các loại berry chín mọng. Hương vị trái cây tươi hòa cùng vị béo nhẹ của phô mai mang lại cảm giác thanh mát và tinh tế. Mặt bánh trang trí sốt berry ánh đỏ nổi bật.Vị bánh: Chua ngọt dịu, thơm trái mọng.', 100, N'Size 8 inch- 21cm'),
+(42, 9, N'Bánh mousse Vải hoa hồng', 450000, N'cốc', N'Cốt chiffon phô mai mềm mịn kết hợp lớp mousse vải hoa hồng thơm dịu, mang đến hương vị thanh mát và đầy nữ tính. Vị vải ngọt nhẹ hòa cùng hương hoa hồng tinh tế tạo nên cảm giác nhẹ nhàng, dễ chịu. Bánh trang trí hoa xinh xắn.
+Vị bánh: Thơm vải, thoảng hương hoa hồng, ngọt thanh.', 100, N'Size 8 inch- 21cm'),
+(43, 9, N'Bánh mousse Dừa tuyết', 450000, N'cốc', N'Cốt chiffon caramel mềm mịn, hòa quyện cùng lớp mousse dừa béo nhẹ và thạch trân châu hương đường nâu dẻo dai. Hương dừa thanh dịu kết hợp vị caramel thơm ấm tạo nên tổng thể hài hòa, dễ ăn. Mặt bánh phủ kem trắng trang nhã, điểm xuyết trang trí tinh tế.
+Vị bánh: Béo nhẹ, thơm dừa, ngọt dịu.', 100, N'Size 8 inch- 21cm'),
+(44, 9, N'Bánh mousse chanh leo', 31000, N'cốc', N'Mousse chanh leo mềm mịn, nhẹ bẫng như mây, hòa quyện giữa vị chua thanh mát đặc trưng của chanh leo và độ ngọt dịu vừa phải. Từng miếng tan ngay trong miệng, mang đến cảm giác tươi mới, mát lạnh đầy sảng khoái.
+Thành phần: Kem sữa, kem thực vật, đường, phô mai kem, nước, trứng gà, chanh leo (4,5%), chất tạo đông gelatine, bột mì.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 236 g, chất đạm: 4.9 g, carbohydrat: 23.5 g, chất béo: 13.4 g, natri: 45.9 mg, đường tổng: 22.7 g.', 100, N'85g'),
+(45, 9, N'Kem caramel', 25000, N'cốc', N'Kem caramel mềm mượt, hòa quyện giữa vị béo ngậy của sữa và vị ngọt thanh của lớp caramel sóng sánh. Từng cốc caramel  được chế biến từ nguyên liệu chất lượng, đảm bảo vệ sinh an toàn thực phẩm và hương vị thơm ngon tự nhiên.
+Thành phần: Nước, trứng gà, đường kính, sữa bột, kem sữa tươi, nước chanh tươi.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 162 Kcal, chất đạm: 5.2 g, carbohydrat: 19.7 g, chất béo: 6.2 g, natri: 61.2 mg, đường tổng: 17.4 g. 
+Thông tin cảnh báo: Sản phẩm bảo quản lạnh nếu chưa sử dụng, không sử dụng sản phẩm hết hạn.
+Hướng dẫn sử dụng: Sản phẩm dùng để ăn liền, ngon hơn khi ăn lạnh. 
+Hướng dẫn bảo quản: Bảo quản nhiệt độ 2 - 8°C, tránh ánh nắng trực tiếp.', 100, N'75g'),
+(46, 10, N'Bánh quy nướng hạnh nhân 150g', 39000, N'gói', N'Lớp vỏ giòn tan, bên trong xốp mềm, ngọt nhẹ, hòa quyện cùng hạnh nhân giòn bùi, tạo nên hương vị thơm ngon đầy cuốn hút. Món bánh lý tưởng để nhâm nhi cùng trà hoặc cà phê.
+Thành phần: Bột mỳ, đường, hạt hạnh nhân (16%), trứng gà, bơ, chất tạo xốp (E500ii, E450i, E341i), muối.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 512 g, chất đạm: 11.8 g, carbohydrat: 60 g, chất béo: 23.8 g, natri: 307 mg, đường tổng: 26.1 g.', 150, N'150 g'),
+(47, 10, N'Bánh quy dừa 150g', 39000, N'gói', N'Bánh quy dừa là sự hòa quyện tinh tế giữa vị ngọt nhẹ vừa phải và hương dừa thơm dịu đặc trưng, mang đến cảm giác thanh nhã và dễ chịu ngay từ lần thưởng thức đầu tiên. Từng chiếc bánh có độ giòn xốp nhẹ, không quá khô, để khi cắn vào có thể cảm nhận rõ nét vị béo thanh cùng hương dừa lan tỏa tự nhiên trong khoang miệng. Sự kết hợp hài hòa ấy tạo nên một hương vị mộc mạc nhưng đầy cuốn hút, khiến chiếc bánh trở thành lựa chọn vừa tinh tế, vừa dễ làm say lòng người thưởng thức.
+Thành phần: Bột mì, trứng gà, bơ, đường, đường fructose, bột dừa (7%), hương vani tổng hợp.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 537 kcal, chất đạm: 9.1 g, carbohydrat: 56.8 g, chất béo: 28.9 g, natri: 53.6 mg, đường tổng: 35 g.', 150, N'150 g'),
+(48, 10, N'Bánh quy bơ mứt dâu 150g', 39000, N'gói', N'Bánh quy bơ giòn xốp, thơm lừng, kết hợp cùng mứt dâu đỏ au ngọt dịu, tạo điểm nhấn bắt mắt và hương vị hài hòa. Một chiếc bánh nhỏ xinh nhưng đầy cuốn hút từ hình thức đến vị giác.
+Thành phần: Bột mì, bơ (30,6%), đường, trứng, mứt dâu (5.1%).
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 468.0 g, chất đạm: 8.3 g, carbohydrat: 65.0 g, chất béo: 18.0 g, natri: 15 mg, đường tổng: 37.5 g.', 150, N'150 g'),
+(49, 10, N'Bánh quy sô cô la chip 150g', 39000, N'gói', N'Bánh quy sô cô la chip chinh phục vị giác bằng sự kết hợp hài hòa giữa hương bơ thơm ngậy và những viên sô cô la chip đậm vị, ngọt dịu pha chút đăng đắng tinh tế. Lớp bánh giòn nhẹ ôm trọn phần sô cô la, tạo nên trải nghiệm thưởng thức phong phú và tròn vị trong từng miếng bánh. Không quá ngọt nhưng vẫn đủ đậm đà, sản phẩm mang đến cảm giác sang trọng, hấp dẫn và đặc biệt phù hợp với những ai yêu thích hương vị cổ điển được biến tấu theo cách tinh tế hơn.
+Thành phần: Bột mì, đường, bơ, sô cô la chíp (12%), trứng gà, chất tạo xốp (E500ii), muối.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 476.4 Kcal, chất đạm: 7.0 g, carbohydrat: 65.9 g, chất béo: 19.3 g, natri: 197 mg, đường tổng: 49.7 g.', 150, N'150 g'),
+(50, 10, N'Bánh quy hạnh nhân 150g', 39000, N'gói', N'Bánh quy giòn rụm, thơm bơ, ngọt nhẹ vừa phải, điểm xuyết hạnh nhân bùi béo. Mỗi chiếc bánh mang đến hương vị tinh tế, thích hợp để nhâm nhi cùng trà hoặc cà phê.
+Thành phần: Bột mì, trứng gà, đường, hạnh nhân cắt lát (14%), bơ, sữa bột, chất tạo xốp (E500ii, E450i, E341i), muối, hương vani tổng hợp.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 477 kcal, chất đạm: 8.8 g, carbohydrat: 66.2 g, chất béo: 18.2 g, natri: 171 mg, đường tổng: 30.5 g.', 150, N'150 g'),
+(51, 11, N'Mochi nướng vừng đen', 8000, N'gói', N'Bánh Mochi nướng vừng đen – nơi cái thơm bùi của mè rang quyện cùng hương vỏ bánh nướng giòn rụm, thêm kết cấu dai dai của bột mochi, tạo nên một tổng thể vừa mộc mạc, vừa cuốn hút đến lạ.
+Thành phần: Bột làm bánh đặc biệt (chất ổn định (1440,1442), đường, tinh bột (khoai mì, lúa mì, bắp), bột mì, bột gạo, shortening thực vật, gluten lúa mì, bột sữa, chất béo thực vật, muối, chất nhũ hoá (471,473)), trứng gà, nước, bơ, vừng đen (4%), xì dầu.', 100, N'35g'),
+(52, 11, N'Bánh mochi Hàn Quốc', 25000, N'gói', N'Bánh mochi Hàn Quốc có lớp vỏ mềm dẻo đặc trưng cùng hương vị thơm ngon hấp dẫn. Được sản xuất từ nguyên liệu chất lượng cao theo quy trình đảm bảo an toàn thực phẩm, sản phẩm phù hợp cho những bữa ăn nhẹ hiện đại. 
+Thành phần: Bột trộn đặc biệt (chất ổn định (1440, 1442), đường, tinh bột (khoai mì, lúa mì, bắp), bột mì, bột gạo, shortening thực vật, gluten lúa mì, bột sữa, chất béo thực vật, muối, chất nhũ hóa (471, 473)), trứng gà, nước, bơ, hạt vừng, xì dầu
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: năng lượng: 383 Kcal, chất đạm: 7.3 g, carbohydrat: 46.7 g, đường tổng: 15.3 g, chất béo: 18 g, natri: 280 mg.
+Thông tin cảnh báo: không sử dụng bánh khi hết hạn và người dị ứng với thành phần của sản phẩm.
+Hướng dẫn sử dụng: sản phẩm dùng để ăn liền.
+Hướng dẫn bảo quản: bảo quản nơi khô ráo thoáng mát, tránh ánh nắng trực tiếp.
+Ngày sản xuất, Hạn sử dụng và Khối lượng tịnh: xem trên bao bì.', 100, N'40 g'),
+(53, 11, N'Kẹo dẻo vui vẻ', 35000, N'gói', N'Kẹo dẻo thơm ngon với năm hương vị xá xị, lá dứa, bạc hà, sữa chua, chanh muối mới lạ độc đáo.
+Thành phần: Đường (48%), mạch nha, phụ gia thực phẩm (chất nhũ hoá 440; chất điều chỉnh độ axit 331iii, 330; chất chống đông vón 551), hương liệu (chanh muối, bạc hà, sữa chua, lá dứa) tổng hợp, hương liệu xá xị giống tự nhiên, chất tạo màu tự nhiên gardenia blue, chất tạo màu tổng hợp (102, 133, 150d).
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 360 Kcal, carbohydrat: 89.3 g, natri: 52.9 mg, ường tổng: 79.5 g.', 100, N'85g'),
+(54, 11, N'Kẹo dẻo hoa quả', 35000, N'gói', N'Chanh dây, cam, dâu, đào, dưa lưới - năm loại kẹo dẻo vị hoa quả thơm ngon bọc trong những viên đường óng ánh ngọt ngào.
+Thành phần: Đường (48%), mạch nha, phụ gia thực phẩm (chất nhũ hoá 440; chất điều chỉnh độ axit 331iii, 330; chất chống đông vón 551), hương liệu (dâu, chanh dây, cam, đào, dưa lưới) tổng hợp, chất tạo màu tự nhiên (120, 164, gardenia blue), chất tạo màu tổng hợp 160i.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 344 Kcal, carbohydrat: 85.1 g, natri: 56.6 mg, ường tổng: 79.7 g.', 100, N'85g'),
+(55, 11, N'Bánh phô mai que 70g', 60000, N'gói', N'Bánh phô mai que thơm vị bơ sữa, thêm phô mai béo nhẹ - phù hợp cho bé ăn chơi hằng ngày và giúp ba mẹ có thêm lựa chọn vào bữa xế thay cho snack, bim bim hay bánh kẹo ngọt thông thường.Thành phần: Bột trộn đặc biệt (bột mì, đường trắng, bột sữa nguyên kem, chất ổn định INS 1440, muối tinh, chất nhũ hoá INS 471), bơ, trứng gà, phô mai bột (4.5%), nước.Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 476 Kcal; Chất đạm: 6.6 g; Carbohydrat: 67.5 g; Chất béo: 19.9 g; Natri: 270 mg; Đường tổng: 16.5 g.', 70, N'70g'),
+(56, 12, N'Bánh bao nhân thịt', 25000, N'túi', N'Bánh bao nhân thịt có lớp vỏ trắng mềm, xốp nhẹ cùng phần nhân đậm đà, thơm ngon. Sản phẩm được sản xuất từ nguyên liệu tuyển chọn, đáp ứng các tiêu chuẩn chất lượng và an toàn thực phẩm nghiêm ngặt.
+Thành phần: Bột mì, bột khoai tây, thịt lợn (24%), sữa tươi, nước, đường, mộc nhĩ, bơ, miến, hành khô, hạt tiêu, muối, bột ngọt, men.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 264.7 Kcal, chất đạm: 6.5 g, carbohydrat: 38.9 g, chất béo: 7.5 g, natri: 362 mg, đường tổng: 5.9 g.
+Lưu ý: Khi mua sản phẩm về cần bảo quản đúng điều kiện nhiệt độ để đảm bảo chất lượng sản phẩm. 
+Hướng dẫn sử dụng: Rã đông bánh (với bánh cấp đông), bóc bánh khỏi túi nilon, cho bánh vào xửng hấp nóng trong thời gian từ 8 - 10 phút tính từ thời gian nước sôi.
+Hướng dẫn bảo quản: Bảo quản nhiệt độ -18°C.
+Ngày sản xuất (NSX): 20 ngày trước hạn sử dụng.
+Hạn sử dụng (HSD): Xem trên bao bì.', 100, N'80 g'),
+(57, 12, N'Bánh bao nhân trứng sữa', 25000, N'túi', N'Bánh bao nhân trứng sữa nổi bật với lớp vỏ mềm mịn và phần nhân béo thơm, ngọt dịu. Đây là lựa chọn phù hợp cho bữa sáng hoặc bữa phụ nhờ hương vị hấp dẫn và chất lượng đáng tin cậy.
+Thành phần: Bột mì, sữa tươi (13%), trứng gà (11%), nước, đường, bơ, men, muối, màu thực phẩm: ribo avin tổng hợp.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 249 Kcal, chất đạm: 6.9 g, carbohydrat: 39.7 g, chất béo: 5.6 g, natri: 228 mg, đường tổng: 10.6 g.
+Lưu ý: Khi mua sản phẩm về cần bảo quản đúng điều kiện nhiệt độ để đảm bảo chất lượng sản phẩm. 
+Hướng dẫn sử dụng: Rã đông bánh (với bánh cấp đông), bóc bánh khỏi túi nilon, cho bánh vào xửng hấp nóng trong thời gian từ 8 - 10 phút kể từ khi nước sôi.
+Hướng dẫn bảo quản: Bảo quản nhiệt độ -18°C.
+Ngày sản xuất (NSX): 20 ngày trước hạn sử dụng.
+Hạn sử dụng (HSD): Xem trên bao bì.', 100, N'80 g'),
+(58, 12, N'Bánh bao nhân thịt xá xíu', 25000, N'túi', N'Bánh bao nhân thịt có lớp vỏ trắng mềm, xốp nhẹ cùng phần nhân đậm đà, thơm ngon. Sản phẩm được sản xuất từ nguyên liệu tuyển chọn, đáp ứng các tiêu chuẩn chất lượng và an toàn thực phẩm nghiêm ngặt.
+Thành phần: Bột mì, bột khoai tây, thịt lợn (24%), sữa tươi, nước, đường, mộc nhĩ, bơ, miến, hành khô, hạt tiêu, muối, bột ngọt, men.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 264.7 Kcal, chất đạm: 6.5 g, carbohydrat: 38.9 g, chất béo: 7.5 g, natri: 362 mg, đường tổng: 5.9 g.
+Lưu ý: Khi mua sản phẩm về cần bảo quản đúng điều kiện nhiệt độ để đảm bảo chất lượng sản phẩm. 
+Hướng dẫn sử dụng: Rã đông bánh (với bánh cấp đông), bóc bánh khỏi túi nilon, cho bánh vào xửng hấp nóng trong thời gian từ 8 - 10 phút tính từ thời gian nước sôi.
+Hướng dẫn bảo quản: Bảo quản nhiệt độ -18°C.
+Ngày sản xuất (NSX): 20 ngày trước hạn sử dụng.
+Hạn sử dụng (HSD): Xem trên bao bì.', 100, N'80 g'),
+(59, 12, N'Bánh bao nhân đậu xanh', 30000, N'túi', N'Lớp vỏ bánh mềm mại, trắng mịn, điểm chút xanh tươi của lá dứa đầy hấp dẫn. Cắn vào bên trong, nhân đậu xanh ngọt nhẹ, thơm bùi lan tỏa, tạo nên trải nghiệm vị giác dịu dàng, thích hợp cho bữa sáng hay bữa xế nhẹ nhàng, thư thái.
+Thành phần: Bột mì, đậu xanh (15%), sữa tươi, đường, nước, bột nếp, đường mạch nha, dầu thực vật, shortening, men, muối, chất tạo xốp (E500ii, E450i, E341i), hương sữa tổng hợp, bột trà xanh, hương đậu xanh tổng hợp.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 300 Kcal, chất đạm: 7.4 g, carbohydrat: 55.1 g, chất béo: 4.0 g, natri: 222 mg, đường tổng: 14.4 g.', 240, N'Túi 3 cái - 240g'),
+(60, 12, N'Bánh bao chay sữa', 25000, N'túi', N'Bánh bao mềm xốp, thơm ngọt hương sữa, dễ ăn, phù hợp với mọi thành viên trong gia đình. Sản phẩm đông lạnh tiện lợi, chỉ cần hấp nóng là có ngay bữa ăn nhanh gọn, ngon miệng.
+Thành phần: Bột mì, sữa tươi (16,5%), đường, nước, shortening, men, muối, chất tạo xốp (E500ii, E450i, E341i), hương sữa tổng hợp.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 274 Kcal, chất đạm: 8.0 g, carbohydrat: 49.6 g, chất béo: 3.7 g, natri: 239 mg, đường tổng: 6.7 g.', 220, N'Túi 4 cái - 220g'),
+(61, 13, N'Pizza gà nướng kiểu Thái', 49000, N'cái', N'Pizza gà nướng kiểu Thái gây ấn tượng với tạo hình chữ nhật dài lạ mắt, hấp dẫn ngay từ ánh nhìn đầu tiên. Đế pizza mềm ẩm, phủ đầy gà nướng thơm đậm vị cùng rau củ giòn bùi. Sốt kiểu Thái cay ngọt lạ miệng, hòa quyện cùng các nguyên liệu tạo nên hương vị hài hòa, cuốn hút. Một lựa chọn mới mẻ cho những ai yêu thích pizza nhưng muốn khám phá trải nghiệm khác biệt.', 100, N'Theo sản phẩm'),
+(62, 13, N'Bánh pizza xúc xích ngô', 25000, N'cái', N'Bánh pizza xúc xích ngô là sự hòa quyện giữa lớp bánh mềm, xúc xích thơm ngon và hạt ngô ngọt tự nhiên. Sản phẩm mang đến hương vị hấp dẫn cùng chất lượng ổn định từ thương hiệu uy tín lâu năm.', 100, N'Size 6 inch'),
+(63, 13, N'Pizza hải sản', 70000, N'cái', N'Đế bánh vàng giòn, phủ sốt cà chua đậm đà, kết hợp tôm, mực tươi ngon cùng phô mai béo ngậy. Thêm ớt chuông và hành tây giòn ngọt, tạo nên hương vị cân bằng, hấp dẫn.
+Thành phần: Bột mì, phomai, hải sản (tôm 12,5%, mực 12,5%), bơ, sốt cà chua, hành tây, ớt chuông, đường, men, muối, lá oregano.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 290.8 Kcal, chất đạm: 15.8 g, carbohydrat: 22.9 g, chất béo: 14.0 g, natri: 455.0 mg, đường tổng: 5.2 g.', 100, N'120g'),
+(64, 13, N'Pizza dăm bông dứa', 120000, N'cái', N'Kết hợp hai hương vị hấp dẫn trong một chiếc pizza cỡ lớn, cho trải nghiệm trọn vẹn và đã miệng hơn. Vị dăm bông mặn mà hoà quyện dứa chua ngọt cùng hải sản tươi ngon, phô mai béo ngậy và sốt đậm đà. Lựa chọn hoàn hảo để chia sẻ cùng gia đình và bạn bè!
+Pizza hải sản:
+Thành phần: Bột mì, phomai, hải sản (tôm 12,5%, mực 12,5%), bơ, sốt cà chua, hành tây, ớt chuông, đường, men, muối, lá oregano.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 290.8 Kcal, chất đạm: 15.8 g, carbohydrat: 22.9 g, chất béo: 14.0 g, natri: 455.0 mg, đường tổng: 5.2 g.
+Số tự công bố: 09/PHD/2022
+Pizza dăm bông dứa
+Thành phần: Bột mì, phô mai, dứa (20%), dăm bông (15%), bơ, sốt cà chua, hành tây, ớt chuông, đường, men, muối, lá oregano.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 271.7 Kcal, chất đạm: 13.1 g, carbohydrat: 26.5 g, chất béo: 11.3 g, natri: 381.0 mg, đường tổng: 5.7 g.', 100, N'240g'),
+(65, 13, N'Pizza phô mai hảo hạng', 108000, N'cái', N'Chiếc bánh hoàn hảo cho tín đồ phô mai! Lớp phô mai dày dặn, kéo sợi béo ngậy, hòa quyện cùng đế bánh nướng vàng giòn và sốt đậm đà. Mỗi miếng cắn đều mang đến trải nghiệm ẩm thực thơm ngon, khó cưỡng!
+Thành phần: Bột mì, phomai (40%), bơ, sốt cà chua, hành tây, ớt chuông, đường, men, muối, lá oregano.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: Năng lượng: 305.0 Kcal, chất đạm: 15.2 g, carbohydrat: 24.8 g, chất béo: 15.0 g, natri: 403.0 mg, đường tổng: 7.7 g.', 220, N'220g'),
+(66, 14, N'Trà sữa Thái xanh 350ml', 25000, N'chai', N'Trà sữa Thái xanh là sự hòa quyện hoàn hảo giữa tinh chất trà Thái xanh thơm dịu và vị béo mịn của sữa, tạo nên màu xanh ngọc bắt mắt cùng hương vị tươi mát đầy lôi cuốn. Từng ngụm trà mang đến cảm giác thanh nhẹ, ngọt dịu, cân bằng giữa vị trà đặc trưng và sự béo ngậy vừa phải. Điểm nhấn của thức uống này chính là thạch rau câu dai giòn sần sật, khiến mỗi lần thưởng thức càng thêm thú vị. Ngon hơn khi uống lạnh.Thành phần: Nước tinh khiết, đường kính, bột kem (non dairy creamer), sữa lỏng evaporated filled milk (2,5%), tinh chiết trà Thái xanh (3g/l), bột rau câu.Thông tin dinh dưỡng trong 100 ml sản phẩm: Năng lượng: 45 Kcal, carbohydrat: 7.5 g, chất béo: 1.31 g, natri: 12.4 mg, đường tổng: 5.8 g.', 350, N'350 ml'),
+(67, 14, N'Trà đào 350ml', 25000, N'chai', N'Vị đào ngâm chua ngọt hoà quyện cùng trà thanh mát, mang đến cảm giác sảng khoái tươi mới. Đặc biệt, những miếng đào ngâm cắt nhỏ giúp mỗi ngụm trà thêm phần thú vị, nhâm nhi mãi không chán!Thành phần: Nước, đào ngâm (6,4%), đường, axit citric, maltodextrin, chiết xuất trà đen (1,6%), bột thạch rau câu.Thông tin dinh dưỡng trong 100 g sản phẩm: Năng lượng: 47 Kcal, carbohydrat: 11.4 g, natri: 4.2 mg, đường tổng: 10.7 g.', 350, N'350 ml'),
+(68, 14, N'Trà sữa 350ml', 25000, N'chai', N'Vị trà sữa thơm béo, ít ngọt, mát lạnh sảng khoái, hoà quyện cùng thạch giòn tươi sần sật, tạo nên trải nghiệm nhâm nhi đầy thú vị. Thức uống giải khát yêu thích cho mọi khoảnh khắc thư giãn!
+Thành phần: Nước, đường, bột kem kem béo thực vật, kem lỏng nấu ăn (2,2%), trà đen tinh chiết (0,8%), bột thạch rau câu, hương cà phê tổng hợp.
+Thông tin dinh dưỡng trung bình trong 100 g sản phẩm: năng lượng: 52 Kcal, carbohydrat: 9.5 g, chất béo: 1.4 g, natri: 11.9 mg, đường tổng: 6.1 g.', 350, N'350 ml'),
+(69, 14, N'Kombucha chanh', 59000, N'lon', N'Kombucha Chanh với hương vị chua nhẹ nhàng từ những trái chanh vàng là thức uống được lòng hầu hết các thực khách. Thức uống thơm ngon này còn chứa nhiều chất dinh dưỡng, chất xơ, chống oxy hóa, pectin, kali, vitamin C... tốt cho sức khỏe.
+Kombucha Chanh với hương vị chua nhẹ nhàng từ những trái chanh vàng là thức uống được lòng hầu hết các thực khách. Thức uống thơm ngon này còn chứa nhiều chất dinh dưỡng, chất xơ, chống oxy hóa, pectin, kali, vitamin C... tốt cho sức khỏe.
+Tuy có tên gọi là “trà kombucha” nhưng thực chất đây là sản phẩm lên men từ nấm scoby trong môi trường trà xanh và đường, vì thế mà trà kombucha có vị chua kèm bọt gas. Đây là thức uống được nhiều người sử dụng thay thế các loại đồ uống giải khát có đường.
+Hương vị: chua mát, thanh thanh - thơm hương chanh vàng.
+Thành phần: nước tinh khiết, đường kính, trà xanh, men Scoby, nước cốt chanh vàng tự nhiên (4,5%).
+Thông tin dinh dưỡng trung bình trong 100g sản phẩm: Năng lượng: 43.0 kcal; Đường tổng: 10.3 g; Carbohydrat: 10.4 g.', 100, N'200ml'),
+(70, 14, N'Kombucha cà phê', 59000, N'lon', N'Ngày nay, nhiều người cho rằng việc uống trà không chỉ để mọi người thư giãn, nghỉ ngơi mà còn mang lại những lợi ích tốt cho sức khỏe. Kombucha Cà Phê là sự kết hợp giữa trà kombucha lên men tự nhiên cùng cà phê ủ lạnh. Sản phẩm có hương vị thanh mát, hơi ngọt, chứa nhiều dưỡng chất tốt cho sức khỏe.
+Thức uống này có các vi khuẩn và men làm kích thích quá trình lên men khi kết hợp với đường. Sau khi lên men, kombucha chứa giấm, vitamin nhóm B, enzyme, probiotic (vi khuẩn và nấm men có tác dụng tích cực lên hệ tiêu hoá) và có hàm lượng cao axit (acetic, gluconic và lactic) với nhiều công dụng với sức khỏe.
+Hương vị: chua dịu - thơm hương vị cà phê êm, nhẹ.
+Thành phần: nước tinh khiết, chiết xuất cà phê (110 g/l), đường kính, men Scoby.
+Thông tin dinh dưỡng trung bình trong 100g sản phẩm: Năng lượng: 71 kcal; Đường tổng: 16.9 g; Carbohydrat: 17.4 g.', 110, N'200ml'),
+(71, 15, N'Cà phê muối', 75000, N'chai', N'Cà Phê Muối Fresh Garden có nguồn gốc xuất xứ từ Huế và là thức uống đặc sản của xứ Huế, đây là món đồ uống rất riêng, mang hương vị đặc trưng của mảnh đất cố đô Huế.
+Cà Phê Muối được pha theo cách truyền thống bằng dụng cụ phin nên không chỉ giữ nguyên được hương vị mà còn mang hương vị mới lạ khi kết hợp chút béo nhẹ, chút mằn mặn của muối và kem trong ly cà phê truyền thống, vị cà phê hiện đại mang đến cảm xúc cho người thưởng thức.
+Hương vị: Đậm cà phê, béo ngậy vị kem sữa, dễ uống.
+Thành phần: nước tinh khiết, chiết xuất bột cà phê (125 g/l), kem tươi, sữa đặc, đường kính, muối tinh (0,36%).
+Thông tin dinh dưỡng trung bình trong 100g sản phẩm: Năng lượng: 184 kcal; Chất đạm: 2.7 g; Carbohydrat: 11.8 g; Chất béo: 14.0 g; Natri: 204.4 mg; Đường tổng: 11.3 g.', 125, N'200ml'),
+(72, 15, N'Cà phê đen', 45000, N'chai', N'Hương vị: Mạnh mẽ, đầy mê hoặc với hương thơm đặc trưng của Robusta kết hợp cùng những nốt hương phong phú, đa dạng như trái cây khô (dâu tây, nho khô, mận), chocolate đen, đường nâu, sấu, gia vị và rượu vang, tạo nên một bản hòa ca hương vị đầy ấn tượng.
+Thông tin dinh dưỡng trung bình trong 100g sản phẩm: Năng lượng: 21 kcal; Chất đạm: 1.9 g; Carbohydrat: 2.8 g.', 100, N'100ml'),
+(73, 15, N'Cà phê ủ lạnh', 65000, N'chai', N'Cà Phê Ủ Lạnh của Fresh Garden sử dụng hạt Arabica Cầu Đất, Lâm Đồng. Với phương pháp sơ chế ướt, hương vị cà phê có sự sự sạch, sáng, độ acid rõ nét. Hạt arabica Núi min được rang ở mức độ medium - giúp cho cà phê có độ chua nhẹ nhưng cấu trúc của thức uống tương ứng với độ đặc nhất định sẽ tăng đáng kể. Hương vị phong phú và sắc sảo, nguyên bản của hạt kết hợp với phương pháp ủ lạnh, mang lại cho bạn một ly cà phê ngập hương hoa vị chua hoa quả.
+Cà phê ủ lạnh có lượng chất chống oxy hóa khá cao. Những nhóm chất này giúp cơ thể ngăn chặn lão hóa và giảm nguy cơ mắc nhiều bệnh. Theo nghiên cứu của bác sỹ Frank Hu từ Harvard thì cà phê ủ lạnh có nhiều lợi ích sức khỏe, bao gồm giảm nguy cơ mắc bệnh tiểu đường loại 2 và các bệnh về gan, tim và thần kinh. Nó cũng có thể có lợi cho sức khỏe tinh thần và giúp bạn sống lâu hơn.
+Hương vị: dịu - êm đặc trưng của arabica, ngập hương hoa và vị chua hoa quả.
+Thành phần: nước tinh khiết, chiết xuất bột cà phê (110 g/l).
+Thông tin dinh dưỡng trung bình trong 100g sản phẩm: Năng lượng: 6.5 kcal; Carbohydrat: 1.8 g.', 110, N'200ml'),
+(74, 15, N'Cà phê latte', 25000, N'cốc', N'Sản phẩm Cà phê latte chính hãng Fresh Garden.', 100, N'Theo sản phẩm'),
+(75, 15, N'Cà phê cappuccino', 25000, N'cốc', N'Sản phẩm Cà phê cappuccino chính hãng Fresh Garden.', 100, N'Theo sản phẩm'),
+(76, 16, N'Nước ion kiềm Mira pH9+ 360ml', 6000, N'chai', N'Nước uống ion kiềm Mira pH9+ 360ml là sự kết hợp hoàn hảo giữa tính tiện lợi và lợi ích sức khỏe.
+ Với thiết kế nhỏ gọn, chai 550ml, 360ml dễ dàng mang theo, phù hợp cho mọi hoạt động hàng ngày từ công sở, học tập đến thể thao', 360, N'360ml'),
+(77, 16, N'Nước ion kiềm Mira pH9+ 550ml', 8000, N'chai', N'Nước kiềm là nước có độ kiềm được đo bằng độ pH, có chỉ số pH &gt; 7. Nước ion kiềm được tạo ra từ quá trình điện phân nước. Giá trị của nước ion kiềm là ở khả năng khử oxy hóa nhờ có chỉ số ORP (khả năng khử các chất oxy hóa của một chất) âm tính. Về nguyên tắc, chỉ số ORP càng âm sâu thì khả năng khử oxy hóa càng mạnh nên sẽ có tác dụng đối với việc chống lại quá trình lão hóa của cơ thể.', 550, N'550ml'),
+(78, 16, N'Relax hương chanh', 25000, N'chai', N'Thành phần: Vitamin C, ZinC, Magie Lợi ích: 
+• Mang lại những giây phút bình tĩnh, thúc đẩy quá trình trao đổi chất, giảm bớt lo âu, giàu chất chống oxy hóa và có lợi ích cho sức khỏe tim mạch. • Vitamin C giúp hấp thu sắt, góp phần làm giảm mệt mỏi, bảo vệ hệ thống miễn dịch.
+ • Magie và ZinC giúp giảm lo âu và cải thiện chất lượng giấc ngủ.', 100, N'500ml'),
+(79, 16, N'Antiox hương đào', 25000, N'chai', N'Thành phần: Vitamin D3, Magie, SelenLợi ích:
+•        Tốt cho xương, khớp, tăng cường miễn dịch.
+•        Vitamin D3 và Magie cần thiết cho quá trình xây dựng các tế bào xương mới, tăng mật độ khoáng xương, giảm nguy cơ loãng xương.
+•        Selen giúp bảo vệ và tăng cường hệ miễn dịch, chống lại các tác nhân nhiễm trùng và quá trình oxy hóa.', 100, N'500ml'),
+(80, 16, N'Energy hương dâu', 25000, N'chai', N'Thành phần: Vitamin C, Axit Folic, Magie Lợi ích:
+ • Bổ sung năng lượng tức thì, phù hợp khi cần tăng cường thêm các khoáng chất trong quá trình vận động hoặc bất kỳ thời điểm nào trong ngày.
+ • Vitamin C giúp hấp thu sắt, cùng với vitamin B12 giúp cơ thể tạo ra năng lượng. 
+• Axit Folic và ZinC tăng cường sự tổng hợp của DNA và bảo vệ tế bào. 
+• Magie là khoáng chất thiết yếu cho sản xuất năng lượng, sự co cơ, chức năng thần kinh.', 100, N'500ml'),
+(81, 17, N'Bánh trường học bông lan', 25000, N'chiếc', N'Sản phẩm Bánh trường học bông lan chính hãng Fresh Garden.', 100, N'Theo sản phẩm'),
+(82, 17, N'Bánh trường học sữa chua', 25000, N'chiếc', N'Sản phẩm Bánh trường học sữa chua chính hãng Fresh Garden.', 100, N'Theo sản phẩm'),
+(83, 17, N'Bánh trường học phô mai', 25000, N'chiếc', N'Sản phẩm Bánh trường học phô mai chính hãng Fresh Garden.', 100, N'Theo sản phẩm'),
+(84, 17, N'Bánh trường học ruốc', 25000, N'chiếc', N'Sản phẩm Bánh trường học ruốc chính hãng Fresh Garden.', 100, N'Theo sản phẩm'),
+(85, 17, N'Bánh trường học choco', 25000, N'chiếc', N'Sản phẩm Bánh trường học choco chính hãng Fresh Garden.', 100, N'Theo sản phẩm'),
+(86, 18, N'Nến số sinh nhật', 21000, N'cái', N'Thành phần: Sắp ong tinh khiết, bấc bông, nhựa PP thực phẩmCông dụng: Dùng trong các buổi tiệc sinh nhật, sự kiệnLưu ý sử dụng: Tránh gió mạnh, tránh vật dễ cháy, nổ kiểm soát trẻ nhỏ Loại trừ hoàn toàn độc hại với 100% sáp ong tinh khueets và bấc bôngCháy 10 phút/ cây tỏa sáng vàng lung linh tuyệt đẹpKhông chảy nhỏ giọt , không sử dụng hóa chất, nguyên liệu có hại cho con người và môi trường', 100, N'Theo sản phẩm'),
+(87, 18, N'Bộ nến xoắn', 25000, N'hộp', N'Sản phẩm Bộ nến xoắn chính hãng Fresh Garden.', 100, N'Theo sản phẩm'),
+(88, 18, N'Dao cắt bánh', 25000, N'cái', N'Sản phẩm Dao cắt bánh chính hãng Fresh Garden.', 100, N'Theo sản phẩm'),
+(89, 18, N'Đĩa giấy sinh nhật', 25000, N'tập', N'Sản phẩm Đĩa giấy sinh nhật chính hãng Fresh Garden.', 100, N'Theo sản phẩm'),
+(90, 18, N'Mũ sinh nhật', 6000, N'cái', N'Những chiếc mũ sinh nhật đáng yêu với nhiều lựa chọn như hình Elsa, nàng tiên cá, unicorn, giúp bé yêu thêm vui thích trong ngày đặc biệt. Thiết kế dễ thương, chất liệu an toàn, tạo điểm nhấn cho bữa tiệc sinh nhật tràn ngập niềm vui!', 100, N'Theo sản phẩm');
 GO
+
 
 INSERT INTO dbo.TIN_TUC (MaTinTuc,TieuDe,NoiDung,NgayDang) VALUES
 (1, N'Chúc mừng Ngày Phụ nữ Việt Nam 20/10', N'Gợi ý bánh và quà tặng dành cho người phụ nữ bạn yêu quý.', N'2026-02-02T09:00:00'),
