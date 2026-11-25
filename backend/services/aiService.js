@@ -2,6 +2,7 @@ const { GoogleGenAI } = require('@google/genai');
 const { getPool } = require('../config/database');
 
 const HOTLINE = '1900 2075';
+const AI_UNAVAILABLE_REPLY = 'Trợ lý AI đang bận, vui lòng thử lại sau ít phút hoặc liên hệ hotline 1900 2075 để được hỗ trợ.';
 const AI_TIMEOUT_MS = 30000;
 const AI_ATTEMPT_TIMEOUT_MS = 15000;
 const FAST_MODELS = ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite'];
@@ -269,7 +270,6 @@ Câu hỏi của khách hàng:
 ${safeQuestion}`;
 
   // Thử các model phản hồi nhanh (gemini-3.5-flash-lite, fallback gemini-3.1-flash-lite)
-  let lastError = null;
   for (const modelName of FAST_MODELS) {
     try {
       const response = await withTimeout((signal) => genAI.models.generateContent({
@@ -296,13 +296,11 @@ ${safeQuestion}`;
       }
     } catch (err) {
       console.warn(`[aiService] Model ${modelName} gặp lỗi (${err.message}), thử model tiếp theo...`);
-      lastError = err;
     }
   }
 
-  // Nếu tất cả model AI đều gặp sự cố, kích hoạt fallback thông minh thay vì báo lỗi
-  console.warn('[aiService] Tất cả model AI đều quá tải, dùng local fallback.');
-  return getLocalFallbackReply(userMessage);
+  console.warn('[aiService] Tất cả model AI đều không khả dụng, trả thông báo bận.');
+  return AI_UNAVAILABLE_REPLY;
 }
 
 module.exports = { generateBotReply, generateSuggestedReply, removeCustomerDetails, getLocalFallbackReply };

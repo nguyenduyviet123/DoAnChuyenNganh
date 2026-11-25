@@ -29,6 +29,7 @@ const CHATBOT_CONFIG = {
 
 };
 const MAX_CHAT_MESSAGE_LENGTH = 500;
+const AI_UNAVAILABLE_REPLY = 'Trợ lý AI đang bận, vui lòng thử lại sau ít phút hoặc liên hệ hotline 1900 2075 để được hỗ trợ.';
 
 function getChatbotMascotAvatar() {
   const sourceMascot = document.querySelector('#chatbot-toggle .chatbot-mascot');
@@ -511,7 +512,7 @@ class FreshGardenChatbot {
     } catch (err) {
       console.warn('Lỗi kết nối chatbot:', err);
       this.hideTypingIndicator();
-      this.appendBotMessage('Trợ lý AI đang bận. Bạn vui lòng liên hệ hotline 1900 2075 để được tư vấn nhé.');
+      this.appendBotMessage(AI_UNAVAILABLE_REPLY);
     }
   }
 
