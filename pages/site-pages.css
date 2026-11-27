@@ -808,6 +808,7 @@ body[data-page]{background:#fbf9f5;color:#29372f}
   color: #454d4e;
   font-size: 11px;
   line-height: 1.65;
+  white-space: pre-line;
 }
 @media (max-width: 800px) {
   .product-detail-page {
