@@ -7,6 +7,7 @@ const cartPageRoot = document.getElementById('cart-page-root');
 const cartStockCache = new Map();
 const cartStockCheckTimers = new Map();
 let cartInventoryCheckSequence = 0;
+let cartAccessoriesPromise = null;
 
 function escapeCartHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, (character) => ({
@@ -71,6 +72,21 @@ function cartImageUrl(value, index = 0) {
 
 function formatCartPrice(value) {
   return `${Number(value || 0).toLocaleString('vi-VN')}₫`;
+}
+
+async function getCartAccessories() {
+  if (cartAccessoriesPromise) return cartAccessoriesPromise;
+  cartAccessoriesPromise = fetch(`${CART_API_BASE}/products?maLoai=18&limit=20`)
+    .then(async (response) => {
+      const json = await response.json();
+      if (!response.ok || !json.success) throw new Error(json.message || 'Không tải được phụ kiện');
+      return (json.data.products || []).filter((product) => Number(product.TongTon) > 0);
+    })
+    .catch((error) => {
+      cartAccessoriesPromise = null;
+      throw error;
+    });
+  return cartAccessoriesPromise;
 }
 
 async function syncAccountCartFromServer() {
@@ -160,6 +176,10 @@ function renderCartPage() {
           <span class="cart-head-product">Sản phẩm</span><span>Đơn giá</span><span>Số lượng</span><span>Thành tiền</span>
         </div>
         <div class="cart-item-list">${itemMarkup}</div>
+        <section class="cart-accessories" aria-labelledby="cart-accessories-heading">
+          <h2 id="cart-accessories-heading">Phụ kiện gợi ý</h2>
+          <div class="cart-accessories-list" id="cart-accessories-list"><p class="cart-accessories-loading">Đang tải phụ kiện…</p></div>
+        </section>
         <p class="cart-inventory-status" id="cart-inventory-status" role="status" aria-live="polite">Đang kiểm tra tồn kho…</p>
         <div class="cart-continue-row"><a class="cart-continue-link" href="products.html">Tiếp tục mua sắm</a></div>
         <label class="cart-order-note" for="cart-order-note-input">
@@ -195,6 +215,7 @@ function renderCartPage() {
       </aside>
     </div>`;
   void refreshCartInventory();
+  void hydrateCartAccessories();
 }
 
 function saveCartPreferencesFromForm() {
@@ -232,6 +253,25 @@ async function syncCartQuantity(id, quantity) {
   } catch (error) {
     console.warn('[cart] Chưa đồng bộ được thay đổi giỏ hàng:', error.message);
     return { ok: false, message: 'Chưa đồng bộ được thay đổi giỏ hàng. Vui lòng thử lại.' };
+  }
+}
+
+async function syncCartAccessoryAdd(id, quantity) {
+  const token = localStorage.getItem('fg_token');
+  if (!token) return { ok: true };
+  try {
+    const response = await fetch(`${CART_API_BASE}/cart/items`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ maSP: id, soLuong: quantity }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || result.success === false) {
+      return { ok: false, message: result.message || 'Chưa thêm được phụ kiện vào giỏ.' };
+    }
+    return { ok: true };
+  } catch (error) {
+    return { ok: false, message: error.message || 'Chưa thêm được phụ kiện vào giỏ.' };
   }
 }
 
@@ -378,6 +418,37 @@ async function changeCartQuantity(id, quantity, control) {
   }
 }
 
+async function hydrateCartAccessories() {
+  const container = cartPageRoot?.querySelector('#cart-accessories-list');
+  if (!container) return;
+  try {
+    const accessories = await getCartAccessories();
+    if (!accessories.length) {
+      container.innerHTML = '<p class="cart-accessories-empty">Chưa có phụ kiện đang còn hàng.</p>';
+      return;
+    }
+    container.innerHTML = accessories.map((product) => {
+      const id = Number(product.MaSP);
+      const name = escapeCartHtml(product.TenSP);
+      const image = escapeCartHtml(cartImageUrl(product.HinhAnh, id));
+      const price = formatCartPrice(product.DonGia);
+      return `
+        <article class="cart-accessory-card">
+          <a class="cart-accessory-image" href="product.html?id=${id}" aria-label="Xem ${name}">
+            <img src="${image}" alt="${name}" loading="lazy" onerror="this.onerror=null;this.src='../assets/banner_banh_kem.jpg'" />
+          </a>
+          <div class="cart-accessory-copy">
+            <a class="cart-accessory-name" href="product.html?id=${id}">${name}</a>
+            <strong class="cart-accessory-price">${price}</strong>
+          </div>
+          <button type="button" class="cart-accessory-add" data-cart-accessory-add="${id}" aria-label="Thêm ${name} vào giỏ">+</button>
+        </article>`;
+    }).join('');
+  } catch (error) {
+    container.innerHTML = `<p class="cart-accessories-empty">${escapeCartHtml(error.message || 'Không tải được phụ kiện.')}</p>`;
+  }
+}
+
 async function hydrateLegacyCartImages() {
   const initialItems = readCartItems().filter((item) => !item.image);
   if (!initialItems.length) return;
@@ -406,6 +477,51 @@ if (cartPageRoot) {
   renderCartPage();
 
   cartPageRoot.addEventListener('click', async (event) => {
+    const accessoryButton = event.target.closest('[data-cart-accessory-add]');
+    if (accessoryButton) {
+      const id = Number(accessoryButton.dataset.cartAccessoryAdd);
+      const items = readCartItems();
+      const existing = items.find((item) => Number(item.id) === id);
+      const nextQty = existing ? existing.qty + 1 : 1;
+      const stock = await getCartProductStock(id, true);
+      if (nextQty > stock) {
+        window.alert(`Phụ kiện này chỉ còn ${stock} cái.`);
+        return;
+      }
+      let accessory = null;
+      try {
+        const accessories = await getCartAccessories();
+        accessory = accessories.find((product) => Number(product.MaSP) === id);
+      } catch {
+        accessory = null;
+      }
+      if (!existing) {
+        items.push({
+          id,
+          name: accessory?.TenSP || `Phụ kiện #${id}`,
+          price: Number(accessory?.DonGia || 0),
+          qty: 1,
+          image: accessory?.HinhAnh || '',
+          unit: accessory?.DonViTinh || 'cái',
+        });
+      } else {
+        existing.qty = nextQty;
+      }
+      if (localStorage.getItem('fg_token')) {
+        const sync = existing
+          ? await syncCartQuantity(id, nextQty)
+          : await syncCartAccessoryAdd(id, 1);
+        if (!sync.ok) {
+          window.alert(sync.message);
+          return;
+        }
+      }
+      saveCartItems(items);
+      renderCartPage();
+      void syncAccountCartFromServer();
+      return;
+    }
+
     const removeButton = event.target.closest('[data-cart-remove]');
     if (removeButton) {
       const id = removeButton.dataset.cartRemove;

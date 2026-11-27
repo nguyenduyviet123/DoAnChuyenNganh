@@ -7,6 +7,41 @@
  */
 const { sql, getPool } = require('../config/database');
 
+async function deductOrderStock(transaction, items) {
+  for (const item of items) {
+    let remaining = Number(item.SoLuong);
+    const stocks = await new sql.Request(transaction)
+      .input('productId', sql.Int, item.MaSP)
+      .query(`
+        SELECT MaCuaHang, SoLuongCo
+        FROM dbo.CUAHANG_SANPHAM WITH (UPDLOCK, HOLDLOCK)
+        WHERE MaSP = @productId AND SoLuongCo > 0
+        ORDER BY MaCuaHang
+      `);
+
+    for (const stock of stocks.recordset) {
+      if (remaining <= 0) break;
+      const take = Math.min(remaining, Number(stock.SoLuongCo));
+      await new sql.Request(transaction)
+        .input('productId', sql.Int, item.MaSP)
+        .input('storeId', sql.Int, stock.MaCuaHang)
+        .input('take', sql.Int, take)
+        .query(`
+          UPDATE dbo.CUAHANG_SANPHAM
+          SET SoLuongCo = SoLuongCo - @take
+          WHERE MaSP = @productId AND MaCuaHang = @storeId AND SoLuongCo >= @take
+        `);
+      remaining -= take;
+    }
+
+    if (remaining > 0) {
+      const error = new Error(`Sản phẩm #${item.MaSP} không đủ tồn kho để đặt số lượng này.`);
+      error.status = 409;
+      throw error;
+    }
+  }
+}
+
 // 1. LẤY DANH SÁCH ĐỊA CHỈ GIAO HÀNG (GET /api/orders/addresses)
 exports.getAddresses = async (req, res) => {
   try {
@@ -303,6 +338,9 @@ exports.createOrder = async (req, res) => {
           VALUES (@maSp, @maDh, @soLuong, @donGia, @thanhTien)
         `);
       }
+
+      // Hoàn tất đơn hàng: trừ tồn kho ngay trong cùng transaction tạo đơn.
+      await deductOrderStock(transaction, items);
 
       // Insert THANH_TOAN
       const reqMaxTt = new sql.Request(transaction);
