@@ -2,6 +2,7 @@ const { GoogleGenAI } = require('@google/genai');
 const { getPool } = require('../config/database');
 
 const HOTLINE = '1900 2075';
+const AI_BUSY_REPLY = 'Trợ lý AI đang bận, vui lòng thử lại sau';
 const AI_TIMEOUT_MS = 30000;
 const AI_ATTEMPT_TIMEOUT_MS = 15000;
 const FAST_MODELS = ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite'];
@@ -47,6 +48,11 @@ async function fetchProductsFromDb(forceRefresh = false) {
 function normalizeProductText(value) {
   return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .replace(/đ/gi, 'd').toLocaleLowerCase('vi-VN').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+}
+// Kiểm tra xem lỗi có phải là lỗi tạm thời do AI quá tải hay không?
+function isTransientAiBusyError(error) {
+  const message = String(error?.message || error || '').toLowerCase();
+  return /(?:\b503\b|unavailable|high demand|\b504\b|deadline_exceeded|deadline expired|timed out|request timeout)/u.test(message);
 }
 
 function findProductsByCategory(question, products) {
@@ -271,6 +277,22 @@ async function generateBotReply(userMessage, conversationHistory = []) {
     : safeQuestion;
   const stockQuestion = isStockQuestion(safeQuestion);
   const allProducts = await fetchProductsFromDb(stockQuestion);
+  //tìm min,max tồn kho trong danh sách sản phẩm 
+  let stockExtremeResult = null;
+  const asksStockExtreme = /(?:ton kho|so luong|con hang|hang)/u.test(normalizedQuestion) &&
+    /(?:nhieu nhat|it nhat|cao nhat|thap nhat|lon nhat|nho nhat|be nhat)/u.test(normalizedQuestion);
+  if (asksStockExtreme && allProducts.length) {
+    const getStock = (product) => Math.max(0, Number(product.TonKho) || 0);
+    const extreme = /(?:nhieu nhat|cao nhat|lon nhat)/u.test(normalizedQuestion)
+      ? Math.max(...allProducts.map(getStock))
+      : Math.min(...allProducts.map(getStock));
+    const matches = allProducts.filter((product) => getStock(product) === extreme);
+    
+    const label = /(?:nhieu nhat|cao nhat|lon nhat)/u.test(normalizedQuestion)
+      ? 'nhiều nhất'
+      : /nho nhat/u.test(normalizedQuestion) ? 'nhỏ nhất' : 'ít nhất';
+    stockExtremeResult = { label, extreme, products: matches };
+  }
   const childCategoryNames = findChildCategoryNames(safeQuestion, allProducts);
   const isPriceOrStockQuestion = /(?:gia|bao nhieu|tien|ton kho|con hang|so luong|het hang)/u.test(normalizedQuestion);
   const namesSpecificProduct = allProducts.some((p) => {
@@ -286,10 +308,12 @@ async function generateBotReply(userMessage, conversationHistory = []) {
     : '';
   const categoryProducts = findProductsByCategory(safeQuestion, allProducts);
   const asksForCategoryProducts = /(?:loai|san pham|nao khac|co nhung|danh sach|liet ke)/u.test(normalizedQuestion);
-  const products = categoryProducts?.length && (asksForCategoryProducts || categoryOverviewContext)
+  const products = stockExtremeResult
+    ? stockExtremeResult.products
+    : categoryProducts?.length && (asksForCategoryProducts || categoryOverviewContext)
     ? categoryProducts
     : await getProductsContext(productSearchContext, 15, stockQuestion);
-  if (stockQuestion) {
+  if (stockQuestion && !stockExtremeResult) {
     const matchedProduct = findStockProduct(safeQuestion, safeHistory, products);
     if (!matchedProduct) {
       return `Bạn cho mình tên sản phẩm cụ thể để kiểm tra tồn kho chính xác nhé. Nếu cần, bạn có thể gọi hotline ${HOTLINE} để được hỗ trợ.`;
@@ -312,6 +336,7 @@ async function generateBotReply(userMessage, conversationHistory = []) {
 Dựa vào ngữ cảnh hội thoại gần nhất đã được lọc thông tin cá nhân, danh mục con và danh sách sản phẩm liên quan từ SQL dưới đây. Chỉ trả lời câu hỏi hiện tại; dùng lịch sử để hiểu đại từ như "cái đó" hoặc "loại vừa nói".
 - Nếu có danh sách danh mục con từ SQL, hãy dựa vào đó để trả lời câu hỏi khái quát về danh mục cha. Không tự thêm danh mục khác hoặc chuyển sang nhóm sản phẩm khác.
 - Khi khách hỏi về một danh mục cụ thể, chỉ tư vấn các sản phẩm có trong danh sách SQL thuộc danh mục đó; không đề xuất sản phẩm ở danh mục khác.
+- Với câu hỏi sản phẩm có tồn kho nhiều/ít nhất, SQL đã xác định sẵn mức tồn kho cực trị. Hãy trả lời dựa trên các sản phẩm trong danh sách kết quả này và không tự tính lại hoặc đổi sang sản phẩm khác.
 - Chỉ nêu sản phẩm, giá, kích thước và tồn kho nếu các dữ kiện đó có trong danh sách SQL. Không tự suy đoán hoặc bịa dữ liệu.
 - Nếu tồn kho ghi "hết hàng (0)", nói rõ sản phẩm hiện hết hàng. Không khẳng định còn hàng nếu dữ liệu không thể hiện điều đó.
 - Nếu không có sản phẩm liên quan trong danh sách hoặc thiếu thông tin để trả lời, hãy nói rõ và hướng dẫn khách liên hệ Hotline ${HOTLINE}.
@@ -322,6 +347,9 @@ ${historyContext || '(Chưa có lượt hội thoại trước)'}
 Danh sách sản phẩm liên quan từ cơ sở dữ liệu Fresh Garden:
 ${menuOverview || '(Không tìm thấy sản phẩm phù hợp trong dữ liệu hiện có)'}
 
+Kết quả so sánh tồn kho từ SQL:
+${stockExtremeResult ? `Mức ${stockExtremeResult.label}: ${stockExtremeResult.extreme}. Chỉ các sản phẩm trong danh sách liên quan đạt mức này.` : '(Không áp dụng)'}
+
 Danh sách danh mục con khớp với câu hỏi từ SQL:
 ${categoryOverviewContext || '(Không có yêu cầu liệt kê danh mục cha)'}
 
@@ -329,7 +357,7 @@ Câu hỏi của khách hàng:
 ${safeQuestion}`;
 
   // Thử các model phản hồi nhanh (gemini-3.5-flash-lite, fallback gemini-3.1-flash-lite)
-  let lastError = null;
+  let allErrorsAreBusy = true;
   for (const modelName of FAST_MODELS) {
     try {
       const response = await withTimeout((signal) => genAI.models.generateContent({
@@ -356,9 +384,11 @@ ${safeQuestion}`;
       }
     } catch (err) {
       console.warn(`[aiService] Model ${modelName} gặp lỗi (${err.message}), thử model tiếp theo...`);
-      lastError = err;
+      if (!isTransientAiBusyError(err)) allErrorsAreBusy = false;
     }
   }
+
+  if (allErrorsAreBusy) return AI_BUSY_REPLY;
 
   // Nếu tất cả model AI đều gặp sự cố, kích hoạt fallback thông minh thay vì báo lỗi
   console.warn('[aiService] Tất cả model AI đều quá tải, dùng local fallback.');
