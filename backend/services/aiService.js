@@ -2,7 +2,6 @@ const { GoogleGenAI } = require('@google/genai');
 const { getPool } = require('../config/database');
 
 const HOTLINE = '1900 2075';
-const AI_UNAVAILABLE_REPLY = 'Trợ lý AI đang bận, vui lòng thử lại sau ít phút hoặc liên hệ hotline 1900 2075 để được hỗ trợ.';
 const AI_TIMEOUT_MS = 30000;
 const AI_ATTEMPT_TIMEOUT_MS = 15000;
 const FAST_MODELS = ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite'];
@@ -31,7 +30,7 @@ async function fetchProductsFromDb(forceRefresh = false) {
   }
   const pool = await getPool();
   const result = await pool.query(`
-    SELECT TOP 100 sp.MaSP, sp.TenSP, sp.DonGia, sp.DonViTinh, sp.KichThuoc,
+    SELECT sp.MaSP, sp.TenSP, sp.DonGia, sp.DonViTinh, sp.KichThuoc,
            sp.MoTa, lc.TenLoai AS DanhMuc, lcha.TenLoaiCha AS NhomLon,
            ISNULL(stock.SoLuongCo,0) AS TonKho
     FROM dbo.SAN_PHAM sp
@@ -43,6 +42,39 @@ async function fetchProductsFromDb(forceRefresh = false) {
   cachedProducts = result.recordset || [];
   lastCacheTime = now;
   return cachedProducts;
+}
+
+function normalizeProductText(value) {
+  return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/gi, 'd').toLocaleLowerCase('vi-VN').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+}
+
+function findProductsByCategory(question, products) {
+  const query = normalizeProductText(question);
+  const childNames = [...new Set(products.map((p) => normalizeProductText(p.DanhMuc)).filter(Boolean))]
+    .filter((name) => query.includes(name)).sort((a, b) => b.length - a.length);
+  if (childNames.length) return products.filter((p) => childNames.includes(normalizeProductText(p.DanhMuc)));
+  const parentNames = [...new Set(products.map((p) => normalizeProductText(p.NhomLon)).filter(Boolean))]
+    .filter((name) => query.includes(name)).sort((a, b) => b.length - a.length);
+  if (parentNames.length) return products.filter((p) => parentNames.includes(normalizeProductText(p.NhomLon)));
+  return null;
+}
+
+function findChildCategoryNames(question, products) {
+  const query = normalizeProductText(question);
+  const queryWords = new Set(query.split(' ').filter((word) => word.length > 2 && !['banh', 'loai', 'nao', 'co', 'cua', 'shop', 'thong', 'tin'].includes(word)));
+  const parents = [...new Set(products.map((p) => String(p.NhomLon || '').trim()).filter(Boolean))];
+  const matchingParents = parents.filter((parent) => {
+    const normalizedParent = normalizeProductText(parent);
+    if (query.includes(normalizedParent)) return true;
+    const distinguishingWords = normalizedParent.split(' ').filter((word) => word.length > 2 && word !== 'banh');
+    return distinguishingWords.some((word) => queryWords.has(word));
+  });
+  if (!matchingParents.length) return null;
+  return [...new Set(products
+    .filter((p) => matchingParents.includes(String(p.NhomLon || '').trim()))
+    .map((p) => String(p.DanhMuc || '').trim())
+    .filter(Boolean))];
 }
 
 async function getProductsContext(question, maxResults = 15, forceRefresh = false) {
@@ -232,9 +264,31 @@ async function generateBotReply(userMessage, conversationHistory = []) {
   const safeQuestion = removeCustomerDetails(userMessage);
   const safeHistory = sanitizeConversationHistory(conversationHistory);
   const historyContext = safeHistory.map((entry) => `${entry.role}: ${entry.text}`).join('\n');
-  const productSearchContext = [historyContext, `Khách hàng: ${safeQuestion}`].filter(Boolean).join('\n');
+  const normalizedQuestion = normalizeProductText(safeQuestion);
+  const isContextOnlyFollowUp = /(?:cai do|loai do|loai vua noi|san pham do|no|loai nay|cai nay)/u.test(normalizedQuestion);
+  const productSearchContext = isContextOnlyFollowUp
+    ? [historyContext, `Khách hàng: ${safeQuestion}`].filter(Boolean).join('\n')
+    : safeQuestion;
   const stockQuestion = isStockQuestion(safeQuestion);
-  const products = await getProductsContext(productSearchContext, 15, stockQuestion);
+  const allProducts = await fetchProductsFromDb(stockQuestion);
+  const childCategoryNames = findChildCategoryNames(safeQuestion, allProducts);
+  const isPriceOrStockQuestion = /(?:gia|bao nhieu|tien|ton kho|con hang|so luong|het hang)/u.test(normalizedQuestion);
+  const namesSpecificProduct = allProducts.some((p) => {
+    const name = normalizeProductText(p.TenSP);
+    return name.length > 8 && normalizedQuestion.includes(name);
+  });
+  const namesChildCategory = allProducts.some((p) => {
+    const name = normalizeProductText(p.DanhMuc);
+    return name && normalizedQuestion.includes(name);
+  });
+  const categoryOverviewContext = !stockQuestion && !isPriceOrStockQuestion && !namesSpecificProduct && !namesChildCategory && childCategoryNames?.length
+    ? childCategoryNames.map((name) => `- ${name}`).join('\n')
+    : '';
+  const categoryProducts = findProductsByCategory(safeQuestion, allProducts);
+  const asksForCategoryProducts = /(?:loai|san pham|nao khac|co nhung|danh sach|liet ke)/u.test(normalizedQuestion);
+  const products = categoryProducts?.length && (asksForCategoryProducts || categoryOverviewContext)
+    ? categoryProducts
+    : await getProductsContext(productSearchContext, 15, stockQuestion);
   if (stockQuestion) {
     const matchedProduct = findStockProduct(safeQuestion, safeHistory, products);
     if (!matchedProduct) {
@@ -255,7 +309,9 @@ async function generateBotReply(userMessage, conversationHistory = []) {
 
   if (!genAI) genAI = new GoogleGenAI({ apiKey });
   const prompt = `Bạn là trợ lý AI tư vấn bán lẻ thân thiện của tiệm bánh Fresh Garden Bakery. Trả lời bằng tiếng Việt, giọng điệu niềm nở, chu đáo và ngắn gọn.
-Dựa vào ngữ cảnh hội thoại gần nhất đã được lọc thông tin cá nhân và danh sách sản phẩm liên quan từ SQL dưới đây. Chỉ trả lời câu hỏi hiện tại; dùng lịch sử để hiểu đại từ như "cái đó" hoặc "loại vừa nói".
+Dựa vào ngữ cảnh hội thoại gần nhất đã được lọc thông tin cá nhân, danh mục con và danh sách sản phẩm liên quan từ SQL dưới đây. Chỉ trả lời câu hỏi hiện tại; dùng lịch sử để hiểu đại từ như "cái đó" hoặc "loại vừa nói".
+- Nếu có danh sách danh mục con từ SQL, hãy dựa vào đó để trả lời câu hỏi khái quát về danh mục cha. Không tự thêm danh mục khác hoặc chuyển sang nhóm sản phẩm khác.
+- Khi khách hỏi về một danh mục cụ thể, chỉ tư vấn các sản phẩm có trong danh sách SQL thuộc danh mục đó; không đề xuất sản phẩm ở danh mục khác.
 - Chỉ nêu sản phẩm, giá, kích thước và tồn kho nếu các dữ kiện đó có trong danh sách SQL. Không tự suy đoán hoặc bịa dữ liệu.
 - Nếu tồn kho ghi "hết hàng (0)", nói rõ sản phẩm hiện hết hàng. Không khẳng định còn hàng nếu dữ liệu không thể hiện điều đó.
 - Nếu không có sản phẩm liên quan trong danh sách hoặc thiếu thông tin để trả lời, hãy nói rõ và hướng dẫn khách liên hệ Hotline ${HOTLINE}.
@@ -266,10 +322,14 @@ ${historyContext || '(Chưa có lượt hội thoại trước)'}
 Danh sách sản phẩm liên quan từ cơ sở dữ liệu Fresh Garden:
 ${menuOverview || '(Không tìm thấy sản phẩm phù hợp trong dữ liệu hiện có)'}
 
+Danh sách danh mục con khớp với câu hỏi từ SQL:
+${categoryOverviewContext || '(Không có yêu cầu liệt kê danh mục cha)'}
+
 Câu hỏi của khách hàng:
 ${safeQuestion}`;
 
   // Thử các model phản hồi nhanh (gemini-3.5-flash-lite, fallback gemini-3.1-flash-lite)
+  let lastError = null;
   for (const modelName of FAST_MODELS) {
     try {
       const response = await withTimeout((signal) => genAI.models.generateContent({
@@ -296,11 +356,13 @@ ${safeQuestion}`;
       }
     } catch (err) {
       console.warn(`[aiService] Model ${modelName} gặp lỗi (${err.message}), thử model tiếp theo...`);
+      lastError = err;
     }
   }
 
-  console.warn('[aiService] Tất cả model AI đều không khả dụng, trả thông báo bận.');
-  return AI_UNAVAILABLE_REPLY;
+  // Nếu tất cả model AI đều gặp sự cố, kích hoạt fallback thông minh thay vì báo lỗi
+  console.warn('[aiService] Tất cả model AI đều quá tải, dùng local fallback.');
+  return getLocalFallbackReply(userMessage);
 }
 
 module.exports = { generateBotReply, generateSuggestedReply, removeCustomerDetails, getLocalFallbackReply };
